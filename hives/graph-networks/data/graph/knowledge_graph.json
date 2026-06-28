@@ -1,0 +1,180 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "graph neural network",
+      "definition": "Neural network operating on graph-structured data",
+      "concept_type": "architecture",
+      "graph_id": "graph-networks",
+      "id": "concept:graph neural network"
+    },
+    {
+      "type": "concept",
+      "label": "message passing",
+      "definition": "Paradigm where nodes exchange information",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:message passing"
+    },
+    {
+      "type": "concept",
+      "label": "graph convolutional network",
+      "definition": "GCN that generalizes CNN to graphs",
+      "concept_type": "architecture",
+      "graph_id": "graph-networks",
+      "id": "concept:graph convolutional network"
+    },
+    {
+      "type": "concept",
+      "label": "graph attention",
+      "definition": "Attention mechanism for graph nodes",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:graph attention"
+    },
+    {
+      "type": "concept",
+      "label": "node classification",
+      "definition": "Predicting labels for graph nodes",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:node classification"
+    },
+    {
+      "type": "concept",
+      "label": "graph isomorphism",
+      "definition": "Determining if two graphs are structurally identical",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:graph isomorphism"
+    },
+    {
+      "type": "concept",
+      "label": "relational reasoning",
+      "definition": "Reasoning about relationships in graphs",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:relational reasoning"
+    },
+    {
+      "type": "paper",
+      "label": "Semi-Supervised Classification with Graph Convolutional Networks",
+      "arxiv_id": "1609.02907",
+      "authors": "Kipf et al.",
+      "published": "2016-09-01",
+      "abstract": "GCN for semi-supervised learning.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1609.02907"
+    },
+    {
+      "type": "paper",
+      "label": "Graph Attention Networks",
+      "arxiv_id": "1710.10903",
+      "authors": "Velickovic et al.",
+      "published": "2017-10-01",
+      "abstract": "Attention on graph-structured data.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1710.10903"
+    },
+    {
+      "type": "paper",
+      "label": "From graph neural networks to graph networks",
+      "arxiv_id": "2006.12065",
+      "authors": "Battaglia et al.",
+      "published": "2020-06-01",
+      "abstract": "Unified framework for graph networks.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2006.12065"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-agents",
+      "target_graph_id": "ai-agents",
+      "graph_id": "graph-networks",
+      "id": "graph_ref:ai-agents"
+    },
+    {
+      "id": "ai-agents"
+    },
+    {
+      "id": "ai-agents:concept:planning"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-agents",
+      "source": "concept:graph neural network",
+      "target": "ai-agents:concept:planning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:message passing",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:graph convolutional network",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:graph attention",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:graph isomorphism",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:relational reasoning",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1609.02907",
+      "target": "concept:graph convolutional network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1609.02907",
+      "target": "concept:node classification",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1710.10903",
+      "target": "concept:graph attention",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "graph_ref:ai-agents",
+      "target": "ai-agents",
+      "key": 0
+    }
+  ],
+  "graph_id": "graph-networks"
+}

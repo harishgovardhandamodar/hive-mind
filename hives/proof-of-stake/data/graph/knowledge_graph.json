@@ -1,0 +1,146 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "staking",
+      "definition": "Locking tokens to participate in consensus",
+      "concept_type": "method",
+      "graph_id": "proof-of-stake",
+      "id": "concept:staking"
+    },
+    {
+      "type": "concept",
+      "label": "validator",
+      "definition": "Node that proposes and validates blocks",
+      "concept_type": "role",
+      "graph_id": "proof-of-stake",
+      "id": "concept:validator"
+    },
+    {
+      "type": "concept",
+      "label": "slashing",
+      "definition": "Penalty for validator misbehavior",
+      "concept_type": "mechanism",
+      "graph_id": "proof-of-stake",
+      "id": "concept:slashing"
+    },
+    {
+      "type": "concept",
+      "label": "finality",
+      "definition": "Irreversibility of confirmed blocks",
+      "concept_type": "property",
+      "graph_id": "proof-of-stake",
+      "id": "concept:finality"
+    },
+    {
+      "type": "concept",
+      "label": "Casper FFG",
+      "definition": "Friendly Finality Gadget consensus protocol",
+      "concept_type": "protocol",
+      "graph_id": "proof-of-stake",
+      "id": "concept:Casper FFG"
+    },
+    {
+      "type": "concept",
+      "label": "delegation",
+      "definition": "Token holders assigning stake to validators",
+      "concept_type": "method",
+      "graph_id": "proof-of-stake",
+      "id": "concept:delegation"
+    },
+    {
+      "type": "concept",
+      "label": "liquidity",
+      "definition": "Ability to unstake and trade staked tokens",
+      "concept_type": "property",
+      "graph_id": "proof-of-stake",
+      "id": "concept:liquidity"
+    },
+    {
+      "type": "paper",
+      "label": "Casper the Friendly Finality Gadget",
+      "arxiv_id": "1710.09437",
+      "authors": "Buterin et al.",
+      "published": "2017-10-01",
+      "abstract": "Casper FFG consensus protocol.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:1710.09437"
+    },
+    {
+      "type": "paper",
+      "label": "Ethereum 2.0: A Complete Guide to Proof of Stake",
+      "arxiv_id": "2201.09888",
+      "authors": "The Ethereum Foundation",
+      "published": "2022-01-01",
+      "abstract": "Ethereum's transition to PoS.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2201.09888"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "source": "concept:staking",
+      "target": "concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:slashing",
+      "target": "concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:finality",
+      "target": "concept:Casper FFG",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:delegation",
+      "target": "concept:staking",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:liquidity",
+      "target": "concept:staking",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1710.09437",
+      "target": "concept:Casper FFG",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.09437",
+      "target": "concept:finality",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.09888",
+      "target": "concept:staking",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.09888",
+      "target": "concept:validator",
+      "key": 0
+    }
+  ],
+  "graph_id": "proof-of-stake"
+}

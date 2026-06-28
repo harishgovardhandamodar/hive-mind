@@ -1,0 +1,59 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "graph neural network",
+      "definition": "Neural network for graph-structured data",
+      "concept_type": "architecture",
+      "graph_id": "gnns",
+      "id": "concept:graph neural network"
+    },
+    {
+      "type": "concept",
+      "label": "message passing",
+      "definition": "Message passing paradigm for GNNs",
+      "concept_type": "method",
+      "graph_id": "gnns",
+      "id": "concept:message passing"
+    },
+    {
+      "type": "concept",
+      "label": "node classification",
+      "definition": "Predicting node labels",
+      "concept_type": "task",
+      "graph_id": "gnns",
+      "id": "concept:node classification"
+    },
+    {
+      "type": "paper",
+      "label": "Semi-Supervised Classification with Graph Convolutional Networks",
+      "arxiv_id": "1609.02907",
+      "authors": "Kipf et al.",
+      "published": "2016-09-10",
+      "abstract": "GCN paper.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "gnns",
+      "id": "paper:1609.02907"
+    }
+  ],
+  "links": [
+    {
+      "relation": "improves",
+      "source": "concept:message passing",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1609.02907",
+      "target": "concept:graph neural network",
+      "key": 0
+    }
+  ],
+  "graph_id": "gnns"
+}

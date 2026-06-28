@@ -1,0 +1,217 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "transformer",
+      "definition": "Attention-based neural architecture",
+      "concept_type": "architecture",
+      "graph_id": "llms",
+      "id": "concept:transformer"
+    },
+    {
+      "type": "concept",
+      "label": "attention",
+      "definition": "Mechanism weighting input relevance",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:attention"
+    },
+    {
+      "type": "concept",
+      "label": "pretraining",
+      "definition": "Initial training on large unsupervised corpus",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:pretraining"
+    },
+    {
+      "type": "concept",
+      "label": "fine-tuning",
+      "definition": "Adapting pretrained model to specific tasks",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:fine-tuning"
+    },
+    {
+      "type": "concept",
+      "label": "RLHF",
+      "definition": "Reinforcement learning from human feedback",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:RLHF"
+    },
+    {
+      "type": "concept",
+      "label": "prompt engineering",
+      "definition": "Crafting inputs to guide model outputs",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:prompt engineering"
+    },
+    {
+      "type": "concept",
+      "label": "scaling law",
+      "definition": "Empirical relationship between model size and performance",
+      "concept_type": "phenomenon",
+      "graph_id": "llms",
+      "id": "concept:scaling law"
+    },
+    {
+      "type": "paper",
+      "label": "Attention Is All You Need",
+      "arxiv_id": "1706.03762",
+      "authors": "Vaswani et al.",
+      "published": "2017-06-01",
+      "abstract": "The Transformer architecture.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "graph_id": "llms",
+      "id": "paper:1706.03762"
+    },
+    {
+      "type": "paper",
+      "label": "Language Models are Few-Shot Learners",
+      "arxiv_id": "2005.14165",
+      "authors": "Brown et al.",
+      "published": "2020-05-01",
+      "abstract": "GPT-3 scaling and in-context learning.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2005.14165"
+    },
+    {
+      "type": "paper",
+      "label": "Training language models to follow instructions with human feedback",
+      "arxiv_id": "2203.02155",
+      "authors": "Ouyang et al.",
+      "published": "2022-03-01",
+      "abstract": "InstructGPT with RLHF.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2203.02155"
+    },
+    {
+      "type": "paper",
+      "label": "Scaling Laws for Neural Language Models",
+      "arxiv_id": "2001.08361",
+      "authors": "Kaplan et al.",
+      "published": "2020-01-01",
+      "abstract": "Empirical scaling laws.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2001.08361"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-agents",
+      "target_graph_id": "ai-agents",
+      "graph_id": "llms",
+      "id": "graph_ref:ai-agents"
+    },
+    {
+      "id": "ai-agents"
+    },
+    {
+      "id": "ai-agents:concept:autonomous agent"
+    },
+    {
+      "id": "graph-networks:concept:graph attention"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-agents",
+      "source": "concept:transformer",
+      "target": "ai-agents:concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "graph-networks",
+      "source": "concept:attention",
+      "target": "graph-networks:concept:graph attention",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:pretraining",
+      "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:fine-tuning",
+      "target": "concept:pretraining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:prompt engineering",
+      "target": "concept:fine-tuning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1706.03762",
+      "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1706.03762",
+      "target": "concept:attention",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2005.14165",
+      "target": "concept:pretraining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2005.14165",
+      "target": "concept:scaling law",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2203.02155",
+      "target": "concept:RLHF",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2203.02155",
+      "target": "concept:fine-tuning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2001.08361",
+      "target": "concept:scaling law",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "graph_ref:ai-agents",
+      "target": "ai-agents",
+      "key": 0
+    }
+  ],
+  "graph_id": "llms"
+}

@@ -1,0 +1,225 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "blockchain",
+      "definition": "Decentralized, immutable ledger",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:blockchain"
+    },
+    {
+      "type": "concept",
+      "label": "cryptocurrency",
+      "definition": "Digital currency using cryptography",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:cryptocurrency"
+    },
+    {
+      "type": "concept",
+      "label": "consensus",
+      "definition": "Mechanism for agreeing on ledger state",
+      "concept_type": "method",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:consensus"
+    },
+    {
+      "type": "concept",
+      "label": "mining",
+      "definition": "Process of validating transactions and creating blocks",
+      "concept_type": "method",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:mining"
+    },
+    {
+      "type": "concept",
+      "label": "smart contract",
+      "definition": "Self-executing code on blockchain",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:smart contract"
+    },
+    {
+      "type": "concept",
+      "label": "decentralization",
+      "definition": "Distribution of control across network",
+      "concept_type": "principle",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:decentralization"
+    },
+    {
+      "type": "concept",
+      "label": "zero-knowledge proof",
+      "definition": "Proving knowledge without revealing it",
+      "concept_type": "method",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:zero-knowledge proof"
+    },
+    {
+      "type": "paper",
+      "label": "Bitcoin: A Peer-to-Peer Electronic Cash System",
+      "arxiv_id": "0809.0001",
+      "authors": "Nakamoto",
+      "published": "2008-10-01",
+      "abstract": "Bitcoin whitepaper introducing blockchain.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:0809.0001"
+    },
+    {
+      "type": "paper",
+      "label": "Ethereum: A Next-Generation Smart Contract and Decentralized Application Platform",
+      "arxiv_id": "1406.2294",
+      "authors": "Buterin",
+      "published": "2014-06-01",
+      "abstract": "Ethereum introducing smart contracts.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1406.2294"
+    },
+    {
+      "type": "paper",
+      "label": "Zero-Knowledge Proofs in Blockchain",
+      "arxiv_id": "1906.07221",
+      "authors": "Sun et al.",
+      "published": "2019-06-01",
+      "abstract": "ZKPs for privacy.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1906.07221"
+    },
+    {
+      "type": "graph_ref",
+      "label": "proof-of-work",
+      "target_graph_id": "proof-of-work",
+      "graph_id": "cryptocurrencies",
+      "id": "graph_ref:proof-of-work"
+    },
+    {
+      "id": "proof-of-work"
+    },
+    {
+      "type": "graph_ref",
+      "label": "proof-of-stake",
+      "target_graph_id": "proof-of-stake",
+      "graph_id": "cryptocurrencies",
+      "id": "graph_ref:proof-of-stake"
+    },
+    {
+      "id": "proof-of-stake"
+    },
+    {
+      "id": "proof-of-work:concept:mining"
+    },
+    {
+      "id": "proof-of-stake:concept:staking"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "source": "concept:blockchain",
+      "target": "concept:cryptocurrency",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:consensus",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "proof-of-stake",
+      "source": "concept:consensus",
+      "target": "proof-of-stake:concept:staking",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:mining",
+      "target": "concept:consensus",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "cross_graph": true,
+      "target_graph": "proof-of-work",
+      "source": "concept:mining",
+      "target": "proof-of-work:concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:smart contract",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:decentralization",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0809.0001",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0809.0001",
+      "target": "concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0809.0001",
+      "target": "concept:consensus",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1406.2294",
+      "target": "concept:smart contract",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "paper:1406.2294",
+      "target": "concept:cryptocurrency",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1906.07221",
+      "target": "concept:zero-knowledge proof",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "graph_ref:proof-of-work",
+      "target": "proof-of-work",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "graph_ref:proof-of-stake",
+      "target": "proof-of-stake",
+      "key": 0
+    }
+  ],
+  "graph_id": "cryptocurrencies"
+}

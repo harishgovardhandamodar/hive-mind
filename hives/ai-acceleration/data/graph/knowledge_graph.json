@@ -1,0 +1,190 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "tensor processing unit",
+      "definition": "Google's custom ASIC for neural network acceleration",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:tensor processing unit"
+    },
+    {
+      "type": "concept",
+      "label": "GPU computing",
+      "definition": "Using graphics processors for general computation",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:GPU computing"
+    },
+    {
+      "type": "concept",
+      "label": "tensor core",
+      "definition": "NVIDIA's specialized matrix multiply unit",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:tensor core"
+    },
+    {
+      "type": "concept",
+      "label": "mixed precision",
+      "definition": "Using multiple numeric precisions during training",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:mixed precision"
+    },
+    {
+      "type": "concept",
+      "label": "CUDA",
+      "definition": "NVIDIA's parallel computing platform",
+      "concept_type": "framework",
+      "graph_id": "ai-acceleration",
+      "id": "concept:CUDA"
+    },
+    {
+      "type": "concept",
+      "label": "model parallelism",
+      "definition": "Distributing model layers across devices",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:model parallelism"
+    },
+    {
+      "type": "concept",
+      "label": "distributed training",
+      "definition": "Training across multiple accelerators",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:distributed training"
+    },
+    {
+      "type": "paper",
+      "label": "In-Datacenter Performance Analysis of a Tensor Processing Unit",
+      "arxiv_id": "1704.04760",
+      "authors": "Jouppi et al.",
+      "published": "2017-04-01",
+      "abstract": "Google TPU performance analysis.",
+      "categories": [
+        "cs.AR"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1704.04760"
+    },
+    {
+      "type": "paper",
+      "label": "Mixed Precision Training",
+      "arxiv_id": "2003.11045",
+      "authors": "Micikevicius et al.",
+      "published": "2017-01-01",
+      "abstract": "Training with mixed precision.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2003.11045"
+    },
+    {
+      "type": "paper",
+      "label": "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism",
+      "arxiv_id": "1909.08053",
+      "authors": "Shoeybi et al.",
+      "published": "2019-09-01",
+      "abstract": "Model parallelism for large LMs.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1909.08053"
+    },
+    {
+      "type": "graph_ref",
+      "label": "llms",
+      "target_graph_id": "llms",
+      "graph_id": "ai-acceleration",
+      "id": "graph_ref:llms"
+    },
+    {
+      "id": "llms"
+    },
+    {
+      "type": "graph_ref",
+      "label": "photonic-computing",
+      "target_graph_id": "photonic-computing",
+      "graph_id": "ai-acceleration",
+      "id": "graph_ref:photonic-computing"
+    },
+    {
+      "id": "photonic-computing"
+    },
+    {
+      "id": "llms:concept:transformer"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "llms",
+      "source": "concept:GPU computing",
+      "target": "llms:concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:tensor core",
+      "target": "concept:GPU computing",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:mixed precision",
+      "target": "concept:tensor core",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:CUDA",
+      "target": "concept:GPU computing",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:distributed training",
+      "target": "concept:model parallelism",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1704.04760",
+      "target": "concept:tensor processing unit",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2003.11045",
+      "target": "concept:mixed precision",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1909.08053",
+      "target": "concept:model parallelism",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "graph_ref:llms",
+      "target": "llms",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "graph_ref:photonic-computing",
+      "target": "photonic-computing",
+      "key": 0
+    }
+  ],
+  "graph_id": "ai-acceleration"
+}

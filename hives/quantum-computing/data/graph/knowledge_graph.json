@@ -1,0 +1,180 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "qubit",
+      "definition": "Fundamental unit of quantum information",
+      "concept_type": "concept",
+      "graph_id": "quantum-computing",
+      "id": "concept:qubit"
+    },
+    {
+      "type": "concept",
+      "label": "superposition",
+      "definition": "Quantum state existing in multiple states simultaneously",
+      "concept_type": "phenomenon",
+      "graph_id": "quantum-computing",
+      "id": "concept:superposition"
+    },
+    {
+      "type": "concept",
+      "label": "entanglement",
+      "definition": "Quantum correlation between particles",
+      "concept_type": "phenomenon",
+      "graph_id": "quantum-computing",
+      "id": "concept:entanglement"
+    },
+    {
+      "type": "concept",
+      "label": "quantum gate",
+      "definition": "Basic quantum operation on qubits",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum gate"
+    },
+    {
+      "type": "concept",
+      "label": "quantum supremacy",
+      "definition": "Point where quantum computer outperforms classical",
+      "concept_type": "task",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum supremacy"
+    },
+    {
+      "type": "concept",
+      "label": "quantum error correction",
+      "definition": "Techniques to protect quantum information",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum error correction"
+    },
+    {
+      "type": "concept",
+      "label": "shor algorithm",
+      "definition": "Quantum algorithm for integer factorization",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:shor algorithm"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum supremacy using a programmable superconducting processor",
+      "arxiv_id": "1903.10503",
+      "authors": "Arute et al.",
+      "published": "2019-10-01",
+      "abstract": "Demonstrated quantum supremacy with a 53-qubit processor.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1903.10503"
+    },
+    {
+      "type": "paper",
+      "label": "Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer",
+      "arxiv_id": "quant-ph/9508027",
+      "authors": "Shor, Peter",
+      "published": "1995-08-01",
+      "abstract": "Shor's factoring algorithm.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:quant-ph/9508027"
+    },
+    {
+      "type": "paper",
+      "label": "Fault-tolerant quantum computing",
+      "arxiv_id": "2003.14327",
+      "authors": "Campbell et al.",
+      "published": "2020-03-01",
+      "abstract": "Error correction and fault tolerance.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2003.14327"
+    },
+    {
+      "type": "graph_ref",
+      "label": "photonic-computing",
+      "target_graph_id": "photonic-computing",
+      "graph_id": "quantum-computing",
+      "id": "graph_ref:photonic-computing"
+    },
+    {
+      "id": "photonic-computing"
+    },
+    {
+      "id": "photonic-computing:concept:photonic IC"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "photonic-computing",
+      "source": "concept:qubit",
+      "target": "photonic-computing:concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:superposition",
+      "target": "concept:qubit",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:entanglement",
+      "target": "concept:qubit",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:quantum gate",
+      "target": "concept:qubit",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:shor algorithm",
+      "target": "concept:quantum gate",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1903.10503",
+      "target": "concept:quantum supremacy",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:1903.10503",
+      "target": "concept:qubit",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:quant-ph/9508027",
+      "target": "concept:shor algorithm",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2003.14327",
+      "target": "concept:quantum error correction",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "graph_ref:photonic-computing",
+      "target": "photonic-computing",
+      "key": 0
+    }
+  ],
+  "graph_id": "quantum-computing"
+}

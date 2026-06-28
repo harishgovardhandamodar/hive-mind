@@ -1,0 +1,87 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "graph_ref",
+      "label": "gnns",
+      "target_graph_id": "gnns",
+      "graph_id": "transformers",
+      "id": "graph_ref:gnns"
+    },
+    {
+      "id": "gnns"
+    },
+    {
+      "type": "concept",
+      "label": "attention",
+      "definition": "Attention mechanism for sequence modeling",
+      "concept_type": "method",
+      "graph_id": "transformers",
+      "id": "concept:attention"
+    },
+    {
+      "type": "concept",
+      "label": "transformer",
+      "definition": "Transformer architecture",
+      "concept_type": "architecture",
+      "graph_id": "transformers",
+      "id": "concept:transformer"
+    },
+    {
+      "type": "concept",
+      "label": "self-attention",
+      "definition": "Self-attention mechanism",
+      "concept_type": "method",
+      "graph_id": "transformers",
+      "id": "concept:self-attention"
+    },
+    {
+      "type": "paper",
+      "label": "Attention Is All You Need",
+      "arxiv_id": "1706.03762",
+      "authors": "Vaswani et al.",
+      "published": "2017-06-12",
+      "abstract": "The Transformer architecture.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "graph_id": "transformers",
+      "id": "paper:1706.03762"
+    },
+    {
+      "id": "gnns:concept:message passing"
+    }
+  ],
+  "links": [
+    {
+      "relation": "extends",
+      "source": "graph_ref:gnns",
+      "target": "gnns",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "gnns",
+      "source": "concept:attention",
+      "target": "gnns:concept:message passing",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:self-attention",
+      "target": "concept:attention",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1706.03762",
+      "target": "concept:attention",
+      "key": 0
+    }
+  ],
+  "graph_id": "transformers"
+}

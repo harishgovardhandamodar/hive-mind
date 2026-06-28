@@ -1,0 +1,176 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "hash rate",
+      "definition": "Computational power of mining hardware",
+      "concept_type": "metric",
+      "graph_id": "proof-of-work",
+      "id": "concept:hash rate"
+    },
+    {
+      "type": "concept",
+      "label": "difficulty adjustment",
+      "definition": "Algorithm adjusting mining difficulty",
+      "concept_type": "method",
+      "graph_id": "proof-of-work",
+      "id": "concept:difficulty adjustment"
+    },
+    {
+      "type": "concept",
+      "label": "nonce",
+      "definition": "Number used once in mining",
+      "concept_type": "concept",
+      "graph_id": "proof-of-work",
+      "id": "concept:nonce"
+    },
+    {
+      "type": "concept",
+      "label": "ASIC mining",
+      "definition": "Specialized hardware for PoW mining",
+      "concept_type": "hardware",
+      "graph_id": "proof-of-work",
+      "id": "concept:ASIC mining"
+    },
+    {
+      "type": "concept",
+      "label": "energy consumption",
+      "definition": "Electricity used by PoW mining",
+      "concept_type": "issue",
+      "graph_id": "proof-of-work",
+      "id": "concept:energy consumption"
+    },
+    {
+      "type": "concept",
+      "label": "51% attack",
+      "definition": "Attack where entity controls majority of hash power",
+      "concept_type": "attack",
+      "graph_id": "proof-of-work",
+      "id": "concept:51% attack"
+    },
+    {
+      "type": "concept",
+      "label": "mining pool",
+      "definition": "Group of miners combining resources",
+      "concept_type": "organization",
+      "graph_id": "proof-of-work",
+      "id": "concept:mining pool"
+    },
+    {
+      "type": "paper",
+      "label": "Quantitative Analysis of the Energy Consumption of Proof-of-Work",
+      "arxiv_id": "1905.04759",
+      "authors": "De Vries",
+      "published": "2019-05-01",
+      "abstract": "Energy analysis of Bitcoin mining.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1905.04759"
+    },
+    {
+      "type": "paper",
+      "label": "ASIC Resistance in Cryptocurrency Mining",
+      "arxiv_id": "2101.09173",
+      "authors": "Zhang et al.",
+      "published": "2021-01-01",
+      "abstract": "ASIC resistance analysis.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:2101.09173"
+    },
+    {
+      "id": "concept:mining"
+    },
+    {
+      "type": "graph_ref",
+      "label": "proof-of-stake",
+      "target_graph_id": "proof-of-stake",
+      "graph_id": "proof-of-work",
+      "id": "graph_ref:proof-of-stake"
+    },
+    {
+      "id": "proof-of-stake"
+    },
+    {
+      "id": "proof-of-stake:concept:staking"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "source": "concept:hash rate",
+      "target": "concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:difficulty adjustment",
+      "target": "concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:nonce",
+      "target": "concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:ASIC mining",
+      "target": "concept:hash rate",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:energy consumption",
+      "target": "concept:ASIC mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:51% attack",
+      "target": "concept:mining pool",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:mining pool",
+      "target": "concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.04759",
+      "target": "concept:energy consumption",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2101.09173",
+      "target": "concept:ASIC mining",
+      "key": 0
+    },
+    {
+      "relation": "contrasts",
+      "cross_graph": true,
+      "target_graph": "proof-of-stake",
+      "source": "concept:mining",
+      "target": "proof-of-stake:concept:staking",
+      "key": 0
+    },
+    {
+      "relation": "contrasts",
+      "source": "graph_ref:proof-of-stake",
+      "target": "proof-of-stake",
+      "key": 0
+    }
+  ],
+  "graph_id": "proof-of-work"
+}

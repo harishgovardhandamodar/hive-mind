@@ -1,0 +1,171 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "autonomous agent",
+      "definition": "AI system that acts independently toward goals",
+      "concept_type": "architecture",
+      "graph_id": "ai-agents",
+      "id": "concept:autonomous agent"
+    },
+    {
+      "type": "concept",
+      "label": "tool use",
+      "definition": "Agent leveraging external tools and APIs",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:tool use"
+    },
+    {
+      "type": "concept",
+      "label": "planning",
+      "definition": "Agent decomposing tasks into sub-steps",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:planning"
+    },
+    {
+      "type": "concept",
+      "label": "agent loop",
+      "definition": "Observe-think-act cycle of autonomous agents",
+      "concept_type": "architecture",
+      "graph_id": "ai-agents",
+      "id": "concept:agent loop"
+    },
+    {
+      "type": "concept",
+      "label": "multi-agent system",
+      "definition": "Multiple agents collaborating or competing",
+      "concept_type": "architecture",
+      "graph_id": "ai-agents",
+      "id": "concept:multi-agent system"
+    },
+    {
+      "type": "concept",
+      "label": "memory",
+      "definition": "Persistent state and recall for agents",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:memory"
+    },
+    {
+      "type": "concept",
+      "label": "reasoning",
+      "definition": "Chain-of-thought and logical inference",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:reasoning"
+    },
+    {
+      "type": "paper",
+      "label": "Generative Agents: Interactive Simulacra of Human Behavior",
+      "arxiv_id": "2304.03442",
+      "authors": "Park et al.",
+      "published": "2023-04-01",
+      "abstract": "LLM-powered agents that simulate human behavior.",
+      "categories": [
+        "cs.HC"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2304.03442"
+    },
+    {
+      "type": "paper",
+      "label": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "arxiv_id": "2210.03629",
+      "authors": "Yao et al.",
+      "published": "2022-10-01",
+      "abstract": "Reasoning and acting in LLMs.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2210.03629"
+    },
+    {
+      "type": "paper",
+      "label": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+      "arxiv_id": "2305.16291",
+      "authors": "Schick et al.",
+      "published": "2023-05-01",
+      "abstract": "LLMs learning tool use.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2305.16291"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "source": "concept:tool use",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:planning",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:multi-agent system",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:memory",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:reasoning",
+      "target": "concept:agent loop",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2304.03442",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2304.03442",
+      "target": "concept:memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2304.03442",
+      "target": "concept:multi-agent system",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.03629",
+      "target": "concept:agent loop",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2210.03629",
+      "target": "concept:reasoning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2305.16291",
+      "target": "concept:tool use",
+      "key": 0
+    }
+  ],
+  "graph_id": "ai-agents"
+}

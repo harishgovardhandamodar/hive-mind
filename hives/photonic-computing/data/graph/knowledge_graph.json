@@ -1,0 +1,179 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "concept",
+      "label": "optical computing",
+      "definition": "Computation using photons instead of electrons",
+      "concept_type": "field",
+      "graph_id": "photonic-computing",
+      "id": "concept:optical computing"
+    },
+    {
+      "type": "concept",
+      "label": "photonic IC",
+      "definition": "Integrated circuit operating with light",
+      "concept_type": "hardware",
+      "graph_id": "photonic-computing",
+      "id": "concept:photonic IC"
+    },
+    {
+      "type": "concept",
+      "label": "electro-optic modulation",
+      "definition": "Converting electrical signals to optical",
+      "concept_type": "method",
+      "graph_id": "photonic-computing",
+      "id": "concept:electro-optic modulation"
+    },
+    {
+      "type": "concept",
+      "label": "silicon photonics",
+      "definition": "Photonic circuits fabricated on silicon",
+      "concept_type": "hardware",
+      "graph_id": "photonic-computing",
+      "id": "concept:silicon photonics"
+    },
+    {
+      "type": "concept",
+      "label": "optical interconnect",
+      "definition": "Using light for chip-to-chip communication",
+      "concept_type": "method",
+      "graph_id": "photonic-computing",
+      "id": "concept:optical interconnect"
+    },
+    {
+      "type": "concept",
+      "label": "Mach-Zehnder interferometer",
+      "definition": "Optical interferometer used in photonic circuits",
+      "concept_type": "hardware",
+      "graph_id": "photonic-computing",
+      "id": "concept:Mach-Zehnder interferometer"
+    },
+    {
+      "type": "concept",
+      "label": "wavelength division multiplexing",
+      "definition": "Multiplexing multiple optical signals",
+      "concept_type": "method",
+      "graph_id": "photonic-computing",
+      "id": "concept:wavelength division multiplexing"
+    },
+    {
+      "type": "paper",
+      "label": "Large-scale photonic computing using integrated optics",
+      "arxiv_id": "2102.04843",
+      "authors": "Xu et al.",
+      "published": "2021-02-01",
+      "abstract": "Photonic computing at scale.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2102.04843"
+    },
+    {
+      "type": "paper",
+      "label": "Silicon photonics for artificial intelligence acceleration",
+      "arxiv_id": "2005.10017",
+      "authors": "Shastri et al.",
+      "published": "2020-05-01",
+      "abstract": "Silicon photonics for AI.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2005.10017"
+    },
+    {
+      "type": "paper",
+      "label": "Optical interconnects in data centers",
+      "arxiv_id": "1804.06194",
+      "authors": "Cheng et al.",
+      "published": "2018-04-01",
+      "abstract": "Optical interconnects.",
+      "categories": [
+        "cs.ET"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1804.06194"
+    },
+    {
+      "id": "concept:wave"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU computing"
+    }
+  ],
+  "links": [
+    {
+      "relation": "related_to",
+      "source": "concept:electro-optic modulation",
+      "target": "concept:optical interconnect",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:silicon photonics",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:optical interconnect",
+      "target": "concept:optical computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-acceleration",
+      "source": "concept:optical interconnect",
+      "target": "ai-acceleration:concept:GPU computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:Mach-Zehnder interferometer",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2102.04843",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2102.04843",
+      "target": "concept:optical computing",
+      "key": 0
+    },
+    {
+      "relation": "proposes",
+      "source": "paper:2005.10017",
+      "target": "concept:silicon photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1804.06194",
+      "target": "concept:optical interconnect",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:wave",
+      "target": "concept:optical computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:wave",
+      "target": "concept:photonic IC",
+      "key": 0
+    }
+  ],
+  "graph_id": "photonic-computing"
+}
