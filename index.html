@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HiveMind · Federated Knowledge Graphs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+/* ===== Theme Variables ===== */
+:root {
+  --bg: #0a0c10;
+  --bg-elevated: #161b22;
+  --bg-hover: #1c2128;
+  --bg-card: #161b22;
+  --bg-active: #1c2a3a;
+  --border: #30363d;
+  --border-hover: #58a6ff44;
+  --text: #e1e4e8;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+  --accent: #58a6ff;
+  --accent-green: #238636;
+  --accent-green-hover: #2ea043;
+  --accent-text: #3fb950;
+  --accent-red: #da3633;
+  --accent-purple: #bc8cff;
+  --accent-yellow: #d29922;
+  --code-bg: #161b22;
+  --pre-bg: #161b22;
+  --pre-border: #30363d;
+  --pre-color: #c9d1d9;
+  --scrollbar-bg: #0a0c10;
+  --scrollbar-thumb: #30363d;
+  --scrollbar-thumb-hover: #484f58;
+  --selection-bg: #58a6ff44;
+  --nav-bg: #0a0c10ee;
+  --nav-border: #1c2128;
+  --orb-1: #1f6feb;
+  --orb-2: #238636;
+  --orb-3: #da3633;
+  --gradient: linear-gradient(135deg, #58a6ff, #3fb950, #d2a8ff);
+  --badge-bg: #1f6feb22;
+  --badge-border: #1f6feb44;
+  --section-divider: #1c2128;
+  --hero-bg-1: #0d2b4e33;
+  --hero-bg-2: #0d3b2e22;
+  --feature-icon-1: #1f6feb22;
+  --feature-icon-2: #23863622;
+  --feature-icon-3: #da363322;
+  --feature-icon-4: #d2992222;
+  --feature-icon-5: #bc8cff22;
+  --feature-icon-6: #79c0ff22;
+  --tt-name: #c9d1d9;
+  --tt-detail: #8b949e;
+  --shadow-color: rgba(0,0,0,.4);
+}
+
+html.light {
+  --bg: #f6f8fa;
+  --bg-elevated: #ffffff;
+  --bg-hover: #f3f4f6;
+  --bg-card: #ffffff;
+  --bg-active: #ddf4ff;
+  --border: #d0d7de;
+  --border-hover: #58a6ff66;
+  --text: #1f2328;
+  --text-secondary: #656d76;
+  --text-muted: #8c959f;
+  --accent: #0969da;
+  --accent-green: #1a7f37;
+  --accent-green-hover: #22863a;
+  --accent-text: #1a7f37;
+  --accent-red: #cf222e;
+  --accent-purple: #8250df;
+  --accent-yellow: #9a6700;
+  --code-bg: #eaeef2;
+  --pre-bg: #ffffff;
+  --pre-border: #d0d7de;
+  --pre-color: #1f2328;
+  --scrollbar-bg: #f6f8fa;
+  --scrollbar-thumb: #d0d7de;
+  --scrollbar-thumb-hover: #8c959f;
+  --selection-bg: #0969da33;
+  --nav-bg: #f6f8faee;
+  --nav-border: #d0d7de;
+  --orb-1: #0969da55;
+  --orb-2: #1a7f3744;
+  --orb-3: #cf222e44;
+  --gradient: linear-gradient(135deg, #0969da, #1a7f37, #8250df);
+  --badge-bg: #0969da18;
+  --badge-border: #0969da33;
+  --section-divider: #d0d7de;
+  --hero-bg-1: #0969da11;
+  --hero-bg-2: #1a7f3711;
+  --feature-icon-1: #0969da18;
+  --feature-icon-2: #1a7f3718;
+  --feature-icon-3: #cf222e18;
+  --feature-icon-4: #9a670018;
+  --feature-icon-5: #8250df18;
+  --feature-icon-6: #0969da18;
+  --tt-name: #1f2328;
+  --tt-detail: #656d76;
+  --shadow-color: rgba(0,0,0,.08);
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  transition: background .3s, color .3s;
+}
+::selection { background: var(--selection-bg); color: var(--text); }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+
+/* ===== Typography ===== */
+h1, h2, h3, h4 { font-weight: 700; line-height: 1.2; }
+h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1rem; }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); margin-bottom: 0.6rem; }
+p { color: var(--text-secondary); max-width: 65ch; }
+a { color: var(--accent); text-decoration: none; transition: color .2s; }
+a:hover { color: var(--accent-text); }
+code {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--code-bg);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: .85em;
+  color: #f0883e;
+}
+pre {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--pre-bg);
+  border: 1px solid var(--pre-border);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  overflow-x: auto;
+  font-size: .85rem;
+  line-height: 1.7;
+  color: var(--pre-color);
+  transition: background .3s, border .3s, color .3s;
+}
+pre .comment { color: var(--text-secondary); }
+pre .keyword { color: #ff7b72; }
+pre .string { color: #a5d6ff; }
+pre .fn { color: var(--accent-purple); }
+pre .built { color: var(--accent); }
+pre .prompt { color: var(--accent-text); }
+pre .output { color: var(--text-secondary); }
+
+html.light pre .keyword { color: #cf222e; }
+html.light pre .string { color: #0969da; }
+html.light pre .fn { color: #8250df; }
+
+/* ===== Container ===== */
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+/* ===== Navbar ===== */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 100;
+  background: var(--nav-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+  transition: background .3s, border .3s;
+}
+nav .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+nav .logo { font-size: 1.25rem; font-weight: 800; color: var(--text); letter-spacing: -0.5px; transition: color .3s; }
+nav .logo span { color: var(--accent); }
+nav .nav-links { display: flex; gap: 28px; align-items: center; }
+nav .nav-links a { font-size: .875rem; font-weight: 500; color: var(--text-secondary); transition: color .2s; }
+nav .nav-links a:hover { color: var(--text); }
+nav .btn-small {
+  background: var(--accent-green); color: #fff !important; padding: 6px 16px;
+  border-radius: 6px; font-size: .8rem !important; font-weight: 600;
+  transition: background .2s;
+}
+nav .btn-small:hover { background: var(--accent-green-hover); }
+
+.theme-btn {
+  background: none; border: 1px solid var(--border); border-radius: 8px;
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: var(--text-secondary); font-size: 1.1rem;
+  transition: all .2s; padding: 0; line-height: 1;
+}
+.theme-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--badge-bg); }
+
+/* ===== Hero ===== */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; position: relative;
+  overflow: hidden; padding-top: 64px;
+}
+.hero-bg {
+  position: absolute; inset: 0; overflow: hidden;
+  background: radial-gradient(ellipse 80% 50% at 50% 0%, var(--hero-bg-1), transparent),
+              radial-gradient(ellipse 50% 40% at 80% 80%, var(--hero-bg-2), transparent);
+}
+.hero-bg .orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: .3;
+  animation: orbFloat 20s ease-in-out infinite;
+  transition: background .3s;
+}
+.hero-bg .orb:nth-child(1) { width: 500px; height: 500px; background: var(--orb-1); top: -100px; left: -100px; animation-delay: 0s; }
+.hero-bg .orb:nth-child(2) { width: 400px; height: 400px; background: var(--orb-2); bottom: -80px; right: -80px; animation-delay: -7s; }
+.hero-bg .orb:nth-child(3) { width: 300px; height: 300px; background: var(--orb-3); top: 50%; left: 60%; animation-delay: -14s; }
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -60px) scale(1.08); }
+  66% { transform: translate(-30px, 40px) scale(.95); }
+}
+
+.hero-content { position: relative; z-index: 1; padding: 80px 0; }
+.hero-content .badge {
+  display: inline-block; background: var(--badge-bg); border: 1px solid var(--badge-border);
+  border-radius: 20px; padding: 4px 14px; font-size: .78rem; font-weight: 600;
+  color: var(--accent); margin-bottom: 20px;
+  animation: fadeSlideUp .8s ease-out;
+}
+.hero-content h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800;
+  letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 1.2rem;
+  animation: fadeSlideUp .8s ease-out .1s both;
+}
+.hero-content h1 .gradient {
+  background: var(--gradient);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-content p {
+  font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; margin-bottom: 2rem;
+  animation: fadeSlideUp .8s ease-out .2s both;
+}
+.hero-content .buttons { display: flex; gap: 12px; flex-wrap: wrap; animation: fadeSlideUp .8s ease-out .3s both; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: .95rem;
+  transition: all .2s; cursor: pointer; border: none;
+}
+.btn-primary { background: var(--accent-green); color: #fff; }
+.btn-primary:hover { background: var(--accent-green-hover); transform: translateY(-1px); }
+.btn-secondary { background: var(--bg-elevated); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg-hover); transform: translateY(-1px); }
+
+.hero-graph {
+  position: absolute; right: -80px; top: 50%; transform: translateY(-50%);
+  width: 600px; height: 600px; opacity: .6; pointer-events: none;
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Sections ===== */
+section { padding: 100px 0; border-bottom: 1px solid var(--section-divider); transition: border .3s; }
+section:last-child { border-bottom: none; }
+.section-label {
+  display: inline-block; font-size: .78rem; font-weight: 600;
+  color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+.section-desc { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin-bottom: 3rem; }
+
+/* ===== Features ===== */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.feature-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 28px; transition: all .25s; position: relative; overflow: hidden;
+}
+.feature-card:hover { border-color: var(--border-hover); transform: translateY(-3px); box-shadow: 0 8px 30px var(--shadow-color); }
+.feature-card .icon {
+  width: 44px; height: 44px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 16px;
+}
+.feature-card:nth-child(1) .icon { background: var(--feature-icon-1); color: var(--accent); }
+.feature-card:nth-child(2) .icon { background: var(--feature-icon-2); color: var(--accent-text); }
+.feature-card:nth-child(3) .icon { background: var(--feature-icon-3); color: var(--accent-red); }
+.feature-card:nth-child(4) .icon { background: var(--feature-icon-4); color: var(--accent-yellow); }
+.feature-card:nth-child(5) .icon { background: var(--feature-icon-5); color: var(--accent-purple); }
+.feature-card:nth-child(6) .icon { background: var(--feature-icon-6); color: var(--accent); }
+.feature-card h3 { font-size: 1.05rem; }
+.feature-card p { font-size: .88rem; color: var(--text-secondary); }
+
+/* ===== Architecture ===== */
+.arch-grid { display: flex; flex-direction: column; gap: 16px; }
+.arch-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.arch-box {
+  background: #161b22; border: 1px solid #30363d; border-radius: 10px;
+  padding: 14px 20px; font-size: .85rem; font-weight: 500; text-align: center;
+  transition: all .2s; flex-shrink: 0;
+}
+.arch-box:hover { border-color: #58a6ff; background: #1c2128; }
+.arch-box.hive { border-color: #1f6feb66; background: #1f6feb11; }
+.arch-box.meta { border-color: #d2992266; background: #d2992211; }
+.arch-box.fed { border-color: #23863666; background: #23863611; }
+.arch-box.cli { border-color: #bc8cff66; background: #bc8cff11; }
+.arch-box.sm { font-size: .75rem; padding: 8px 14px; }
+.arch-arrow { color: #30363d; font-size: 1.2rem; flex-shrink: 0; }
+.arch-bracket { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; }
+
+/* ===== Visualisation ===== */
+.viz-container { position: relative; }
+.viz-scene {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 16px;
+  padding: 40px 20px; overflow: hidden; position: relative;
+}
+.viz-scene svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+.viz-label {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  font-size: .75rem; color: var(--text-muted); background: var(--bg); padding: 4px 12px;
+  border-radius: 6px; white-space: nowrap;
+}
+
+/* ===== CLI Section ===== */
+.cli-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.cli-grid .cli-demo pre { height: 100%; }
+.cli-features { display: flex; flex-direction: column; gap: 12px; }
+.cli-cmd {
+  display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+  background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'JetBrains Mono', monospace; font-size: .8rem;
+  transition: all .2s; cursor: default;
+}
+.cli-cmd:hover { border-color: var(--border-hover); }
+.cli-cmd .prompt { color: var(--accent-text); }
+.cli-cmd .cmd { color: var(--text); }
+.cli-cmd .arg { color: var(--accent-yellow); }
+.cli-cmd .arrow { color: var(--border); }
+.cli-cmd .output { color: var(--text-secondary); font-size: .75rem; }
+
+/* ===== Stats ===== */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.stat-box {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; text-align: center;
+}
+.stat-box .num { font-size: 2.2rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+.stat-box .num.blue { color: var(--accent); }
+.stat-box .num.green { color: var(--accent-text); }
+.stat-box .num.red { color: var(--accent-red); }
+.stat-box .num.purple { color: var(--accent-purple); }
+.stat-box .label { font-size: .8rem; color: var(--text-secondary); margin-top: 4px; }
+
+/* ===== Graph Diagram ===== */
+.graph-diagram { display: flex; flex-direction: column; gap: 40px; }
+.graph-hive {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 24px; position: relative;
+}
+.graph-hive .hive-title { font-size: .85rem; font-weight: 600; color: var(--accent); margin-bottom: 16px; }
+.graph-hive .hive-title small { color: var(--text-secondary); font-weight: 400; }
+.graph-hive .hive-nodes { display: flex; flex-wrap: wrap; gap: 8px; }
+.graph-hive .node-tag {
+  padding: 6px 14px; border-radius: 20px; font-size: .78rem; font-weight: 500;
+  transition: all .2s;
+}
+.graph-hive .node-tag.paper { background: var(--feature-icon-1); color: var(--accent); border: 1px solid var(--badge-border); }
+.graph-hive .node-tag.concept { background: var(--feature-icon-2); color: var(--accent-text); border: 1px solid var(--badge-border); }
+.graph-hive .node-tag:hover { transform: translateY(-2px); }
+
+.graph-cross { margin: 8px 0 8px 40px; padding: 12px 16px; border-left: 2px dashed var(--accent-yellow); }
+.graph-cross .cross-label { font-size: .75rem; color: var(--accent-yellow); font-weight: 500; }
+.graph-cross .cross-edge {
+  display: inline-flex; align-items: center; gap: 8px; font-size: .78rem;
+  padding: 4px 12px; background: var(--badge-bg); border: 1px solid var(--badge-border); border-radius: 6px; margin-top: 4px;
+}
+.edge-src { color: var(--accent-text); }
+.edge-rel { color: var(--accent-yellow); }
+.edge-tgt { color: var(--accent); }
+
+.graph-hive.meta-hive { border-style: dashed; border-color: var(--accent-yellow); }
+.hive-title.meta-title { color: var(--accent-yellow) !important; }
+.tag-transformer { background: var(--feature-icon-1) !important; color: var(--accent) !important; border-color: var(--badge-border) !important; }
+.tag-gnn { background: var(--feature-icon-2) !important; color: var(--accent-text) !important; border-color: var(--badge-border) !important; }
+.meta-arrow { color: var(--accent-yellow); font-size: 1.2rem; }
+.meta-note { color: var(--text-secondary); font-size: .75rem; margin-left: 8px; }
+
+.arch-sub { font-weight: 400; color: var(--text-secondary); font-size: .75rem; }
+.arch-note { color: var(--text-secondary); font-size: .8rem; max-width: 240px; }
+
+.eco-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.eco-card {
+  flex: 1; min-width: 280px; background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px;
+}
+.eco-card.fed-card { border-color: var(--accent-yellow); }
+.eco-label { font-size: .85rem; font-weight: 600; margin-bottom: 8px; }
+.eco-label.accent { color: var(--accent); }
+.eco-label.yellow { color: var(--accent-yellow); }
+.eco-text { font-size: .8rem; color: var(--text-secondary); }
+.eco-arrow { display: flex; align-items: center; color: var(--border); font-size: 1.5rem; }
+.eco-pre { margin-top: 24px; }
+.eco-pre .output { color: var(--text-secondary); }
+
+/* ===== Footer ===== */
+footer { padding: 40px 0; text-align: center; }
+footer p { font-size: .85rem; color: var(--text-muted); }
+footer a { color: var(--text-secondary); }
+footer a:hover { color: var(--text); }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero-graph { display: none; }
+  nav .nav-links a:not(.btn-small) { display: none; }
+  .cli-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .arch-row { flex-wrap: wrap; }
+  section { padding: 60px 0; }
+}
+
+/* ===== Animated dots ===== */
+.dots {
+  display: flex; gap: 4px; align-items: center;
+  position: absolute; bottom: 20px; right: 24px;
+}
+.dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--border); animation: dotPulse 1.5s infinite; }
+.dots span:nth-child(2) { animation-delay: .2s; }
+.dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes dotPulse { 0%, 100% { opacity: .3; } 50% { opacity: 1; } }
+
+/* ===== Inline code blocks ===== */
+pre code { background: transparent; padding: 0; font-size: inherit; color: inherit; }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <div class="container">
+    <a href="#" class="logo"><span>Hive</span>Mind</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#cli">CLI</a>
+      <a href="#demo">Demo</a>
+      <button class="theme-btn" id="theme-toggle" title="Toggle theme">&#9681;</button>
+      <a href="http://127.0.0.1:9090" class="btn-small" target="_blank">Dashboard</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="container hero-content">
+    <div class="badge">v0.2 &middot; federated knowledge graphs</div>
+    <h1>
+      Connect your<br>
+      <span class="gradient">knowledge graphs</span>
+    </h1>
+    <p>
+      HiveMind lets you manage multiple knowledge graphs as interconnected
+      hives — nest them, link concepts across boundaries, and explore the
+      unified view through a live dashboard.
+    </p>
+    <div class="buttons">
+      <a href="#how" class="btn btn-primary">Get Started &rarr;</a>
+      <a href="#demo" class="btn btn-secondary">See the Graph</a>
+    </div>
+  </div>
+
+  <!-- Hero decoration: simple node-edge SVG -->
+  <svg class="hero-graph" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="120" cy="160" r="20" fill="#1f6feb" opacity=".6"/>
+    <circle cx="260" cy="120" r="16" fill="#238636" opacity=".6"/>
+    <circle cx="280" cy="240" r="22" fill="#da3633" opacity=".6"/>
+    <circle cx="150" cy="280" r="14" fill="#d29922" opacity=".6"/>
+    <circle cx="80" cy="220" r="12" fill="#bc8cff" opacity=".6"/>
+    <circle cx="340" cy="180" r="18" fill="#79c0ff" opacity=".6"/>
+    <path d="M120 160 L260 120" stroke="#30363d" stroke-width="1.5" opacity=".5"/>
+    <path d="M120 160 L80 220" stroke="#30363d" stroke-width="1.5" opacity=".5"/>
+    <path d="M120 160 L150 280" stroke="#30363d" stroke-width="1.5" opacity=".5"/>
+    <path d="M260 120 L280 240" stroke="#30363d" stroke-width="1.5" opacity=".5"/>
+    <path d="M260 120 L340 180" stroke="#30363d" stroke-width="1.5" opacity=".5"/>
+    <path d="M280 240 L150 280" stroke="#30363d" stroke-width="1.5" opacity=".5"/>
+    <path d="M280 240 L340 180" stroke="#d29922" stroke-width="2" stroke-dasharray="6 4" opacity=".7"/>
+    <ellipse cx="200" cy="200" rx="130" ry="120" stroke="#30363d" stroke-width="1" fill="none" opacity=".2"/>
+  </svg>
+</section>
+
+<!-- Stats -->
+<section style="padding: 40px 0; border-bottom: 1px solid #1c2128;">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="num blue">2</div><div class="label">Knowledge Graphs</div></div>
+      <div class="stat-box"><div class="num green">6</div><div class="label">Concepts</div></div>
+      <div class="stat-box"><div class="num purple">6</div><div class="label">Relations</div></div>
+      <div class="stat-box"><div class="num red">1</div><div class="label">Cross-Graph Edges</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2>What makes HiveMind different</h2>
+    <p class="section-desc">
+      Traditional knowledge graphs are isolated. HiveMind weaves them into a
+      living federation where each graph is a hive in a larger mind.
+    </p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="icon">&#9671;</div>
+        <h3>Multiple KGs</h3>
+        <p>Separate knowledge graphs per topic, domain, or project —
+        each with its own nodes, edges, and storage.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#8617;</div>
+        <h3>Graph Nesting</h3>
+        <p>Embed a reference to an entire knowledge graph as a single
+        node. Drill into any hive with one click.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#8644;</div>
+        <h3>Cross-Graph Edges</h3>
+        <p>Connect concepts across hives. <code>attention</code> in your
+        Transformers graph can link to <code>message passing</code> in GNNs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#9678;</div>
+        <h3>Meta-Graph</h3>
+        <p>An automatic top-level graph shows how your hives connect.
+        See the forest, not just the trees.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#9740;</div>
+        <h3>Unified Search</h3>
+        <p>Search across all hives at once. Find related concepts
+        scattered across different knowledge domains.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#9783;</div>
+        <h3>Live Dashboard</h3>
+        <p>D3.js-powered force-directed graph with zoom, pan, and
+        per-hive drill-down. No build step required.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section id="how" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-label">Architecture</div>
+    <h2>How HiveMind works</h2>
+    <p class="section-desc">
+      Each hive is a standalone <code>knowledge_graph.json</code> file.
+      A federation layer loads them all, tracks cross-graph edges,
+      and builds a live meta-graph.
+    </p>
+
+    <!-- Architecture diagram -->
+    <div class="arch-grid">
+      <div class="arch-row">
+        <div class="arch-box cli">CLI / Server</div>
+        <span class="arch-arrow">&larr;&rarr;</span>
+        <div class="arch-box fed">Federation</div>
+        <span class="arch-arrow">&larr;&rarr;</span>
+        <div class="arch-box meta">Meta-Graph</div>
+      </div>
+      <div class="arch-row" style="padding-left: 60px;">
+        <div class="arch-bracket">
+          <div class="arch-box hive">
+            <strong>transformers</strong><br>
+            <span class="arch-sub">attention, transformer, self-attention</span>
+          </div>
+          <div class="arch-box hive">
+            <strong>gnns</strong><br>
+            <span class="arch-sub">graph neural network, message passing</span>
+          </div>
+          <div class="arch-box hive">
+            <strong>nlp-papers</strong><br>
+            <span class="arch-sub">BERT, GPT, embeddings</span>
+          </div>
+          <div class="arch-box hive sm">+ more hives ...</div>
+        </div>
+        <span class="arch-arrow" style="font-size:2rem;">&#10227;</span>
+        <div class="arch-note">
+          Each hive loads its <code>knowledge_graph.json</code> independently.
+          The Federation merges them at query time and persists
+          cross-graph edges in the meta-graph.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Visualisation -->
+<section id="demo">
+  <div class="container">
+    <div class="section-label">Demo</div>
+    <h2>Two hives, one view</h2>
+    <p class="section-desc">
+      Below are two sample knowledge graphs — <strong>Transformers</strong>
+      and <strong>GNNs</strong> — linked by a cross-graph edge between
+      <code>attention</code> and <code>message passing</code>.
+    </p>
+
+    <div class="graph-diagram">
+      <!-- Hive 1: Transformers -->
+      <div class="graph-hive">
+        <div class="hive-title">transformers <small>&middot; 1 paper, 3 concepts</small></div>
+        <div class="hive-nodes">
+          <span class="node-tag paper">Attention Is All You Need</span>
+          <span class="node-tag concept">attention</span>
+          <span class="node-tag concept">transformer</span>
+          <span class="node-tag concept">self-attention</span>
+        </div>
+        <div class="graph-cross">
+          <div class="cross-label">&#8617; cross-graph edge</div>
+          <div class="cross-edge">
+            <span class="edge-src">attention</span>
+            <span class="edge-rel">&mdash; related_to &rarr;</span>
+            <span class="edge-tgt">gnns:message passing</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cross-graph connector SVG -->
+      <svg width="40" height="32" viewBox="0 0 40 32" style="margin-left:40px;">
+        <path d="M20 0 L20 24" stroke="#d29922" stroke-width="2" stroke-dasharray="4 3"/>
+        <polygon points="14,18 20,28 26,18" fill="#d29922"/>
+      </svg>
+
+      <!-- Hive 2: GNNs -->
+      <div class="graph-hive">
+        <div class="hive-title">gnns <small>&middot; 1 paper, 3 concepts</small></div>
+        <div class="hive-nodes">
+          <span class="node-tag paper">Semi-Supervised Classification with GCN</span>
+          <span class="node-tag concept">graph neural network</span>
+          <span class="node-tag concept">message passing</span>
+          <span class="node-tag concept">node classification</span>
+        </div>
+      </div>
+
+      <!-- Link arrow between hives -->
+      <div class="graph-hive meta-hive">
+        <div class="hive-title meta-title">meta-graph <small>auto-generated</small></div>
+        <div class="hive-nodes">
+          <span class="node-tag concept tag-transformer">transformers</span>
+          <span class="meta-arrow">&larr; extends &rarr;</span>
+          <span class="node-tag concept tag-gnn">gnns</span>
+          <span class="meta-note">(+ 1 more hive via import)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLI -->
+<section id="cli" style="background: var(--bg);">
+  <div class="container">
+    <div class="section-label">CLI Reference</div>
+    <h2>Command-line interface</h2>
+    <p class="section-desc">
+      HiveMind ships with a rich CLI. All commands work offline — no
+      database required.
+    </p>
+
+    <div class="cli-grid">
+      <div class="cli-features">
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind init</span>
+          <span class="arg">my-hive</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">create a new knowledge graph</span>
+        </div>
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind link</span>
+          <span class="arg">a b</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">nest hive b inside hive a</span>
+        </div>
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind connect</span>
+          <span class="arg">a concept:x b concept:y</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">cross-graph edge</span>
+        </div>
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind search</span>
+          <span class="arg">"attention"</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">unified search across all hives</span>
+        </div>
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind import</span>
+          <span class="arg">/path/to/arxiv-to-obsidian</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">import existing KG</span>
+        </div>
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind serve</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">launch dashboard at :9090</span>
+        </div>
+        <div class="cli-cmd">
+          <span class="prompt">$</span>
+          <span class="cmd">hivemind stats</span>
+          <span class="arrow">&rarr;</span>
+          <span class="output">federation statistics</span>
+        </div>
+      </div>
+
+      <div class="cli-demo">
+        <pre><code><span class="comment"># Create two hives and link them</span>
+<span class="prompt">$</span> hivemind init transformers
+<span class="output">Created hive at hives/transformers</span>
+<span class="prompt">$</span> hivemind init gnns
+<span class="output">Created hive at hives/gnns</span>
+<span class="prompt">$</span> hivemind link transformers gnns
+<span class="output">Linked 'transformers' -> 'gnns' (references)</span>
+
+<span class="comment"># Connect concepts across hives</span>
+<span class="prompt">$</span> hivemind connect transformers attention gnns "message passing"
+<span class="output">Connected transformers:attention -related_to-> gnns:message passing</span>
+
+<span class="comment"># Query everything</span>
+<span class="prompt">$</span> hivemind search attention
+<span class="output">transformers  concept:attention        concept  attention</span>
+<span class="prompt">$</span> hivemind stats
+<span class="output">HiveMind Federation Statistics
+  Knowledge Graphs: 2
+  Papers:           2
+  Concepts:         6
+  Relations:        6
+  Cross-graph:      1</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Import section -->
+<section>
+  <div class="container">
+    <div class="section-label">Ecosystem</div>
+    <h2>Works with arxiv-to-obsidian</h2>
+    <p class="section-desc">
+      Import any <strong>arxiv-to-obsidian</strong> knowledge graph directly.
+      Every paper, concept, and relation becomes a hive in your federation.
+    </p>
+
+    <div class="eco-row">
+      <div class="eco-card">
+        <div class="eco-label accent">arxiv-to-obsidian</div>
+        <div class="eco-text">
+          A self-organising research knowledge base that fetches arXiv papers,
+          extracts concepts via LLM, builds a knowledge graph, and exports to
+          Obsidian markdown.
+        </div>
+      </div>
+      <div class="eco-arrow">&rarr;</div>
+      <div class="eco-card fed-card">
+        <div class="eco-label yellow">HiveMind Federation</div>
+        <div class="eco-text">
+          One <code>hivemind import</code> wraps an entire arxiv-to-obsidian
+          graph as a hive, ready to link with other hives.
+        </div>
+      </div>
+    </div>
+
+    <pre class="eco-pre"><code><span class="comment"># Import an existing arxiv-to-obsidian project</span>
+<span class="prompt">$</span> hivemind import ~/projects/arxiv-to-obsidian --name nlp-papers
+<span class="output">Imported as hive 'nlp-papers'</span>
+
+<span class="prompt">$</span> hivemind link nlp-papers transformers
+<span class="output">Linked 'nlp-papers' -> 'transformers' (references)</span>
+
+<span class="prompt">$</span> hivemind list
+<span class="output">Hive          Papers  Concepts  Refs  Edges
+nlp-papers        12        45      1     89
+transformers       1         3      1      4
+gnns               1         3      0      2</span></code></pre>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p>
+      HiveMind &mdash; federated knowledge graphs for researchers &amp; engineers.
+      <br>
+      <a href="https://github.com/anomalyco/opencode">GitHub</a> &middot;
+      <a href="https://opencode.ai">Documentation</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const KEY = 'hivemind-theme';
+  const btn = document.getElementById('theme-toggle');
+  const html = document.documentElement;
+
+  function setTheme(theme) {
+    html.classList.toggle('light', theme === 'light');
+    if (btn) btn.textContent = theme === 'light' ? '\u25D0' : '\u25C1';
+    try { localStorage.setItem(KEY, theme); } catch {}
+  }
+
+  const saved = (() => {
+    try { return localStorage.getItem(KEY); } catch { return null; }
+  })();
+  const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  setTheme(saved || (prefersLight ? 'light' : 'dark'));
+
+  if (btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const next = html.classList.contains('light') ? 'dark' : 'light';
+      setTheme(next);
+    });
+  }
+})();
+</script>
+</body>
+</html>

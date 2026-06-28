@@ -108,6 +108,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       </div>
     </div>
     <div id="graph-container">
+      <svg></svg>
       <div id="loading">Loading graph...</div>
       <div id="tooltip"></div>
       <div id="legend">
@@ -145,9 +146,24 @@ function render() {
   else if (state.view === 'unified') renderUnifiedGraph();
 }
 
+function getOrCreateSvg() {
+  let svg = d3.select('#graph-container svg');
+  if (svg.empty()) {
+    const container = document.getElementById('graph-container');
+    const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    container.insertBefore(s, container.firstChild);
+    svg = d3.select(s);
+  }
+  return svg;
+}
+
 function renderMetaGraph() {
-  const svg = d3.select('#graph-container svg');
+  const container = document.getElementById('graph-container');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  const svg = getOrCreateSvg();
   svg.selectAll('*').remove();
+  svg.attr('width', width).attr('height', height).attr('viewBox', [0, 0, width, height]);
   document.getElementById('view-title').textContent = 'Meta-Graph';
   document.getElementById('view-subtitle').textContent = `${state.metaGraph.nodes.length} hives`;
 
@@ -157,10 +173,6 @@ function renderMetaGraph() {
     return;
   }
   document.getElementById('loading').style.display = 'none';
-
-  const width = document.getElementById('graph-container').clientWidth;
-  const height = document.getElementById('graph-container').clientHeight;
-  svg.attr('viewBox', [0, 0, width, height]);
 
   const g = svg.append('g');
 
@@ -258,12 +270,12 @@ function renderUnifiedGraph() {
 }
 
 function renderD3Graph(nodes, edges, unified = false) {
-  const svg = d3.select('#graph-container svg');
+  const container = document.getElementById('graph-container');
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  const svg = getOrCreateSvg();
   svg.selectAll('*').remove();
-
-  const width = document.getElementById('graph-container').clientWidth;
-  const height = document.getElementById('graph-container').clientHeight;
-  svg.attr('viewBox', [0, 0, width, height]);
+  svg.attr('width', width).attr('height', height).attr('viewBox', [0, 0, width, height]);
 
   if (!nodes.length) return;
 
@@ -392,7 +404,7 @@ document.getElementById('search-btn').addEventListener('click', () => {
   if (!q) return;
   searchVisible = !searchVisible;
   if (searchVisible) {
-    api(`/api/search?${encodeURIComponent(q)}`).then(results => {
+    api(`/api/search?query=${encodeURIComponent(q)}`).then(results => {
       const container = document.getElementById('search-results');
       container.innerHTML = `<div class="header">${results.length} results for "${q}"</div>`;
       results.forEach(r => {
