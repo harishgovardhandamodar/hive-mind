@@ -60,12 +60,124 @@
       "id": "concept:mining pool"
     },
     {
+      "type": "concept",
+      "label": "block reward",
+      "definition": "Newly minted coins awarded to miner",
+      "concept_type": "concept",
+      "graph_id": "proof-of-work",
+      "id": "concept:block reward"
+    },
+    {
+      "type": "concept",
+      "label": "blockchain trilemma",
+      "definition": "Trade-off between security, scalability, decentralization",
+      "concept_type": "principle",
+      "graph_id": "proof-of-work",
+      "id": "concept:blockchain trilemma"
+    },
+    {
+      "type": "concept",
+      "label": "orphan block",
+      "definition": "Valid block not included in main chain",
+      "concept_type": "concept",
+      "graph_id": "proof-of-work",
+      "id": "concept:orphan block"
+    },
+    {
+      "type": "concept",
+      "label": "SPV verification",
+      "definition": "Simplified payment verification",
+      "concept_type": "method",
+      "graph_id": "proof-of-work",
+      "id": "concept:SPV verification"
+    },
+    {
+      "type": "concept",
+      "label": "Merkle tree",
+      "definition": "Tree structure for efficient block verification",
+      "concept_type": "method",
+      "graph_id": "proof-of-work",
+      "id": "concept:Merkle tree"
+    },
+    {
+      "type": "concept",
+      "label": "hashcash",
+      "definition": "Original PoW algorithm based on partial hash inversion",
+      "concept_type": "method",
+      "graph_id": "proof-of-work",
+      "id": "concept:hashcash"
+    },
+    {
+      "type": "concept",
+      "label": "selfish mining",
+      "definition": "Strategic withholding of mined blocks",
+      "concept_type": "attack",
+      "graph_id": "proof-of-work",
+      "id": "concept:selfish mining"
+    },
+    {
+      "type": "concept",
+      "label": "time warp attack",
+      "definition": "Manipulating timestamp for mining advantage",
+      "concept_type": "attack",
+      "graph_id": "proof-of-work",
+      "id": "concept:time warp attack"
+    },
+    {
+      "type": "concept",
+      "label": "eclipse attack",
+      "definition": "Isolating a node from the network",
+      "concept_type": "attack",
+      "graph_id": "proof-of-work",
+      "id": "concept:eclipse attack"
+    },
+    {
+      "type": "concept",
+      "label": "mining difficulty",
+      "definition": "Target threshold for valid block hash",
+      "concept_type": "metric",
+      "graph_id": "proof-of-work",
+      "id": "concept:mining difficulty"
+    },
+    {
+      "type": "concept",
+      "label": "block propagation",
+      "definition": "Broadcasting new blocks across network",
+      "concept_type": "method",
+      "graph_id": "proof-of-work",
+      "id": "concept:block propagation"
+    },
+    {
+      "type": "concept",
+      "label": "Feather forking",
+      "definition": "Temporary block withholding attack",
+      "concept_type": "attack",
+      "graph_id": "proof-of-work",
+      "id": "concept:Feather forking"
+    },
+    {
+      "type": "concept",
+      "label": "uncle block",
+      "definition": "Stale block referenced by later blocks",
+      "concept_type": "concept",
+      "graph_id": "proof-of-work",
+      "id": "concept:uncle block"
+    },
+    {
+      "type": "concept",
+      "label": "proof of work",
+      "definition": "Computational work as Sybil resistance mechanism",
+      "concept_type": "consensus",
+      "graph_id": "proof-of-work",
+      "id": "concept:proof of work"
+    },
+    {
       "type": "paper",
       "label": "Quantitative Analysis of the Energy Consumption of Proof-of-Work",
       "arxiv_id": "1905.04759",
       "authors": "De Vries",
       "published": "2019-05-01",
-      "abstract": "Energy analysis of Bitcoin mining.",
+      "abstract": "Energy analysis.",
       "categories": [
         "cs.CR"
       ],
@@ -78,7 +190,7 @@
       "arxiv_id": "2101.09173",
       "authors": "Zhang et al.",
       "published": "2021-01-01",
-      "abstract": "ASIC resistance analysis.",
+      "abstract": "ASIC resistance.",
       "categories": [
         "cs.CR"
       ],
@@ -86,7 +198,213 @@
       "id": "paper:2101.09173"
     },
     {
+      "type": "paper",
+      "label": "Majority is not Enough: Bitcoin Mining is Vulnerable",
+      "arxiv_id": "1311.0243",
+      "authors": "Eyal & Sirer",
+      "published": "2013-11-01",
+      "abstract": "Selfish mining.",
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1311.0243"
+    },
+    {
+      "type": "paper",
+      "label": "Life Cycle Assessment of Bitcoin Mining",
+      "arxiv_id": "1909.02291",
+      "authors": "K\u00f6hler & Pizzol",
+      "published": "2019-09-01",
+      "abstract": "Environmental impact.",
+      "categories": [
+        "cs.CR",
+        "econ"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1909.02291"
+    },
+    {
+      "type": "paper",
+      "label": "SoK: Security of Proof-of-Work Blockchains",
+      "arxiv_id": "2006.08884",
+      "authors": "Jorge et al.",
+      "published": "2020-06-01",
+      "abstract": "PoW security.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:2006.08884"
+    },
+    {
+      "type": "paper",
+      "label": "Bitcoin and Beyond: A Technical Survey",
+      "arxiv_id": "1809.06594",
+      "authors": "Tschorsch & Scheuermann",
+      "published": "2018-09-01",
+      "abstract": "Crypto survey.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1809.06594"
+    },
+    {
+      "type": "paper",
+      "label": "An Empirical Study of Bitcoin Mining Pools",
+      "arxiv_id": "1405.3664",
+      "authors": "Courtois et al.",
+      "published": "2014-05-01",
+      "abstract": "Mining pools.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1405.3664"
+    },
+    {
+      "type": "paper",
+      "label": "Cryptographic Primitives in Proof-of-Work Systems",
+      "arxiv_id": "2104.03368",
+      "authors": "Miller et al.",
+      "published": "2021-04-01",
+      "abstract": "PoW crypto.",
+      "categories": [
+        "cs.CR",
+        "cs.IT"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:2104.03368"
+    },
+    {
+      "type": "paper",
+      "label": "On the Security and Performance of Proof of Work Blockchains",
+      "arxiv_id": "1907.00782",
+      "authors": "Gervais et al.",
+      "published": "2019-07-01",
+      "abstract": "PoW security analysis.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1907.00782"
+    },
+    {
+      "type": "paper",
+      "label": "Phantom: A Scalable BlockDAG Protocol",
+      "arxiv_id": "1804.00772",
+      "authors": "Sompolinsky et al.",
+      "published": "2018-04-01",
+      "abstract": "BlockDAG scalability.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1804.00772"
+    },
+    {
+      "type": "paper",
+      "label": "Secure High-Rate Transaction Processing in Bitcoin",
+      "arxiv_id": "1503.01055",
+      "authors": "Sompolinsky et al.",
+      "published": "2015-03-01",
+      "abstract": "GHOST protocol.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1503.01055"
+    },
+    {
+      "type": "paper",
+      "label": "Distributed Ledger Technology Systems: A Conceptual Framework",
+      "arxiv_id": "1901.04724",
+      "authors": "Rauchs et al.",
+      "published": "2019-01-01",
+      "abstract": "DLT framework.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1901.04724"
+    },
+    {
+      "type": "paper",
+      "label": "The Bitcoin Blockchain: A Review",
+      "arxiv_id": "1806.04263",
+      "authors": "Hari et al.",
+      "published": "2018-06-01",
+      "abstract": "Bitcoin review.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1806.04263"
+    },
+    {
+      "type": "paper",
+      "label": "Hashcash - A Denial of Service Counter-Measure",
+      "arxiv_id": "1404.3668",
+      "authors": "Back et al.",
+      "published": "2014-04-01",
+      "abstract": "Hashcash.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:1404.3668"
+    },
+    {
+      "type": "paper",
+      "label": "Optimal Selfish Mining Strategies in Bitcoin",
+      "arxiv_id": "2105.02643",
+      "authors": "Sapirshtein et al.",
+      "published": "2021-05-01",
+      "abstract": "Selfish mining optimal.",
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
+      "graph_id": "proof-of-work",
+      "id": "paper:2105.02643"
+    },
+    {
       "id": "concept:mining"
+    },
+    {
+      "id": "proof-of-stake:concept:staking"
+    },
+    {
+      "id": "concept:blockchain"
+    },
+    {
+      "id": "cryptocurrencies:concept:blockchain"
+    },
+    {
+      "id": "cryptocurrencies:concept:DeFi"
+    },
+    {
+      "id": "proof-of-stake:concept:long-range attack"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU"
+    },
+    {
+      "id": "ai-acceleration"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-acceleration",
+      "target_graph_id": "ai-acceleration",
+      "graph_id": "proof-of-work",
+      "id": "graph_ref:ai-acceleration"
+    },
+    {
+      "id": "proof-of-stake"
     },
     {
       "type": "graph_ref",
@@ -96,29 +414,41 @@
       "id": "graph_ref:proof-of-stake"
     },
     {
-      "id": "proof-of-stake"
+      "id": "cryptocurrencies"
     },
     {
-      "id": "proof-of-stake:concept:staking"
+      "type": "graph_ref",
+      "label": "cryptocurrencies",
+      "target_graph_id": "cryptocurrencies",
+      "graph_id": "proof-of-work",
+      "id": "graph_ref:cryptocurrencies"
     }
   ],
   "links": [
     {
       "relation": "related_to",
       "source": "concept:hash rate",
-      "target": "concept:mining",
+      "target": "concept:mining difficulty",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-acceleration",
+      "source": "concept:hash rate",
+      "target": "ai-acceleration:concept:GPU",
       "key": 0
     },
     {
       "relation": "related_to",
       "source": "concept:difficulty adjustment",
-      "target": "concept:mining",
+      "target": "concept:mining difficulty",
       "key": 0
     },
     {
       "relation": "related_to",
       "source": "concept:nonce",
-      "target": "concept:mining",
+      "target": "concept:hash rate",
       "key": 0
     },
     {
@@ -135,14 +465,90 @@
     },
     {
       "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "cryptocurrencies",
+      "source": "concept:energy consumption",
+      "target": "cryptocurrencies:concept:DeFi",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "concept:51% attack",
       "target": "concept:mining pool",
       "key": 0
     },
     {
       "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "proof-of-stake",
+      "source": "concept:51% attack",
+      "target": "proof-of-stake:concept:long-range attack",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "concept:mining pool",
-      "target": "concept:mining",
+      "target": "concept:hash rate",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:block reward",
+      "target": "concept:mining pool",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:blockchain trilemma",
+      "target": "concept:proof of work",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:SPV verification",
+      "target": "concept:Merkle tree",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:hashcash",
+      "target": "concept:proof of work",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:selfish mining",
+      "target": "concept:51% attack",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:time warp attack",
+      "target": "concept:difficulty adjustment",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:eclipse attack",
+      "target": "concept:51% attack",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:block propagation",
+      "target": "concept:orphan block",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:Feather forking",
+      "target": "concept:selfish mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:uncle block",
+      "target": "concept:block propagation",
       "key": 0
     },
     {
@@ -158,6 +564,66 @@
       "key": 0
     },
     {
+      "relation": "introduces",
+      "source": "paper:1311.0243",
+      "target": "concept:selfish mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.02291",
+      "target": "concept:energy consumption",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.08884",
+      "target": "concept:51% attack",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1405.3664",
+      "target": "concept:mining pool",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2104.03368",
+      "target": "concept:hashcash",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.00782",
+      "target": "concept:51% attack",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:1804.00772",
+      "target": "concept:block propagation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1503.01055",
+      "target": "concept:orphan block",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1404.3668",
+      "target": "concept:hashcash",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02643",
+      "target": "concept:selfish mining",
+      "key": 0
+    },
+    {
       "relation": "contrasts",
       "cross_graph": true,
       "target_graph": "proof-of-stake",
@@ -166,9 +632,29 @@
       "key": 0
     },
     {
-      "relation": "contrasts",
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "cryptocurrencies",
+      "source": "concept:blockchain",
+      "target": "cryptocurrencies:concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-acceleration",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "source": "graph_ref:proof-of-stake",
       "target": "proof-of-stake",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:cryptocurrencies",
+      "target": "cryptocurrencies",
       "key": 0
     }
   ],

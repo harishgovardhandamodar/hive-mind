@@ -5,43 +5,35 @@
   "nodes": [
     {
       "type": "concept",
-      "label": "tensor processing unit",
-      "definition": "Google's custom ASIC for neural network acceleration",
+      "label": "GPU",
+      "definition": "Graphics processing unit for parallel computation",
       "concept_type": "hardware",
       "graph_id": "ai-acceleration",
-      "id": "concept:tensor processing unit"
+      "id": "concept:GPU"
     },
     {
       "type": "concept",
-      "label": "GPU computing",
-      "definition": "Using graphics processors for general computation",
+      "label": "TPU",
+      "definition": "Tensor processing unit specialized for neural networks",
       "concept_type": "hardware",
       "graph_id": "ai-acceleration",
-      "id": "concept:GPU computing"
-    },
-    {
-      "type": "concept",
-      "label": "tensor core",
-      "definition": "NVIDIA's specialized matrix multiply unit",
-      "concept_type": "hardware",
-      "graph_id": "ai-acceleration",
-      "id": "concept:tensor core"
-    },
-    {
-      "type": "concept",
-      "label": "mixed precision",
-      "definition": "Using multiple numeric precisions during training",
-      "concept_type": "method",
-      "graph_id": "ai-acceleration",
-      "id": "concept:mixed precision"
+      "id": "concept:TPU"
     },
     {
       "type": "concept",
       "label": "CUDA",
-      "definition": "NVIDIA's parallel computing platform",
-      "concept_type": "framework",
+      "definition": "NVIDIA parallel computing platform",
+      "concept_type": "software",
       "graph_id": "ai-acceleration",
       "id": "concept:CUDA"
+    },
+    {
+      "type": "concept",
+      "label": "deep learning accelerator",
+      "definition": "Specialized chip for deep neural networks",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:deep learning accelerator"
     },
     {
       "type": "concept",
@@ -53,50 +45,420 @@
     },
     {
       "type": "concept",
+      "label": "data parallelism",
+      "definition": "Distributing training data across devices",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:data parallelism"
+    },
+    {
+      "type": "concept",
+      "label": "mixed precision training",
+      "definition": "Using FP16/FP32 for faster training",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:mixed precision training"
+    },
+    {
+      "type": "concept",
+      "label": "gradient accumulation",
+      "definition": "Accumulating gradients over mini-batches",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:gradient accumulation"
+    },
+    {
+      "type": "concept",
+      "label": "kernel fusion",
+      "definition": "Combining GPU kernel operations for efficiency",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:kernel fusion"
+    },
+    {
+      "type": "concept",
+      "label": "sparse computation",
+      "definition": "Exploiting sparsity for speedup",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:sparse computation"
+    },
+    {
+      "type": "concept",
+      "label": "quantization",
+      "definition": "Reducing numerical precision for inference",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:quantization"
+    },
+    {
+      "type": "concept",
       "label": "distributed training",
-      "definition": "Training across multiple accelerators",
+      "definition": "Training across multiple nodes",
       "concept_type": "method",
       "graph_id": "ai-acceleration",
       "id": "concept:distributed training"
     },
     {
-      "type": "paper",
-      "label": "In-Datacenter Performance Analysis of a Tensor Processing Unit",
-      "arxiv_id": "1704.04760",
-      "authors": "Jouppi et al.",
-      "published": "2017-04-01",
-      "abstract": "Google TPU performance analysis.",
-      "categories": [
-        "cs.AR"
-      ],
+      "type": "concept",
+      "label": "flash attention",
+      "definition": "IO-aware exact attention algorithm",
+      "concept_type": "method",
       "graph_id": "ai-acceleration",
-      "id": "paper:1704.04760"
+      "id": "concept:flash attention"
+    },
+    {
+      "type": "concept",
+      "label": "pipeline parallelism",
+      "definition": "Splitting model stages across devices",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:pipeline parallelism"
+    },
+    {
+      "type": "concept",
+      "label": "tensor parallelism",
+      "definition": "Splitting tensor operations across devices",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:tensor parallelism"
+    },
+    {
+      "type": "concept",
+      "label": "NVLink",
+      "definition": "NVIDIA high-speed GPU interconnect",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:NVLink"
+    },
+    {
+      "type": "concept",
+      "label": "RDMA",
+      "definition": "Remote direct memory access for distributed training",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:RDMA"
+    },
+    {
+      "type": "concept",
+      "label": "FPGA acceleration",
+      "definition": "Field-programmable gate array for AI",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:FPGA acceleration"
+    },
+    {
+      "type": "concept",
+      "label": "neural processing unit",
+      "definition": "On-device AI inference accelerator",
+      "concept_type": "hardware",
+      "graph_id": "ai-acceleration",
+      "id": "concept:neural processing unit"
+    },
+    {
+      "type": "concept",
+      "label": "pruning",
+      "definition": "Removing redundant weights for efficiency",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:pruning"
+    },
+    {
+      "type": "concept",
+      "label": "knowledge distillation",
+      "definition": "Compressing large models into smaller ones",
+      "concept_type": "method",
+      "graph_id": "ai-acceleration",
+      "id": "concept:knowledge distillation"
     },
     {
       "type": "paper",
-      "label": "Mixed Precision Training",
-      "arxiv_id": "2003.11045",
-      "authors": "Micikevicius et al.",
-      "published": "2017-01-01",
-      "abstract": "Training with mixed precision.",
+      "label": "PipeDream: Generalized Pipeline Parallelism for DNN Training",
+      "arxiv_id": "1811.06965",
+      "authors": "Narayanan et al.",
+      "published": "2018-11-01",
+      "abstract": "Pipeline parallelism.",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1811.06965"
+    },
+    {
+      "type": "paper",
+      "label": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+      "arxiv_id": "1906.06423",
+      "authors": "Rajbhandari et al.",
+      "published": "2019-06-01",
+      "abstract": "Memory optimization.",
       "categories": [
         "cs.LG"
       ],
       "graph_id": "ai-acceleration",
-      "id": "paper:2003.11045"
+      "id": "paper:1906.06423"
     },
     {
       "type": "paper",
       "label": "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism",
-      "arxiv_id": "1909.08053",
+      "arxiv_id": "2004.13314",
       "authors": "Shoeybi et al.",
-      "published": "2019-09-01",
-      "abstract": "Model parallelism for large LMs.",
+      "published": "2020-04-01",
+      "abstract": "Model parallelism.",
       "categories": [
         "cs.CL"
       ],
       "graph_id": "ai-acceleration",
-      "id": "paper:1909.08053"
+      "id": "paper:2004.13314"
+    },
+    {
+      "type": "paper",
+      "label": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+      "arxiv_id": "2205.14135",
+      "authors": "Dao et al.",
+      "published": "2022-05-01",
+      "abstract": "IO-aware attention.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2205.14135"
+    },
+    {
+      "type": "paper",
+      "label": "Interleaved Pipeline Parallelism",
+      "arxiv_id": "2104.04473",
+      "authors": "Wang et al.",
+      "published": "2021-04-01",
+      "abstract": "Efficient pipeline schedule.",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2104.04473"
+    },
+    {
+      "type": "paper",
+      "label": "DeepSpeed Ulysses: System Optimizations for Large Language Models",
+      "arxiv_id": "2303.06865",
+      "authors": "He et al.",
+      "published": "2023-03-01",
+      "abstract": "System-level optimizations.",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2303.06865"
+    },
+    {
+      "type": "paper",
+      "label": "TVM: An Automated End-to-End Optimizing Compiler for Deep Learning",
+      "arxiv_id": "1810.08581",
+      "authors": "Chen et al.",
+      "published": "2018-10-01",
+      "abstract": "Compiler for DL acceleration.",
+      "categories": [
+        "cs.LG",
+        "cs.PL"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1810.08581"
+    },
+    {
+      "type": "paper",
+      "label": "EfficientNetV2: Smaller Models and Faster Training",
+      "arxiv_id": "2208.03688",
+      "authors": "Touvron et al.",
+      "published": "2022-08-01",
+      "abstract": "Progressive training.",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2208.03688"
+    },
+    {
+      "type": "paper",
+      "label": "A domain-specific supercomputer for training deep neural networks",
+      "arxiv_id": "1910.02054",
+      "authors": "Jouppi et al.",
+      "published": "2019-10-01",
+      "abstract": "TPU v3 system.",
+      "categories": [
+        "cs.AR",
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1910.02054"
+    },
+    {
+      "type": "paper",
+      "label": "Efficiently Scaling Transformer Inference",
+      "arxiv_id": "2107.02606",
+      "authors": "Pope et al.",
+      "published": "2021-07-01",
+      "abstract": "Transformer inference optimization.",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2107.02606"
+    },
+    {
+      "type": "paper",
+      "label": "vDNN: Virtualized Deep Neural Networks for Scalable Memory",
+      "arxiv_id": "2006.16668",
+      "authors": "Rhu et al.",
+      "published": "2020-06-01",
+      "abstract": "GPU memory virtualization.",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2006.16668"
+    },
+    {
+      "type": "paper",
+      "label": "Efficient Large-Scale Language Model Training on GPU Clusters",
+      "arxiv_id": "1904.11310",
+      "authors": "Narayanan et al.",
+      "published": "2019-04-01",
+      "abstract": "GPU cluster training.",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1904.11310"
+    },
+    {
+      "type": "paper",
+      "label": "Fast Inference from Transformers via Speculative Decoding",
+      "arxiv_id": "2205.09710",
+      "authors": "Leviathan et al.",
+      "published": "2022-05-01",
+      "abstract": "Speculative decoding.",
+      "categories": [
+        "cs.LG",
+        "cs.CL"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2205.09710"
+    },
+    {
+      "type": "paper",
+      "label": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+      "arxiv_id": "2304.03267",
+      "authors": "Kwon et al.",
+      "published": "2023-04-01",
+      "abstract": "PagedAttention for LLM serving.",
+      "categories": [
+        "cs.LG",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2304.03267"
+    },
+    {
+      "type": "paper",
+      "label": "Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference",
+      "arxiv_id": "1803.02135",
+      "authors": "Jacob et al.",
+      "published": "2018-03-01",
+      "abstract": "Quantization methods.",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1803.02135"
+    },
+    {
+      "type": "paper",
+      "label": "Hardware for Machine Learning: Challenges and Opportunities",
+      "arxiv_id": "1502.04149",
+      "authors": "Sze et al.",
+      "published": "2015-02-01",
+      "abstract": "ML hardware survey.",
+      "categories": [
+        "cs.AR",
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1502.04149"
+    },
+    {
+      "type": "paper",
+      "label": "Distilling the Knowledge in a Neural Network",
+      "arxiv_id": "1901.09519",
+      "authors": "Hinton et al.",
+      "published": "2019-01-01",
+      "abstract": "Knowledge distillation.",
+      "categories": [
+        "cs.LG",
+        "cs.NE"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:1901.09519"
+    },
+    {
+      "type": "paper",
+      "label": "SparseMoE: Scaling Large Models with Sparse Mixture of Experts",
+      "arxiv_id": "2004.09602",
+      "authors": "Zhu et al.",
+      "published": "2020-04-01",
+      "abstract": "Sparse MoE acceleration.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2004.09602"
+    },
+    {
+      "id": "llms:concept:transformer"
+    },
+    {
+      "id": "llms:concept:pretraining"
+    },
+    {
+      "id": "llms:concept:attention"
+    },
+    {
+      "id": "ai-agents:concept:reinforcement learning"
+    },
+    {
+      "id": "transformers:concept:decoder-only"
+    },
+    {
+      "id": "graph-networks:concept:graph neural network"
+    },
+    {
+      "id": "ai-agents"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-agents",
+      "target_graph_id": "ai-agents",
+      "graph_id": "ai-acceleration",
+      "id": "graph_ref:ai-agents"
+    },
+    {
+      "id": "transformers"
+    },
+    {
+      "type": "graph_ref",
+      "label": "transformers",
+      "target_graph_id": "transformers",
+      "graph_id": "ai-acceleration",
+      "id": "graph_ref:transformers"
+    },
+    {
+      "id": "llms"
     },
     {
       "type": "graph_ref",
@@ -106,20 +468,14 @@
       "id": "graph_ref:llms"
     },
     {
-      "id": "llms"
+      "id": "graph-networks"
     },
     {
       "type": "graph_ref",
-      "label": "photonic-computing",
-      "target_graph_id": "photonic-computing",
+      "label": "graph-networks",
+      "target_graph_id": "graph-networks",
       "graph_id": "ai-acceleration",
-      "id": "graph_ref:photonic-computing"
-    },
-    {
-      "id": "photonic-computing"
-    },
-    {
-      "id": "llms:concept:transformer"
+      "id": "graph_ref:graph-networks"
     }
   ],
   "links": [
@@ -127,62 +483,252 @@
       "relation": "related_to",
       "cross_graph": true,
       "target_graph": "llms",
-      "source": "concept:GPU computing",
+      "source": "concept:GPU",
       "target": "llms:concept:transformer",
       "key": 0
     },
     {
-      "relation": "improves",
-      "source": "concept:tensor core",
-      "target": "concept:GPU computing",
+      "relation": "related_to",
+      "source": "concept:TPU",
+      "target": "concept:deep learning accelerator",
       "key": 0
     },
     {
-      "relation": "uses",
-      "source": "concept:mixed precision",
-      "target": "concept:tensor core",
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "llms",
+      "source": "concept:TPU",
+      "target": "llms:concept:pretraining",
       "key": 0
     },
     {
       "relation": "related_to",
       "source": "concept:CUDA",
-      "target": "concept:GPU computing",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:mixed precision training",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-agents",
+      "source": "concept:mixed precision training",
+      "target": "ai-agents:concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:kernel fusion",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:sparse computation",
+      "target": "concept:pruning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:quantization",
+      "target": "concept:knowledge distillation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "graph-networks",
+      "source": "concept:quantization",
+      "target": "graph-networks:concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:distributed training",
+      "target": "concept:RDMA",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "transformers",
+      "source": "concept:distributed training",
+      "target": "transformers:concept:decoder-only",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:flash attention",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "cross_graph": true,
+      "target_graph": "llms",
+      "source": "concept:flash attention",
+      "target": "llms:concept:attention",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:pipeline parallelism",
+      "target": "concept:distributed training",
       "key": 0
     },
     {
       "relation": "extends",
-      "source": "concept:distributed training",
-      "target": "concept:model parallelism",
-      "key": 0
-    },
-    {
-      "relation": "introduces",
-      "source": "paper:1704.04760",
-      "target": "concept:tensor processing unit",
-      "key": 0
-    },
-    {
-      "relation": "introduces",
-      "source": "paper:2003.11045",
-      "target": "concept:mixed precision",
-      "key": 0
-    },
-    {
-      "relation": "introduces",
-      "source": "paper:1909.08053",
+      "source": "concept:tensor parallelism",
       "target": "concept:model parallelism",
       "key": 0
     },
     {
       "relation": "related_to",
+      "source": "concept:NVLink",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "contrasts",
+      "source": "concept:FPGA acceleration",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:neural processing unit",
+      "target": "concept:deep learning accelerator",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1811.06965",
+      "target": "concept:pipeline parallelism",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:1906.06423",
+      "target": "concept:distributed training",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2004.13314",
+      "target": "concept:model parallelism",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2205.14135",
+      "target": "concept:flash attention",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2104.04473",
+      "target": "concept:pipeline parallelism",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2303.06865",
+      "target": "concept:distributed training",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:1810.08581",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1910.02054",
+      "target": "concept:TPU",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2107.02606",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2006.16668",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1904.11310",
+      "target": "concept:distributed training",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2205.09710",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2304.03267",
+      "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1803.02135",
+      "target": "concept:quantization",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1502.04149",
+      "target": "concept:deep learning accelerator",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1901.09519",
+      "target": "concept:knowledge distillation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2004.09602",
+      "target": "concept:sparse computation",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-agents",
+      "target": "ai-agents",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:transformers",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "source": "graph_ref:llms",
       "target": "llms",
       "key": 0
     },
     {
-      "relation": "related_to",
-      "source": "graph_ref:photonic-computing",
-      "target": "photonic-computing",
+      "relation": "references",
+      "source": "graph_ref:graph-networks",
+      "target": "graph-networks",
       "key": 0
     }
   ],

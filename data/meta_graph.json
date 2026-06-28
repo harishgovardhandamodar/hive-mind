@@ -4,28 +4,10 @@
   "graph": {},
   "nodes": [
     {
-      "label": "transformers",
-      "path": "/home/fox/codebase/hive-mind/hives/transformers/data/graph/knowledge_graph.json",
-      "type": "knowledge_graph",
-      "id": "transformers"
-    },
-    {
-      "label": "gnns",
-      "path": "/home/fox/codebase/hive-mind/hives/gnns/data/graph/knowledge_graph.json",
-      "type": "knowledge_graph",
-      "id": "gnns"
-    },
-    {
       "label": "quantum-computing",
       "path": "/home/fox/codebase/hive-mind/hives/quantum-computing/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "id": "quantum-computing"
-    },
-    {
-      "label": "ai-acceleration",
-      "path": "/home/fox/codebase/hive-mind/hives/ai-acceleration/data/graph/knowledge_graph.json",
-      "type": "knowledge_graph",
-      "id": "ai-acceleration"
     },
     {
       "label": "photonic-computing",
@@ -34,22 +16,40 @@
       "id": "photonic-computing"
     },
     {
+      "label": "ai-acceleration",
+      "path": "/home/fox/codebase/hive-mind/hives/ai-acceleration/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "id": "ai-acceleration"
+    },
+    {
       "label": "graph-networks",
       "path": "/home/fox/codebase/hive-mind/hives/graph-networks/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "id": "graph-networks"
     },
     {
-      "label": "ai-agents",
-      "path": "/home/fox/codebase/hive-mind/hives/ai-agents/data/graph/knowledge_graph.json",
+      "label": "gnns",
+      "path": "/home/fox/codebase/hive-mind/hives/gnns/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "id": "ai-agents"
+      "id": "gnns"
+    },
+    {
+      "label": "transformers",
+      "path": "/home/fox/codebase/hive-mind/hives/transformers/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "id": "transformers"
     },
     {
       "label": "llms",
       "path": "/home/fox/codebase/hive-mind/hives/llms/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "id": "llms"
+    },
+    {
+      "label": "ai-agents",
+      "path": "/home/fox/codebase/hive-mind/hives/ai-agents/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "id": "ai-agents"
     },
     {
       "label": "cryptocurrencies",
@@ -72,66 +72,115 @@
   ],
   "links": [
     {
-      "relation": "extends",
-      "label": "extends",
-      "source": "transformers",
-      "target": "gnns",
+      "relation": "references",
+      "label": "quantum-computing",
+      "source": "photonic-computing",
+      "target": "quantum-computing",
       "key": 0
     },
     {
-      "relation": "related_to",
-      "label": "related_to",
-      "source": "quantum-computing",
-      "target": "photonic-computing",
+      "relation": "references",
+      "label": "ai-agents",
+      "source": "ai-acceleration",
+      "target": "ai-agents",
       "key": 0
     },
     {
-      "relation": "accelerates",
-      "label": "accelerates",
+      "relation": "references",
+      "label": "llms",
       "source": "ai-acceleration",
       "target": "llms",
       "key": 0
     },
     {
-      "relation": "related_to",
-      "label": "related_to",
+      "relation": "references",
+      "label": "graph-networks",
       "source": "ai-acceleration",
-      "target": "photonic-computing",
+      "target": "graph-networks",
       "key": 0
     },
     {
-      "relation": "enables",
-      "label": "enables",
+      "relation": "references",
+      "label": "cryptocurrencies",
+      "source": "graph-networks",
+      "target": "cryptocurrencies",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "ai-agents",
       "source": "graph-networks",
       "target": "ai-agents",
       "key": 0
     },
     {
-      "relation": "powers",
-      "label": "powers",
+      "relation": "references",
+      "label": "cryptocurrencies",
+      "source": "gnns",
+      "target": "cryptocurrencies",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "graph-networks",
+      "source": "gnns",
+      "target": "graph-networks",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "llms",
+      "source": "transformers",
+      "target": "llms",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "ai-acceleration",
+      "source": "transformers",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "graph-networks",
+      "source": "transformers",
+      "target": "graph-networks",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "ai-agents",
       "source": "llms",
       "target": "ai-agents",
       "key": 0
     },
     {
-      "relation": "uses",
-      "label": "uses",
-      "source": "cryptocurrencies",
-      "target": "proof-of-work",
+      "relation": "references",
+      "label": "graph-networks",
+      "source": "llms",
+      "target": "graph-networks",
       "key": 0
     },
     {
-      "relation": "alternative",
-      "label": "alternative",
-      "source": "cryptocurrencies",
-      "target": "proof-of-stake",
-      "key": 0
-    },
-    {
-      "relation": "contrasts",
-      "label": "contrasts",
+      "relation": "references",
+      "label": "proof-of-stake",
       "source": "proof-of-work",
       "target": "proof-of-stake",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "cryptocurrencies",
+      "source": "proof-of-work",
+      "target": "cryptocurrencies",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "cryptocurrencies",
+      "source": "proof-of-stake",
+      "target": "cryptocurrencies",
       "key": 0
     }
   ]

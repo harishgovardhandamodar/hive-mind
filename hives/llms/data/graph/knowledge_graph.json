@@ -60,12 +60,124 @@
       "id": "concept:scaling law"
     },
     {
+      "type": "concept",
+      "label": "in-context learning",
+      "definition": "Learning from examples in the prompt",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:in-context learning"
+    },
+    {
+      "type": "concept",
+      "label": "instruction tuning",
+      "definition": "Fine-tuning on instruction-response pairs",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:instruction tuning"
+    },
+    {
+      "type": "concept",
+      "label": "attention head",
+      "definition": "Individual attention mechanism in transformer",
+      "concept_type": "architecture",
+      "graph_id": "llms",
+      "id": "concept:attention head"
+    },
+    {
+      "type": "concept",
+      "label": "position encoding",
+      "definition": "Encoding token position in sequence",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:position encoding"
+    },
+    {
+      "type": "concept",
+      "label": "mixture of experts",
+      "definition": "Sparse gating for model scaling",
+      "concept_type": "architecture",
+      "graph_id": "llms",
+      "id": "concept:mixture of experts"
+    },
+    {
+      "type": "concept",
+      "label": "KV cache",
+      "definition": "Caching key-value states for inference",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:KV cache"
+    },
+    {
+      "type": "concept",
+      "label": "alignment",
+      "definition": "Ensuring model behavior matches human values",
+      "concept_type": "task",
+      "graph_id": "llms",
+      "id": "concept:alignment"
+    },
+    {
+      "type": "concept",
+      "label": "hallucination",
+      "definition": "Model generating factually incorrect content",
+      "concept_type": "issue",
+      "graph_id": "llms",
+      "id": "concept:hallucination"
+    },
+    {
+      "type": "concept",
+      "label": "context window",
+      "definition": "Maximum sequence length a model can process",
+      "concept_type": "concept",
+      "graph_id": "llms",
+      "id": "concept:context window"
+    },
+    {
+      "type": "concept",
+      "label": "few-shot learning",
+      "definition": "Learning from a small number of examples",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:few-shot learning"
+    },
+    {
+      "type": "concept",
+      "label": "chain-of-thought",
+      "definition": "Step-by-step reasoning elicitation",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:chain-of-thought"
+    },
+    {
+      "type": "concept",
+      "label": "retrieval-augmented generation",
+      "definition": "Combining retrieval with generation",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:retrieval-augmented generation"
+    },
+    {
+      "type": "concept",
+      "label": "tokenization",
+      "definition": "Converting text into subword tokens",
+      "concept_type": "method",
+      "graph_id": "llms",
+      "id": "concept:tokenization"
+    },
+    {
+      "type": "concept",
+      "label": "temperature",
+      "definition": "Controls randomness in model outputs",
+      "concept_type": "concept",
+      "graph_id": "llms",
+      "id": "concept:temperature"
+    },
+    {
       "type": "paper",
       "label": "Attention Is All You Need",
       "arxiv_id": "1706.03762",
       "authors": "Vaswani et al.",
       "published": "2017-06-01",
-      "abstract": "The Transformer architecture.",
+      "abstract": "Transformer architecture.",
       "categories": [
         "cs.CL",
         "cs.LG"
@@ -79,7 +191,7 @@
       "arxiv_id": "2005.14165",
       "authors": "Brown et al.",
       "published": "2020-05-01",
-      "abstract": "GPT-3 scaling and in-context learning.",
+      "abstract": "GPT-3.",
       "categories": [
         "cs.CL"
       ],
@@ -92,7 +204,7 @@
       "arxiv_id": "2203.02155",
       "authors": "Ouyang et al.",
       "published": "2022-03-01",
-      "abstract": "InstructGPT with RLHF.",
+      "abstract": "InstructGPT.",
       "categories": [
         "cs.CL"
       ],
@@ -105,12 +217,222 @@
       "arxiv_id": "2001.08361",
       "authors": "Kaplan et al.",
       "published": "2020-01-01",
-      "abstract": "Empirical scaling laws.",
+      "abstract": "Scaling laws.",
       "categories": [
         "cs.LG"
       ],
       "graph_id": "llms",
       "id": "paper:2001.08361"
+    },
+    {
+      "type": "paper",
+      "label": "BLOOM: A 176B-Parameter Open-Access Multilingual Language Model",
+      "arxiv_id": "2202.08917",
+      "authors": "Scao et al.",
+      "published": "2022-02-01",
+      "abstract": "BLOOM.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2202.08917"
+    },
+    {
+      "type": "paper",
+      "label": "LLaMA: Open and Efficient Foundation Language Models",
+      "arxiv_id": "2302.13971",
+      "authors": "Touvron et al.",
+      "published": "2023-02-01",
+      "abstract": "LLaMA.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2302.13971"
+    },
+    {
+      "type": "paper",
+      "label": "Mixtral of Experts",
+      "arxiv_id": "2310.06825",
+      "authors": "Jiang et al.",
+      "published": "2023-10-01",
+      "abstract": "Mixtral MoE.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2310.06825"
+    },
+    {
+      "type": "paper",
+      "label": "LaMDA: Language Models for Dialog Applications",
+      "arxiv_id": "2205.11961",
+      "authors": "Thoppilan et al.",
+      "published": "2022-05-01",
+      "abstract": "LaMDA.",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2205.11961"
+    },
+    {
+      "type": "paper",
+      "label": "Sparks of Artificial General Intelligence: GPT-4",
+      "arxiv_id": "2303.08774",
+      "authors": "Bubeck et al.",
+      "published": "2023-03-01",
+      "abstract": "GPT-4 capabilities.",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2303.08774"
+    },
+    {
+      "type": "paper",
+      "label": "Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer",
+      "arxiv_id": "2101.03961",
+      "authors": "Raffel et al.",
+      "published": "2021-01-01",
+      "abstract": "T5.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2101.03961"
+    },
+    {
+      "type": "paper",
+      "label": "Release Strategies and the Social Impacts of Language Models",
+      "arxiv_id": "2206.05862",
+      "authors": "Solaiman et al.",
+      "published": "2022-06-01",
+      "abstract": "Responsible release.",
+      "categories": [
+        "cs.CL",
+        "cs.CY"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2206.05862"
+    },
+    {
+      "type": "paper",
+      "label": "LongLoRA: Efficient Fine-tuning of Long-Context Large Language Models",
+      "arxiv_id": "2311.18262",
+      "authors": "Jiang et al.",
+      "published": "2023-11-01",
+      "abstract": "Long context.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2311.18262"
+    },
+    {
+      "type": "paper",
+      "label": "Evaluation of Hallucination in Large Language Models",
+      "arxiv_id": "2301.04014",
+      "authors": "Dash et al.",
+      "published": "2023-01-01",
+      "abstract": "Hallucination survey.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2301.04014"
+    },
+    {
+      "type": "paper",
+      "label": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+      "arxiv_id": "2005.11401",
+      "authors": "Lewis et al.",
+      "published": "2020-05-01",
+      "abstract": "RAG.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2005.11401"
+    },
+    {
+      "type": "paper",
+      "label": "TruthfulQA: Measuring How Models Mimic Human Falsehoods",
+      "arxiv_id": "2303.12712",
+      "authors": "Lin et al.",
+      "published": "2023-03-01",
+      "abstract": "Truthfulness benchmark.",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2303.12712"
+    },
+    {
+      "type": "paper",
+      "label": "Improving Language Understanding by Generative Pre-Training",
+      "arxiv_id": "1901.02860",
+      "authors": "Radford et al.",
+      "published": "2019-01-01",
+      "abstract": "GPT-1.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:1901.02860"
+    },
+    {
+      "type": "paper",
+      "label": "PaLM: Scaling Language Modeling with Pathways",
+      "arxiv_id": "2112.10529",
+      "authors": "Chowdhery et al.",
+      "published": "2021-12-01",
+      "abstract": "PaLM.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2112.10529"
+    },
+    {
+      "type": "paper",
+      "label": "OPT: Open Pre-trained Transformer Language Models",
+      "arxiv_id": "2201.08239",
+      "authors": "Zhang et al.",
+      "published": "2022-01-01",
+      "abstract": "OPT.",
+      "categories": [
+        "cs.CL"
+      ],
+      "graph_id": "llms",
+      "id": "paper:2201.08239"
+    },
+    {
+      "id": "concept:multi-head attention"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU"
+    },
+    {
+      "id": "graph-networks:concept:graph attention"
+    },
+    {
+      "id": "ai-agents:concept:chain-of-thought"
+    },
+    {
+      "id": "ai-agents:concept:reward modeling"
+    },
+    {
+      "id": "transformers:concept:feed-forward network"
+    },
+    {
+      "id": "ai-agents"
     },
     {
       "type": "graph_ref",
@@ -120,22 +442,49 @@
       "id": "graph_ref:ai-agents"
     },
     {
-      "id": "ai-agents"
+      "id": "transformers"
     },
     {
-      "id": "ai-agents:concept:autonomous agent"
+      "type": "graph_ref",
+      "label": "transformers",
+      "target_graph_id": "transformers",
+      "graph_id": "llms",
+      "id": "graph_ref:transformers"
     },
     {
-      "id": "graph-networks:concept:graph attention"
+      "id": "ai-acceleration"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-acceleration",
+      "target_graph_id": "ai-acceleration",
+      "graph_id": "llms",
+      "id": "graph_ref:ai-acceleration"
+    },
+    {
+      "id": "graph-networks"
+    },
+    {
+      "type": "graph_ref",
+      "label": "graph-networks",
+      "target_graph_id": "graph-networks",
+      "graph_id": "llms",
+      "id": "graph_ref:graph-networks"
     }
   ],
   "links": [
     {
+      "relation": "uses",
+      "source": "concept:transformer",
+      "target": "concept:attention",
+      "key": 0
+    },
+    {
       "relation": "related_to",
       "cross_graph": true,
-      "target_graph": "ai-agents",
+      "target_graph": "ai-acceleration",
       "source": "concept:transformer",
-      "target": "ai-agents:concept:autonomous agent",
+      "target": "ai-acceleration:concept:GPU",
       "key": 0
     },
     {
@@ -153,15 +502,93 @@
       "key": 0
     },
     {
-      "relation": "related_to",
+      "relation": "extends",
       "source": "concept:fine-tuning",
       "target": "concept:pretraining",
       "key": 0
     },
     {
+      "relation": "improves",
+      "source": "concept:RLHF",
+      "target": "concept:instruction tuning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-agents",
+      "source": "concept:RLHF",
+      "target": "ai-agents:concept:reward modeling",
+      "key": 0
+    },
+    {
       "relation": "related_to",
       "source": "concept:prompt engineering",
+      "target": "concept:in-context learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-agents",
+      "source": "concept:prompt engineering",
+      "target": "ai-agents:concept:chain-of-thought",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "transformers",
+      "source": "concept:scaling law",
+      "target": "transformers:concept:feed-forward network",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:instruction tuning",
       "target": "concept:fine-tuning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:attention head",
+      "target": "concept:multi-head attention",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:position encoding",
+      "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:mixture of experts",
+      "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:context window",
+      "target": "concept:KV cache",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:chain-of-thought",
+      "target": "concept:prompt engineering",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:retrieval-augmented generation",
+      "target": "concept:hallucination",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:temperature",
+      "target": "concept:in-context learning",
       "key": 0
     },
     {
@@ -177,9 +604,15 @@
       "key": 0
     },
     {
-      "relation": "related_to",
+      "relation": "introduces",
       "source": "paper:2005.14165",
-      "target": "concept:pretraining",
+      "target": "concept:in-context learning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2005.14165",
+      "target": "concept:few-shot learning",
       "key": 0
     },
     {
@@ -195,9 +628,9 @@
       "key": 0
     },
     {
-      "relation": "improves",
+      "relation": "introduces",
       "source": "paper:2203.02155",
-      "target": "concept:fine-tuning",
+      "target": "concept:instruction tuning",
       "key": 0
     },
     {
@@ -208,8 +641,74 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:2302.13971",
+      "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.06825",
+      "target": "concept:mixture of experts",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2303.08774",
+      "target": "concept:alignment",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "paper:2311.18262",
+      "target": "concept:context window",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2301.04014",
+      "target": "concept:hallucination",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2005.11401",
+      "target": "concept:retrieval-augmented generation",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1901.02860",
+      "target": "concept:pretraining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2112.10529",
+      "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "source": "graph_ref:ai-agents",
       "target": "ai-agents",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:transformers",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-acceleration",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:graph-networks",
+      "target": "graph-networks",
       "key": 0
     }
   ],

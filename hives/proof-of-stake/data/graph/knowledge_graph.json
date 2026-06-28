@@ -14,7 +14,7 @@
     {
       "type": "concept",
       "label": "validator",
-      "definition": "Node that proposes and validates blocks",
+      "definition": "Node responsible for proposing and attesting blocks",
       "concept_type": "role",
       "graph_id": "proof-of-stake",
       "id": "concept:validator"
@@ -31,59 +31,371 @@
       "type": "concept",
       "label": "finality",
       "definition": "Irreversibility of confirmed blocks",
-      "concept_type": "property",
+      "concept_type": "concept",
       "graph_id": "proof-of-stake",
       "id": "concept:finality"
     },
     {
       "type": "concept",
-      "label": "Casper FFG",
-      "definition": "Friendly Finality Gadget consensus protocol",
-      "concept_type": "protocol",
-      "graph_id": "proof-of-stake",
-      "id": "concept:Casper FFG"
-    },
-    {
-      "type": "concept",
       "label": "delegation",
-      "definition": "Token holders assigning stake to validators",
+      "definition": "Token holders delegating stake to validators",
       "concept_type": "method",
       "graph_id": "proof-of-stake",
       "id": "concept:delegation"
     },
     {
       "type": "concept",
-      "label": "liquidity",
-      "definition": "Ability to unstake and trade staked tokens",
-      "concept_type": "property",
+      "label": "epoch",
+      "definition": "Time period in PoS consensus",
+      "concept_type": "concept",
       "graph_id": "proof-of-stake",
-      "id": "concept:liquidity"
+      "id": "concept:epoch"
+    },
+    {
+      "type": "concept",
+      "label": "long-range attack",
+      "definition": "Attack rewriting history from distant past",
+      "concept_type": "attack",
+      "graph_id": "proof-of-stake",
+      "id": "concept:long-range attack"
+    },
+    {
+      "type": "concept",
+      "label": "Casper protocol",
+      "definition": "Ethereum's PoS finality protocol",
+      "concept_type": "protocol",
+      "graph_id": "proof-of-stake",
+      "id": "concept:Casper protocol"
+    },
+    {
+      "type": "concept",
+      "label": "Gasper",
+      "definition": "Combined GHOST and Casper consensus",
+      "concept_type": "protocol",
+      "graph_id": "proof-of-stake",
+      "id": "concept:Gasper"
+    },
+    {
+      "type": "concept",
+      "label": "LMD-GHOST",
+      "definition": "Latest message driven GHOST fork choice",
+      "concept_type": "method",
+      "graph_id": "proof-of-stake",
+      "id": "concept:LMD-GHOST"
+    },
+    {
+      "type": "concept",
+      "label": "checkpoint",
+      "definition": "Block that validators vote to finalize",
+      "concept_type": "concept",
+      "graph_id": "proof-of-stake",
+      "id": "concept:checkpoint"
+    },
+    {
+      "type": "concept",
+      "label": "bond",
+      "definition": "Locked stake as security deposit",
+      "concept_type": "concept",
+      "graph_id": "proof-of-stake",
+      "id": "concept:bond"
+    },
+    {
+      "type": "concept",
+      "label": "inflation",
+      "definition": "New issuance rate for staking rewards",
+      "concept_type": "concept",
+      "graph_id": "proof-of-stake",
+      "id": "concept:inflation"
+    },
+    {
+      "type": "concept",
+      "label": "economic finality",
+      "definition": "Finality backed by economic security",
+      "concept_type": "principle",
+      "graph_id": "proof-of-stake",
+      "id": "concept:economic finality"
+    },
+    {
+      "type": "concept",
+      "label": "nothing at stake",
+      "definition": "Costless block production in naive PoS",
+      "concept_type": "issue",
+      "graph_id": "proof-of-stake",
+      "id": "concept:nothing at stake"
+    },
+    {
+      "type": "concept",
+      "label": "validator committee",
+      "definition": "Group selected to validate an epoch",
+      "concept_type": "role",
+      "graph_id": "proof-of-stake",
+      "id": "concept:validator committee"
+    },
+    {
+      "type": "concept",
+      "label": "attestation",
+      "definition": "Validator vote on block validity",
+      "concept_type": "method",
+      "graph_id": "proof-of-stake",
+      "id": "concept:attestation"
+    },
+    {
+      "type": "concept",
+      "label": "proposer-builder separation",
+      "definition": "Separating block building from proposing",
+      "concept_type": "method",
+      "graph_id": "proof-of-stake",
+      "id": "concept:proposer-builder separation"
+    },
+    {
+      "type": "concept",
+      "label": "staking pool",
+      "definition": "Collective staking for smaller holders",
+      "concept_type": "organization",
+      "graph_id": "proof-of-stake",
+      "id": "concept:staking pool"
+    },
+    {
+      "type": "concept",
+      "label": "slashing condition",
+      "definition": "Specific rule triggering slashing",
+      "concept_type": "mechanism",
+      "graph_id": "proof-of-stake",
+      "id": "concept:slashing condition"
+    },
+    {
+      "type": "concept",
+      "label": "hot wallet",
+      "definition": "Online wallet used for validator duties",
+      "concept_type": "concept",
+      "graph_id": "proof-of-stake",
+      "id": "concept:hot wallet"
     },
     {
       "type": "paper",
-      "label": "Casper the Friendly Finality Gadget",
-      "arxiv_id": "1710.09437",
+      "label": "Combining GHOST and Casper",
+      "arxiv_id": "2003.03052",
       "authors": "Buterin et al.",
-      "published": "2017-10-01",
-      "abstract": "Casper FFG consensus protocol.",
+      "published": "2020-03-01",
+      "abstract": "Gasper.",
       "categories": [
-        "cs.CR"
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2003.03052"
+    },
+    {
+      "type": "paper",
+      "label": "Ouroboros: A Provably Secure Proof-of-Stake Blockchain Protocol",
+      "arxiv_id": "1710.09437",
+      "authors": "Kiayias et al.",
+      "published": "2017-10-01",
+      "abstract": "Ouroboros.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
       ],
       "graph_id": "proof-of-stake",
       "id": "paper:1710.09437"
     },
     {
       "type": "paper",
-      "label": "Ethereum 2.0: A Complete Guide to Proof of Stake",
-      "arxiv_id": "2201.09888",
-      "authors": "The Ethereum Foundation",
-      "published": "2022-01-01",
-      "abstract": "Ethereum's transition to PoS.",
+      "label": "SoK: Blockchain Consensus and Security",
+      "arxiv_id": "2101.00211",
+      "authors": "Buterin et al.",
+      "published": "2021-01-01",
+      "abstract": "Consensus survey.",
       "categories": [
         "cs.CR"
       ],
       "graph_id": "proof-of-stake",
-      "id": "paper:2201.09888"
+      "id": "paper:2101.00211"
+    },
+    {
+      "type": "paper",
+      "label": "Ouroboros Praos: An Adaptively-Secure Semi-Synchronous PoS",
+      "arxiv_id": "1905.02087",
+      "authors": "David et al.",
+      "published": "2019-05-01",
+      "abstract": "Ouroboros Praos.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:1905.02087"
+    },
+    {
+      "type": "paper",
+      "label": "A proof of stake design philosophy",
+      "arxiv_id": "2105.00827",
+      "authors": "Buterin",
+      "published": "2021-05-01",
+      "abstract": "PoS philosophy.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2105.00827"
+    },
+    {
+      "type": "paper",
+      "label": "Impact of MEV on Ethereum Proof-of-Stake",
+      "arxiv_id": "2206.12288",
+      "authors": "Neuder et al.",
+      "published": "2022-06-01",
+      "abstract": "MEV on PoS.",
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2206.12288"
+    },
+    {
+      "type": "paper",
+      "label": "Bitcoin and Beyond: A Technical Survey",
+      "arxiv_id": "1809.06594",
+      "authors": "Tschorsch & Scheuermann",
+      "published": "2018-09-01",
+      "abstract": "Crypto survey.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:1809.06594"
+    },
+    {
+      "type": "paper",
+      "label": "The future of Ethereum 2.0",
+      "arxiv_id": "2110.10019",
+      "authors": "Buterin",
+      "published": "2021-10-01",
+      "abstract": "Eth2 roadmap.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2110.10019"
+    },
+    {
+      "type": "paper",
+      "label": "Formal Barriers to Longest-Chain Proof-of-Stake Protocols",
+      "arxiv_id": "1906.10191",
+      "authors": "Brown-Cohen et al.",
+      "published": "2019-06-01",
+      "abstract": "PoS barriers.",
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:1906.10191"
+    },
+    {
+      "type": "paper",
+      "label": "Ebb-and-Flow Protocols: A Resolution of the Availability-Finality Dilemma",
+      "arxiv_id": "2109.08455",
+      "authors": "Neu et al.",
+      "published": "2021-09-01",
+      "abstract": "Availability-finality.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2109.08455"
+    },
+    {
+      "type": "paper",
+      "label": "Proposer-Builder Separation for Ethereum",
+      "arxiv_id": "2203.03052",
+      "authors": "Buterin et al.",
+      "published": "2022-03-01",
+      "abstract": "PBS.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2203.03052"
+    },
+    {
+      "type": "paper",
+      "label": "Ouroboros Genesis: Composable Proof-of-Stake Blockchains",
+      "arxiv_id": "1901.06425",
+      "authors": "Gazi et al.",
+      "published": "2019-01-01",
+      "abstract": "Ouroboros Genesis.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:1901.06425"
+    },
+    {
+      "type": "paper",
+      "label": "Incentives for Securing Proof-of-Stake",
+      "arxiv_id": "2002.08579",
+      "authors": "Buterin et al.",
+      "published": "2020-02-01",
+      "abstract": "PoS incentives.",
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2002.08579"
+    },
+    {
+      "type": "paper",
+      "label": "SoK: Staking Pools in Proof-of-Stake",
+      "arxiv_id": "2101.05597",
+      "authors": "Karakostas et al.",
+      "published": "2021-01-01",
+      "abstract": "Staking pools.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "proof-of-stake",
+      "id": "paper:2101.05597"
+    },
+    {
+      "id": "concept:MEV"
+    },
+    {
+      "id": "proof-of-work:concept:mining"
+    },
+    {
+      "id": "cryptocurrencies:concept:consensus"
+    },
+    {
+      "id": "proof-of-work:concept:checkpoint"
+    },
+    {
+      "id": "cryptocurrencies:concept:blockchain"
+    },
+    {
+      "id": "cryptocurrencies:concept:smart contract"
+    },
+    {
+      "id": "proof-of-work"
+    },
+    {
+      "type": "graph_ref",
+      "label": "proof-of-work",
+      "target_graph_id": "proof-of-work",
+      "graph_id": "proof-of-stake",
+      "id": "graph_ref:proof-of-work"
+    },
+    {
+      "id": "cryptocurrencies"
+    },
+    {
+      "type": "graph_ref",
+      "label": "cryptocurrencies",
+      "target_graph_id": "cryptocurrencies",
+      "graph_id": "proof-of-stake",
+      "id": "graph_ref:cryptocurrencies"
     }
   ],
   "links": [
@@ -94,6 +406,28 @@
       "key": 0
     },
     {
+      "relation": "contrasts",
+      "cross_graph": true,
+      "target_graph": "proof-of-work",
+      "source": "concept:staking",
+      "target": "proof-of-work:concept:mining",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:validator",
+      "target": "concept:epoch",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "cryptocurrencies",
+      "source": "concept:validator",
+      "target": "cryptocurrencies:concept:consensus",
+      "key": 0
+    },
+    {
       "relation": "related_to",
       "source": "concept:slashing",
       "target": "concept:validator",
@@ -101,8 +435,24 @@
     },
     {
       "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "cryptocurrencies",
+      "source": "concept:slashing",
+      "target": "cryptocurrencies:concept:smart contract",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "concept:finality",
-      "target": "concept:Casper FFG",
+      "target": "concept:checkpoint",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "cross_graph": true,
+      "target_graph": "cryptocurrencies",
+      "source": "concept:finality",
+      "target": "cryptocurrencies:concept:blockchain",
       "key": 0
     },
     {
@@ -113,32 +463,178 @@
     },
     {
       "relation": "related_to",
-      "source": "concept:liquidity",
-      "target": "concept:staking",
-      "key": 0
-    },
-    {
-      "relation": "introduces",
-      "source": "paper:1710.09437",
-      "target": "concept:Casper FFG",
+      "source": "concept:long-range attack",
+      "target": "concept:nothing at stake",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "paper:1710.09437",
+      "cross_graph": true,
+      "target_graph": "proof-of-work",
+      "source": "concept:long-range attack",
+      "target": "proof-of-work:concept:checkpoint",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:Casper protocol",
+      "target": "concept:finality",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:Gasper",
+      "target": "concept:Casper protocol",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:LMD-GHOST",
+      "target": "concept:Gasper",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:checkpoint",
+      "target": "concept:epoch",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:bond",
+      "target": "concept:staking",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:economic finality",
       "target": "concept:finality",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "paper:2201.09888",
+      "source": "concept:nothing at stake",
+      "target": "concept:slashing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:validator committee",
+      "target": "concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:attestation",
+      "target": "concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:proposer-builder separation",
+      "target": "concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:staking pool",
+      "target": "concept:delegation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:slashing condition",
+      "target": "concept:slashing",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2003.03052",
+      "target": "concept:Gasper",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2003.03052",
+      "target": "concept:Casper protocol",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1710.09437",
       "target": "concept:staking",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "paper:2201.09888",
+      "source": "paper:2101.00211",
+      "target": "concept:finality",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.02087",
       "target": "concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.00827",
+      "target": "concept:economic finality",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2206.12288",
+      "target": "concept:MEV",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1906.10191",
+      "target": "concept:nothing at stake",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2109.08455",
+      "target": "concept:finality",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2203.03052",
+      "target": "concept:proposer-builder separation",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1901.06425",
+      "target": "concept:delegation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2002.08579",
+      "target": "concept:slashing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2101.05597",
+      "target": "concept:staking pool",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:proof-of-work",
+      "target": "proof-of-work",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:cryptocurrencies",
+      "target": "cryptocurrencies",
       "key": 0
     }
   ],

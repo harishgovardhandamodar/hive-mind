@@ -60,12 +60,124 @@
       "id": "concept:zero-knowledge proof"
     },
     {
+      "type": "concept",
+      "label": "DeFi",
+      "definition": "Decentralized finance applications",
+      "concept_type": "application",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:DeFi"
+    },
+    {
+      "type": "concept",
+      "label": "layer 2",
+      "definition": "Scaling solutions built on top of base layer",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:layer 2"
+    },
+    {
+      "type": "concept",
+      "label": "stablecoin",
+      "definition": "Cryptocurrency pegged to stable asset",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:stablecoin"
+    },
+    {
+      "type": "concept",
+      "label": "DEX",
+      "definition": "Decentralized exchange for trading",
+      "concept_type": "application",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:DEX"
+    },
+    {
+      "type": "concept",
+      "label": "non-fungible token",
+      "definition": "Unique digital asset on blockchain",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:non-fungible token"
+    },
+    {
+      "type": "concept",
+      "label": "sidechain",
+      "definition": "Separate blockchain interoperating with main chain",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:sidechain"
+    },
+    {
+      "type": "concept",
+      "label": "cross-chain bridge",
+      "definition": "Protocol connecting different blockchains",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:cross-chain bridge"
+    },
+    {
+      "type": "concept",
+      "label": "MEV",
+      "definition": "Maximal extractable value from block production",
+      "concept_type": "concept",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:MEV"
+    },
+    {
+      "type": "concept",
+      "label": "oracle",
+      "definition": "Off-chain data feed for smart contracts",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:oracle"
+    },
+    {
+      "type": "concept",
+      "label": "DAO",
+      "definition": "Decentralized autonomous organization",
+      "concept_type": "application",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:DAO"
+    },
+    {
+      "type": "concept",
+      "label": "gas fee",
+      "definition": "Transaction cost on blockchain networks",
+      "concept_type": "concept",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:gas fee"
+    },
+    {
+      "type": "concept",
+      "label": "sharding",
+      "definition": "Horizontal scaling for blockchain throughput",
+      "concept_type": "method",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:sharding"
+    },
+    {
+      "type": "concept",
+      "label": "privacy coin",
+      "definition": "Cryptocurrency with enhanced privacy features",
+      "concept_type": "technology",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:privacy coin"
+    },
+    {
+      "type": "concept",
+      "label": "tokenomics",
+      "definition": "Economic design of cryptocurrency tokens",
+      "concept_type": "field",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:tokenomics"
+    },
+    {
       "type": "paper",
       "label": "Bitcoin: A Peer-to-Peer Electronic Cash System",
       "arxiv_id": "0809.0001",
       "authors": "Nakamoto",
-      "published": "2008-10-01",
-      "abstract": "Bitcoin whitepaper introducing blockchain.",
+      "published": "2008-09-01",
+      "abstract": "Bitcoin whitepaper.",
       "categories": [
         "cs.CR"
       ],
@@ -74,11 +186,11 @@
     },
     {
       "type": "paper",
-      "label": "Ethereum: A Next-Generation Smart Contract and Decentralized Application Platform",
+      "label": "Ethereum: A Next-Generation Smart Contract Platform",
       "arxiv_id": "1406.2294",
       "authors": "Buterin",
       "published": "2014-06-01",
-      "abstract": "Ethereum introducing smart contracts.",
+      "abstract": "Ethereum.",
       "categories": [
         "cs.CR"
       ],
@@ -91,12 +203,197 @@
       "arxiv_id": "1906.07221",
       "authors": "Sun et al.",
       "published": "2019-06-01",
-      "abstract": "ZKPs for privacy.",
+      "abstract": "ZKPs.",
       "categories": [
         "cs.CR"
       ],
       "graph_id": "cryptocurrencies",
       "id": "paper:1906.07221"
+    },
+    {
+      "type": "paper",
+      "label": "SoK: Layer-2 Scaling Solutions for Blockchains",
+      "arxiv_id": "2007.10233",
+      "authors": "Yousaf et al.",
+      "published": "2020-07-01",
+      "abstract": "Layer 2 survey.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2007.10233"
+    },
+    {
+      "type": "paper",
+      "label": "A note on the efficient implementation of zk-SNARKs",
+      "arxiv_id": "2107.05111",
+      "authors": "Buterin",
+      "published": "2021-07-01",
+      "abstract": "zk-SNARKs.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2107.05111"
+    },
+    {
+      "type": "paper",
+      "label": "DeFi Protocols for Loanable Funds: A Taxonomy",
+      "arxiv_id": "2011.01217",
+      "authors": "Gudgeon et al.",
+      "published": "2020-11-01",
+      "abstract": "DeFi taxonomy.",
+      "categories": [
+        "cs.CR",
+        "q-fin"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2011.01217"
+    },
+    {
+      "type": "paper",
+      "label": "Distributed Ledger Technology Systems: A Conceptual Framework",
+      "arxiv_id": "1807.01999",
+      "authors": "Rauchs et al.",
+      "published": "2018-07-01",
+      "abstract": "DLT framework.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1807.01999"
+    },
+    {
+      "type": "paper",
+      "label": "Cross-Chain Bridge Security: A Taxonomy",
+      "arxiv_id": "2203.16108",
+      "authors": "Brollet et al.",
+      "published": "2022-03-01",
+      "abstract": "Bridge security.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2203.16108"
+    },
+    {
+      "type": "paper",
+      "label": "DeFi: A Comprehensive Survey",
+      "arxiv_id": "1902.08805",
+      "authors": "Chen et al.",
+      "published": "2019-02-01",
+      "abstract": "DeFi survey.",
+      "categories": [
+        "cs.CR",
+        "q-fin"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1902.08805"
+    },
+    {
+      "type": "paper",
+      "label": "Flash Boys 2.0: Frontrunning in Decentralized Exchanges",
+      "arxiv_id": "2101.00924",
+      "authors": "Daian et al.",
+      "published": "2021-01-01",
+      "abstract": "MEV on Ethereum.",
+      "categories": [
+        "cs.CR",
+        "cs.GT"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2101.00924"
+    },
+    {
+      "type": "paper",
+      "label": "Ethereum 2.0 Sharding Design",
+      "arxiv_id": "2007.11458",
+      "authors": "Ethereum Foundation",
+      "published": "2020-07-01",
+      "abstract": "Sharding.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2007.11458"
+    },
+    {
+      "type": "paper",
+      "label": "Bitcoin and Cryptocurrency Technologies",
+      "arxiv_id": "1907.04687",
+      "authors": "Narayanan et al.",
+      "published": "2019-07-01",
+      "abstract": "Crypto textbook.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1907.04687"
+    },
+    {
+      "type": "paper",
+      "label": "Bitcoin and Beyond: A Technical Survey",
+      "arxiv_id": "1809.06594",
+      "authors": "Tschorsch & Scheuermann",
+      "published": "2018-09-01",
+      "abstract": "Crypto survey.",
+      "categories": [
+        "cs.CR"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1809.06594"
+    },
+    {
+      "type": "paper",
+      "label": "Visions of DeFi",
+      "arxiv_id": "2109.06757",
+      "authors": "Buterin",
+      "published": "2021-09-01",
+      "abstract": "DeFi future.",
+      "categories": [
+        "cs.CR",
+        "q-fin"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:2109.06757"
+    },
+    {
+      "type": "paper",
+      "label": "Blockchain challenges and opportunities",
+      "arxiv_id": "1710.07234",
+      "authors": "Zheng et al.",
+      "published": "2017-10-01",
+      "abstract": "Blockchain survey.",
+      "categories": [
+        "cs.CR",
+        "cs.DC"
+      ],
+      "graph_id": "cryptocurrencies",
+      "id": "paper:1710.07234"
+    },
+    {
+      "id": "concept:nont-fungible token"
+    },
+    {
+      "id": "proof-of-stake:concept:staking"
+    },
+    {
+      "id": "proof-of-work:concept:mining"
+    },
+    {
+      "id": "proof-of-work:concept:blockchain"
+    },
+    {
+      "id": "proof-of-stake:concept:validator"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU"
+    },
+    {
+      "id": "proof-of-work"
     },
     {
       "type": "graph_ref",
@@ -106,7 +403,7 @@
       "id": "graph_ref:proof-of-work"
     },
     {
-      "id": "proof-of-work"
+      "id": "proof-of-stake"
     },
     {
       "type": "graph_ref",
@@ -116,13 +413,14 @@
       "id": "graph_ref:proof-of-stake"
     },
     {
-      "id": "proof-of-stake"
+      "id": "ai-acceleration"
     },
     {
-      "id": "proof-of-work:concept:mining"
-    },
-    {
-      "id": "proof-of-stake:concept:staking"
+      "type": "graph_ref",
+      "label": "ai-acceleration",
+      "target_graph_id": "ai-acceleration",
+      "graph_id": "cryptocurrencies",
+      "id": "graph_ref:ai-acceleration"
     }
   ],
   "links": [
@@ -130,6 +428,14 @@
       "relation": "related_to",
       "source": "concept:blockchain",
       "target": "concept:cryptocurrency",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "proof-of-work",
+      "source": "concept:blockchain",
+      "target": "proof-of-work:concept:blockchain",
       "key": 0
     },
     {
@@ -161,7 +467,7 @@
       "key": 0
     },
     {
-      "relation": "related_to",
+      "relation": "extends",
       "source": "concept:smart contract",
       "target": "concept:blockchain",
       "key": 0
@@ -170,6 +476,88 @@
       "relation": "related_to",
       "source": "concept:decentralization",
       "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "proof-of-stake",
+      "source": "concept:zero-knowledge proof",
+      "target": "proof-of-stake:concept:validator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:DeFi",
+      "target": "concept:smart contract",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-acceleration",
+      "source": "concept:DeFi",
+      "target": "ai-acceleration:concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:layer 2",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:stablecoin",
+      "target": "concept:DeFi",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:DEX",
+      "target": "concept:DeFi",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:sidechain",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:cross-chain bridge",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:MEV",
+      "target": "concept:DEX",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:oracle",
+      "target": "concept:smart contract",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:DAO",
+      "target": "concept:smart contract",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:sharding",
+      "target": "concept:layer 2",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:privacy coin",
+      "target": "concept:zero-knowledge proof",
       "key": 0
     },
     {
@@ -209,15 +597,81 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:2007.10233",
+      "target": "concept:layer 2",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2107.05111",
+      "target": "concept:zero-knowledge proof",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.01217",
+      "target": "concept:DeFi",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2203.16108",
+      "target": "concept:cross-chain bridge",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1902.08805",
+      "target": "concept:DeFi",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2101.00924",
+      "target": "concept:MEV",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2007.11458",
+      "target": "concept:sharding",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2109.06757",
+      "target": "concept:DeFi",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.07234",
+      "target": "concept:blockchain",
+      "key": 0
+    },
+    {
       "relation": "uses",
+      "source": "concept:nont-fungible token",
+      "target": "concept:smart contract",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "source": "graph_ref:proof-of-work",
       "target": "proof-of-work",
       "key": 0
     },
     {
-      "relation": "related_to",
+      "relation": "references",
       "source": "graph_ref:proof-of-stake",
       "target": "proof-of-stake",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-acceleration",
+      "target": "ai-acceleration",
       "key": 0
     }
   ],

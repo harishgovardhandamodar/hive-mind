@@ -5,111 +5,458 @@
   "nodes": [
     {
       "type": "concept",
-      "label": "optical computing",
-      "definition": "Computation using photons instead of electrons",
-      "concept_type": "field",
-      "graph_id": "photonic-computing",
-      "id": "concept:optical computing"
-    },
-    {
-      "type": "concept",
       "label": "photonic IC",
-      "definition": "Integrated circuit operating with light",
+      "definition": "Integrated circuit using photons instead of electrons",
       "concept_type": "hardware",
       "graph_id": "photonic-computing",
       "id": "concept:photonic IC"
     },
     {
       "type": "concept",
+      "label": "silicon photonics",
+      "definition": "Photonic circuits fabricated on silicon",
+      "concept_type": "technology",
+      "graph_id": "photonic-computing",
+      "id": "concept:silicon photonics"
+    },
+    {
+      "type": "concept",
+      "label": "photon entanglement",
+      "definition": "Entanglement of photons for quantum information",
+      "concept_type": "phenomenon",
+      "graph_id": "photonic-computing",
+      "id": "concept:photon entanglement"
+    },
+    {
+      "type": "concept",
+      "label": "optical interconnect",
+      "definition": "Optical communication between components",
+      "concept_type": "technology",
+      "graph_id": "photonic-computing",
+      "id": "concept:optical interconnect"
+    },
+    {
+      "type": "concept",
       "label": "electro-optic modulation",
-      "definition": "Converting electrical signals to optical",
+      "definition": "Modulating light with electrical signals",
       "concept_type": "method",
       "graph_id": "photonic-computing",
       "id": "concept:electro-optic modulation"
     },
     {
       "type": "concept",
-      "label": "silicon photonics",
-      "definition": "Photonic circuits fabricated on silicon",
-      "concept_type": "hardware",
+      "label": "waveguide",
+      "definition": "Structure guiding electromagnetic waves",
+      "concept_type": "device",
       "graph_id": "photonic-computing",
-      "id": "concept:silicon photonics"
+      "id": "concept:waveguide"
     },
     {
       "type": "concept",
-      "label": "optical interconnect",
-      "definition": "Using light for chip-to-chip communication",
-      "concept_type": "method",
+      "label": "optical neural network",
+      "definition": "Neural network implemented with photonics",
+      "concept_type": "architecture",
       "graph_id": "photonic-computing",
-      "id": "concept:optical interconnect"
+      "id": "concept:optical neural network"
+    },
+    {
+      "type": "concept",
+      "label": "resonator",
+      "definition": "Optical cavity for wavelength selection",
+      "concept_type": "device",
+      "graph_id": "photonic-computing",
+      "id": "concept:resonator"
+    },
+    {
+      "type": "concept",
+      "label": "photodetector",
+      "definition": "Device converting photons to electrical signals",
+      "concept_type": "device",
+      "graph_id": "photonic-computing",
+      "id": "concept:photodetector"
     },
     {
       "type": "concept",
       "label": "Mach-Zehnder interferometer",
-      "definition": "Optical interferometer used in photonic circuits",
-      "concept_type": "hardware",
+      "definition": "Interferometer for optical computation",
+      "concept_type": "device",
       "graph_id": "photonic-computing",
       "id": "concept:Mach-Zehnder interferometer"
     },
     {
       "type": "concept",
+      "label": "frequency comb",
+      "definition": "Spectrum of equidistant frequency lines",
+      "concept_type": "phenomenon",
+      "graph_id": "photonic-computing",
+      "id": "concept:frequency comb"
+    },
+    {
+      "type": "concept",
+      "label": "nonlinear optics",
+      "definition": "Light-matter interaction at high intensities",
+      "concept_type": "phenomenon",
+      "graph_id": "photonic-computing",
+      "id": "concept:nonlinear optics"
+    },
+    {
+      "type": "concept",
+      "label": "PIC design automation",
+      "definition": "EDA tools for photonic integrated circuits",
+      "concept_type": "software",
+      "graph_id": "photonic-computing",
+      "id": "concept:PIC design automation"
+    },
+    {
+      "type": "concept",
+      "label": "quantum photonics",
+      "definition": "Quantum information processing with photons",
+      "concept_type": "field",
+      "graph_id": "photonic-computing",
+      "id": "concept:quantum photonics"
+    },
+    {
+      "type": "concept",
+      "label": "integrated photonics",
+      "definition": "Photonic circuits on chip-scale platforms",
+      "concept_type": "technology",
+      "graph_id": "photonic-computing",
+      "id": "concept:integrated photonics"
+    },
+    {
+      "type": "concept",
+      "label": "optical amplifier",
+      "definition": "Amplifying optical signals without conversion",
+      "concept_type": "device",
+      "graph_id": "photonic-computing",
+      "id": "concept:optical amplifier"
+    },
+    {
+      "type": "concept",
+      "label": "arrayed waveguide grating",
+      "definition": "Wavelength division multiplexing component",
+      "concept_type": "device",
+      "graph_id": "photonic-computing",
+      "id": "concept:arrayed waveguide grating"
+    },
+    {
+      "type": "concept",
+      "label": "photonic tensor core",
+      "definition": "Photonic processor for matrix operations",
+      "concept_type": "architecture",
+      "graph_id": "photonic-computing",
+      "id": "concept:photonic tensor core"
+    },
+    {
+      "type": "concept",
+      "label": "modulator",
+      "definition": "Device encoding data onto optical carrier",
+      "concept_type": "device",
+      "graph_id": "photonic-computing",
+      "id": "concept:modulator"
+    },
+    {
+      "type": "concept",
+      "label": "coherent detection",
+      "definition": "Optical detection preserving phase information",
+      "concept_type": "method",
+      "graph_id": "photonic-computing",
+      "id": "concept:coherent detection"
+    },
+    {
+      "type": "concept",
       "label": "wavelength division multiplexing",
-      "definition": "Multiplexing multiple optical signals",
+      "definition": "Transmitting multiple wavelengths on one fiber",
       "concept_type": "method",
       "graph_id": "photonic-computing",
       "id": "concept:wavelength division multiplexing"
     },
     {
       "type": "paper",
-      "label": "Large-scale photonic computing using integrated optics",
-      "arxiv_id": "2102.04843",
-      "authors": "Xu et al.",
-      "published": "2021-02-01",
-      "abstract": "Photonic computing at scale.",
+      "label": "Programmable photonic circuits",
+      "arxiv_id": "2011.04737",
+      "authors": "Bogaerts et al.",
+      "published": "2020-11-01",
+      "abstract": "Programmable photonic IC architectures.",
       "categories": [
         "physics.optics"
       ],
       "graph_id": "photonic-computing",
-      "id": "paper:2102.04843"
+      "id": "paper:2011.04737"
     },
     {
       "type": "paper",
-      "label": "Silicon photonics for artificial intelligence acceleration",
-      "arxiv_id": "2005.10017",
+      "label": "Deep learning with coherent nanophotonic circuits",
+      "arxiv_id": "1805.04743",
+      "authors": "Shen et al.",
+      "published": "2018-05-01",
+      "abstract": "Optical neural network for inference.",
+      "categories": [
+        "physics.optics",
+        "cs.LG"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1805.04743"
+    },
+    {
+      "type": "paper",
+      "label": "Parallel Programming of an Optical Feedforward Neural Network",
+      "arxiv_id": "1909.06128",
+      "authors": "Pai et al.",
+      "published": "2019-09-01",
+      "abstract": "Parallel programming of photonic neural nets.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1909.06128"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum computational advantage using photons",
+      "arxiv_id": "2105.02859",
+      "authors": "Zhong et al.",
+      "published": "2021-05-01",
+      "abstract": "Boson sampling photonic quantum advantage.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2105.02859"
+    },
+    {
+      "type": "paper",
+      "label": "Large-scale optical reservoir computing",
+      "arxiv_id": "1710.00746",
+      "authors": "Hamerly et al.",
+      "published": "2017-10-01",
+      "abstract": "Optical reservoir computing.",
+      "categories": [
+        "physics.optics",
+        "cs.LG"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1710.00746"
+    },
+    {
+      "type": "paper",
+      "label": "PIC-based programmable photonic processors",
+      "arxiv_id": "2204.12464",
+      "authors": "Bandyopadhyay et al.",
+      "published": "2022-04-01",
+      "abstract": "Programmable processors with silicon photonics.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2204.12464"
+    },
+    {
+      "type": "paper",
+      "label": "Photonics for artificial intelligence and neuromorphic computing",
+      "arxiv_id": "2006.04776",
       "authors": "Shastri et al.",
-      "published": "2020-05-01",
-      "abstract": "Silicon photonics for AI.",
+      "published": "2020-06-01",
+      "abstract": "Survey of photonic neuromorphic.",
+      "categories": [
+        "physics.optics",
+        "cs.NE"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2006.04776"
+    },
+    {
+      "type": "paper",
+      "label": "Universal linear optics",
+      "arxiv_id": "1605.02331",
+      "authors": "Carolan et al.",
+      "published": "2016-05-01",
+      "abstract": "Universal linear optical transformations.",
+      "categories": [
+        "quant-ph",
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1605.02331"
+    },
+    {
+      "type": "paper",
+      "label": "Parallel convolutional processing using an integrated photonic tensor core",
+      "arxiv_id": "1807.10093",
+      "authors": "Feldmann et al.",
+      "published": "2018-07-01",
+      "abstract": "Photonic tensor core.",
+      "categories": [
+        "physics.optics",
+        "cs.LG"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1807.10093"
+    },
+    {
+      "type": "paper",
+      "label": "Silicon photonic processor for matrix multiplication",
+      "arxiv_id": "2103.08813",
+      "authors": "Xu et al.",
+      "published": "2021-03-01",
+      "abstract": "Silicon photonic matrix processor.",
       "categories": [
         "physics.optics"
       ],
       "graph_id": "photonic-computing",
-      "id": "paper:2005.10017"
+      "id": "paper:2103.08813"
     },
     {
       "type": "paper",
-      "label": "Optical interconnects in data centers",
-      "arxiv_id": "1804.06194",
-      "authors": "Cheng et al.",
-      "published": "2018-04-01",
-      "abstract": "Optical interconnects.",
+      "label": "An optical neural network using multilayer perceptron",
+      "arxiv_id": "1905.12311",
+      "authors": "Zhang et al.",
+      "published": "2019-05-01",
+      "abstract": "Photonic MLP.",
       "categories": [
+        "physics.optics",
+        "cs.LG"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1905.12311"
+    },
+    {
+      "type": "paper",
+      "label": "Programmable photonic integrated circuits: overview and recent advances",
+      "arxiv_id": "2201.00101",
+      "authors": "Bai et al.",
+      "published": "2022-01-01",
+      "abstract": "PIC survey.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2201.00101"
+    },
+    {
+      "type": "paper",
+      "label": "Integrated photonic quantum technologies",
+      "arxiv_id": "1705.09183",
+      "authors": "O'Brien et al.",
+      "published": "2017-05-01",
+      "abstract": "Quantum photonics integration.",
+      "categories": [
+        "quant-ph",
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1705.09183"
+    },
+    {
+      "type": "paper",
+      "label": "On-chip integrated photonic circuits for quantum information processing",
+      "arxiv_id": "2012.02772",
+      "authors": "Wang et al.",
+      "published": "2020-12-01",
+      "abstract": "Chip-scale quantum photonics.",
+      "categories": [
+        "quant-ph",
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2012.02772"
+    },
+    {
+      "type": "paper",
+      "label": "The past, present and future of silicon photonics",
+      "arxiv_id": "1601.06402",
+      "authors": "Soref et al.",
+      "published": "2016-01-01",
+      "abstract": "Silicon photonics overview.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1601.06402"
+    },
+    {
+      "type": "paper",
+      "label": "Massively scalable photonic interconnects",
+      "arxiv_id": "2107.02391",
+      "authors": "Rizzo et al.",
+      "published": "2021-07-01",
+      "abstract": "Photonic interconnects for data centers.",
+      "categories": [
+        "physics.optics",
         "cs.ET"
       ],
       "graph_id": "photonic-computing",
-      "id": "paper:1804.06194"
+      "id": "paper:2107.02391"
     },
     {
-      "id": "concept:wave"
+      "type": "paper",
+      "label": "Towards high-performance electro-optic modulators",
+      "arxiv_id": "1904.04885",
+      "authors": "Luo et al.",
+      "published": "2019-04-01",
+      "abstract": "High-speed modulators.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1904.04885"
     },
     {
-      "id": "ai-acceleration:concept:GPU computing"
+      "type": "paper",
+      "label": "On-chip integrated frequency combs",
+      "arxiv_id": "2006.09415",
+      "authors": "Dutt et al.",
+      "published": "2020-06-01",
+      "abstract": "Frequency combs on chip.",
+      "categories": [
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2006.09415"
+    },
+    {
+      "id": "quantum-computing:concept:qubit"
+    },
+    {
+      "id": "quantum-computing:concept:entanglement"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU"
+    },
+    {
+      "id": "ai-acceleration:concept:deep learning accelerator"
+    },
+    {
+      "id": "quantum-computing:concept:quantum gate"
+    },
+    {
+      "id": "ai-acceleration"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-acceleration",
+      "target_graph_id": "ai-acceleration",
+      "graph_id": "photonic-computing",
+      "id": "graph_ref:ai-acceleration"
+    },
+    {
+      "id": "quantum-computing"
+    },
+    {
+      "type": "graph_ref",
+      "label": "quantum-computing",
+      "target_graph_id": "quantum-computing",
+      "graph_id": "photonic-computing",
+      "id": "graph_ref:quantum-computing"
     }
   ],
   "links": [
     {
       "relation": "related_to",
-      "source": "concept:electro-optic modulation",
-      "target": "concept:optical interconnect",
+      "cross_graph": true,
+      "target_graph": "quantum-computing",
+      "source": "concept:photonic IC",
+      "target": "quantum-computing:concept:qubit",
       "key": 0
     },
     {
@@ -119,59 +466,221 @@
       "key": 0
     },
     {
+      "relation": "uses",
+      "source": "concept:photon entanglement",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
       "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "quantum-computing",
+      "source": "concept:photon entanglement",
+      "target": "quantum-computing:concept:entanglement",
+      "key": 0
+    },
+    {
+      "relation": "uses",
       "source": "concept:optical interconnect",
-      "target": "concept:optical computing",
+      "target": "concept:wavelength division multiplexing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:electro-optic modulation",
+      "target": "concept:modulator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:waveguide",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:optical neural network",
+      "target": "concept:photonic tensor core",
       "key": 0
     },
     {
       "relation": "related_to",
       "cross_graph": true,
       "target_graph": "ai-acceleration",
-      "source": "concept:optical interconnect",
-      "target": "ai-acceleration:concept:GPU computing",
+      "source": "concept:optical neural network",
+      "target": "ai-acceleration:concept:GPU",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "concept:Mach-Zehnder interferometer",
+      "source": "concept:resonator",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:photodetector",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:nonlinear optics",
+      "target": "concept:frequency comb",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:quantum photonics",
+      "target": "concept:photon entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "quantum-computing",
+      "source": "concept:quantum photonics",
+      "target": "quantum-computing:concept:quantum gate",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:arrayed waveguide grating",
+      "target": "concept:wavelength division multiplexing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-acceleration",
+      "source": "concept:photonic tensor core",
+      "target": "ai-acceleration:concept:deep learning accelerator",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:coherent detection",
+      "target": "concept:optical interconnect",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.04737",
       "target": "concept:photonic IC",
       "key": 0
     },
     {
       "relation": "introduces",
-      "source": "paper:2102.04843",
+      "source": "paper:1805.04743",
+      "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:1805.04743",
+      "target": "concept:photonic IC",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:1909.06128",
+      "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2105.02859",
+      "target": "concept:photon entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.00746",
+      "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2204.12464",
       "target": "concept:photonic IC",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "paper:2102.04843",
-      "target": "concept:optical computing",
+      "source": "paper:2006.04776",
+      "target": "concept:optical neural network",
       "key": 0
     },
     {
-      "relation": "proposes",
-      "source": "paper:2005.10017",
+      "relation": "uses",
+      "source": "paper:1605.02331",
+      "target": "concept:Mach-Zehnder interferometer",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1807.10093",
+      "target": "concept:photonic tensor core",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2103.08813",
       "target": "concept:silicon photonics",
       "key": 0
     },
     {
+      "relation": "improves",
+      "source": "paper:1905.12311",
+      "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
       "relation": "related_to",
-      "source": "paper:1804.06194",
+      "source": "paper:1705.09183",
+      "target": "concept:quantum photonics",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2012.02772",
+      "target": "concept:quantum photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1601.06402",
+      "target": "concept:silicon photonics",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2107.02391",
       "target": "concept:optical interconnect",
       "key": 0
     },
     {
-      "relation": "related_to",
-      "source": "concept:wave",
-      "target": "concept:optical computing",
+      "relation": "improves",
+      "source": "paper:1904.04885",
+      "target": "concept:electro-optic modulation",
       "key": 0
     },
     {
-      "relation": "related_to",
-      "source": "concept:wave",
-      "target": "concept:photonic IC",
+      "relation": "introduces",
+      "source": "paper:2006.09415",
+      "target": "concept:frequency comb",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-acceleration",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:quantum-computing",
+      "target": "quantum-computing",
       "key": 0
     }
   ],

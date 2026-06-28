@@ -7,9 +7,17 @@
       "type": "concept",
       "label": "autonomous agent",
       "definition": "AI system that acts independently toward goals",
-      "concept_type": "architecture",
+      "concept_type": "concept",
       "graph_id": "ai-agents",
       "id": "concept:autonomous agent"
+    },
+    {
+      "type": "concept",
+      "label": "reinforcement learning",
+      "definition": "Learning through trial and error with rewards",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:reinforcement learning"
     },
     {
       "type": "concept",
@@ -22,88 +30,480 @@
     {
       "type": "concept",
       "label": "planning",
-      "definition": "Agent decomposing tasks into sub-steps",
+      "definition": "Decomposing goals into action sequences",
       "concept_type": "method",
       "graph_id": "ai-agents",
       "id": "concept:planning"
     },
     {
       "type": "concept",
-      "label": "agent loop",
-      "definition": "Observe-think-act cycle of autonomous agents",
-      "concept_type": "architecture",
+      "label": "memory",
+      "definition": "Storing and retrieving past experiences",
+      "concept_type": "concept",
       "graph_id": "ai-agents",
-      "id": "concept:agent loop"
+      "id": "concept:memory"
     },
     {
       "type": "concept",
       "label": "multi-agent system",
-      "definition": "Multiple agents collaborating or competing",
+      "definition": "Multiple agents cooperating or competing",
       "concept_type": "architecture",
       "graph_id": "ai-agents",
       "id": "concept:multi-agent system"
     },
     {
       "type": "concept",
-      "label": "memory",
-      "definition": "Persistent state and recall for agents",
-      "concept_type": "method",
+      "label": "perception",
+      "definition": "Sensing and interpreting environment",
+      "concept_type": "concept",
       "graph_id": "ai-agents",
-      "id": "concept:memory"
+      "id": "concept:perception"
     },
     {
       "type": "concept",
-      "label": "reasoning",
-      "definition": "Chain-of-thought and logical inference",
+      "label": "reward modeling",
+      "definition": "Learning reward functions from human preferences",
       "concept_type": "method",
       "graph_id": "ai-agents",
-      "id": "concept:reasoning"
+      "id": "concept:reward modeling"
+    },
+    {
+      "type": "concept",
+      "label": "exploration-exploitation",
+      "definition": "Balance between exploration and exploitation",
+      "concept_type": "principle",
+      "graph_id": "ai-agents",
+      "id": "concept:exploration-exploitation"
+    },
+    {
+      "type": "concept",
+      "label": "MCTS",
+      "definition": "Monte Carlo tree search for decision making",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:MCTS"
+    },
+    {
+      "type": "concept",
+      "label": "chain-of-thought",
+      "definition": "Step-by-step reasoning process",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:chain-of-thought"
+    },
+    {
+      "type": "concept",
+      "label": "reflection",
+      "definition": "Agent reviewing its own outputs",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:reflection"
+    },
+    {
+      "type": "concept",
+      "label": "self-play",
+      "definition": "Training by playing against itself",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:self-play"
+    },
+    {
+      "type": "concept",
+      "label": "world model",
+      "definition": "Internal representation of environment dynamics",
+      "concept_type": "concept",
+      "graph_id": "ai-agents",
+      "id": "concept:world model"
+    },
+    {
+      "type": "concept",
+      "label": "goal-conditioned RL",
+      "definition": "RL with specified goals",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:goal-conditioned RL"
+    },
+    {
+      "type": "concept",
+      "label": "imitation learning",
+      "definition": "Learning from expert demonstrations",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:imitation learning"
+    },
+    {
+      "type": "concept",
+      "label": "inverse reinforcement learning",
+      "definition": "Inferring reward functions from behavior",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:inverse reinforcement learning"
+    },
+    {
+      "type": "concept",
+      "label": "hierarchical RL",
+      "definition": "RL with hierarchical action spaces",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:hierarchical RL"
+    },
+    {
+      "type": "concept",
+      "label": "safe RL",
+      "definition": "Reinforcement learning with safety constraints",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:safe RL"
+    },
+    {
+      "type": "concept",
+      "label": "meta-learning",
+      "definition": "Learning to learn across tasks",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:meta-learning"
+    },
+    {
+      "type": "concept",
+      "label": "curiosity-driven exploration",
+      "definition": "Intrinsic motivation for exploration",
+      "concept_type": "method",
+      "graph_id": "ai-agents",
+      "id": "concept:curiosity-driven exploration"
+    },
+    {
+      "type": "paper",
+      "label": "Reinforcement Learning: An Introduction (2nd Edition)",
+      "arxiv_id": "2006.06629",
+      "authors": "Sutton & Barto",
+      "published": "2020-06-01",
+      "abstract": "RL textbook.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2006.06629"
+    },
+    {
+      "type": "paper",
+      "label": "Human-level control through deep reinforcement learning",
+      "arxiv_id": "1509.06461",
+      "authors": "Mnih et al.",
+      "published": "2015-09-01",
+      "abstract": "DQN.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1509.06461"
+    },
+    {
+      "type": "paper",
+      "label": "Mastering Chess and Shogi by Self-Play",
+      "arxiv_id": "1707.06347",
+      "authors": "Silver et al.",
+      "published": "2017-07-01",
+      "abstract": "AlphaZero.",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1707.06347"
+    },
+    {
+      "type": "paper",
+      "label": "Voyager: An Open-Ended Embodied Agent with Large Language Models",
+      "arxiv_id": "2302.04761",
+      "authors": "Wang et al.",
+      "published": "2023-02-01",
+      "abstract": "LLM agent in Minecraft.",
+      "categories": [
+        "cs.AI",
+        "cs.CL"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2302.04761"
     },
     {
       "type": "paper",
       "label": "Generative Agents: Interactive Simulacra of Human Behavior",
-      "arxiv_id": "2304.03442",
+      "arxiv_id": "2305.16291",
       "authors": "Park et al.",
-      "published": "2023-04-01",
-      "abstract": "LLM-powered agents that simulate human behavior.",
+      "published": "2023-05-01",
+      "abstract": "LLM agents simulating humans.",
       "categories": [
+        "cs.AI",
         "cs.HC"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2305.16291"
+    },
+    {
+      "type": "paper",
+      "label": "Toolformer: Language Models Can Teach Themselves to Use Tools",
+      "arxiv_id": "2304.03442",
+      "authors": "Schick et al.",
+      "published": "2023-04-01",
+      "abstract": "LLM tool use.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
       ],
       "graph_id": "ai-agents",
       "id": "paper:2304.03442"
     },
     {
       "type": "paper",
-      "label": "ReAct: Synergizing Reasoning and Acting in Language Models",
+      "label": "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models",
       "arxiv_id": "2210.03629",
-      "authors": "Yao et al.",
+      "authors": "Wei et al.",
       "published": "2022-10-01",
-      "abstract": "Reasoning and acting in LLMs.",
+      "abstract": "CoT reasoning.",
       "categories": [
-        "cs.CL"
+        "cs.CL",
+        "cs.LG"
       ],
       "graph_id": "ai-agents",
       "id": "paper:2210.03629"
     },
     {
       "type": "paper",
-      "label": "Toolformer: Language Models Can Teach Themselves to Use Tools",
-      "arxiv_id": "2305.16291",
-      "authors": "Schick et al.",
-      "published": "2023-05-01",
-      "abstract": "LLMs learning tool use.",
+      "label": "Mastering Atari, Go, Chess and Shogi by Planning with a Learned Model",
+      "arxiv_id": "2108.07732",
+      "authors": "Schrittwieser et al.",
+      "published": "2021-08-01",
+      "abstract": "MuZero.",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2108.07732"
+    },
+    {
+      "type": "paper",
+      "label": "World Models",
+      "arxiv_id": "1805.09190",
+      "authors": "Ha & Schmidhuber",
+      "published": "2018-05-01",
+      "abstract": "World model architecture.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1805.09190"
+    },
+    {
+      "type": "paper",
+      "label": "Emergent Tool Use from Multi-Agent Interaction",
+      "arxiv_id": "1909.08581",
+      "authors": "Baker et al.",
+      "published": "2019-09-01",
+      "abstract": "Emergent tool use.",
+      "categories": [
+        "cs.AI",
+        "cs.LG"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1909.08581"
+    },
+    {
+      "type": "paper",
+      "label": "RL^2: Fast Reinforcement Learning via Slow Reinforcement Learning",
+      "arxiv_id": "1703.04148",
+      "authors": "Duan et al.",
+      "published": "2017-03-01",
+      "abstract": "Meta-RL.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1703.04148"
+    },
+    {
+      "type": "paper",
+      "label": "Curiosity-driven Exploration by Self-Supervised Prediction",
+      "arxiv_id": "1807.05814",
+      "authors": "Pathak et al.",
+      "published": "2018-07-01",
+      "abstract": "Curiosity exploration.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1807.05814"
+    },
+    {
+      "type": "paper",
+      "label": "Language Models are Few-Shot Learners",
+      "arxiv_id": "2005.14165",
+      "authors": "Brown et al.",
+      "published": "2020-05-01",
+      "abstract": "GPT-3 in-context learning.",
       "categories": [
         "cs.CL"
       ],
       "graph_id": "ai-agents",
-      "id": "paper:2305.16291"
+      "id": "paper:2005.14165"
+    },
+    {
+      "type": "paper",
+      "label": "Attention Is All You Need",
+      "arxiv_id": "1706.03762",
+      "authors": "Vaswani et al.",
+      "published": "2017-06-01",
+      "abstract": "Transformer foundation.",
+      "categories": [
+        "cs.CL",
+        "cs.LG"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1706.03762"
+    },
+    {
+      "type": "paper",
+      "label": "Unifying Count-Based Exploration and Intrinsic Motivation",
+      "arxiv_id": "1606.07496",
+      "authors": "Bellemare et al.",
+      "published": "2016-06-01",
+      "abstract": "Exploration methods.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1606.07496"
+    },
+    {
+      "type": "paper",
+      "label": "DART: Noise Injection for Robust Imitation Learning",
+      "arxiv_id": "1906.02243",
+      "authors": "Laskey et al.",
+      "published": "2019-06-01",
+      "abstract": "Imitation learning.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1906.02243"
+    },
+    {
+      "type": "paper",
+      "label": "Maximum Entropy Inverse Reinforcement Learning",
+      "arxiv_id": "1805.06920",
+      "authors": "Ziebart et al.",
+      "published": "2018-05-01",
+      "abstract": "IRL.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:1805.06920"
+    },
+    {
+      "type": "paper",
+      "label": "Safe Reinforcement Learning: A Survey",
+      "arxiv_id": "2102.00994",
+      "authors": "Yang et al.",
+      "published": "2021-02-01",
+      "abstract": "Safe RL.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "ai-agents",
+      "id": "paper:2102.00994"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU"
+    },
+    {
+      "id": "llms:concept:prompt engineering"
+    },
+    {
+      "id": "llms:concept:scaling law"
+    },
+    {
+      "id": "graph-networks:concept:graph neural network"
+    },
+    {
+      "id": "transformers:concept:attention"
+    },
+    {
+      "id": "transformers"
+    },
+    {
+      "type": "graph_ref",
+      "label": "transformers",
+      "target_graph_id": "transformers",
+      "graph_id": "ai-agents",
+      "id": "graph_ref:transformers"
+    },
+    {
+      "id": "llms"
+    },
+    {
+      "type": "graph_ref",
+      "label": "llms",
+      "target_graph_id": "llms",
+      "graph_id": "ai-agents",
+      "id": "graph_ref:llms"
+    },
+    {
+      "id": "ai-acceleration"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-acceleration",
+      "target_graph_id": "ai-acceleration",
+      "graph_id": "ai-agents",
+      "id": "graph_ref:ai-acceleration"
+    },
+    {
+      "id": "graph-networks"
+    },
+    {
+      "type": "graph_ref",
+      "label": "graph-networks",
+      "target_graph_id": "graph-networks",
+      "graph_id": "ai-agents",
+      "id": "graph_ref:graph-networks"
     }
   ],
   "links": [
     {
       "relation": "related_to",
+      "source": "concept:reinforcement learning",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-acceleration",
+      "source": "concept:reinforcement learning",
+      "target": "ai-acceleration:concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "concept:tool use",
       "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "llms",
+      "source": "concept:tool use",
+      "target": "llms:concept:prompt engineering",
       "key": 0
     },
     {
@@ -113,9 +513,11 @@
       "key": 0
     },
     {
-      "relation": "extends",
-      "source": "concept:multi-agent system",
-      "target": "concept:autonomous agent",
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "graph-networks",
+      "source": "concept:planning",
+      "target": "graph-networks:concept:graph neural network",
       "key": 0
     },
     {
@@ -126,44 +528,204 @@
     },
     {
       "relation": "related_to",
-      "source": "concept:reasoning",
-      "target": "concept:agent loop",
+      "cross_graph": true,
+      "target_graph": "transformers",
+      "source": "concept:memory",
+      "target": "transformers:concept:attention",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:reward modeling",
+      "target": "concept:reinforcement learning",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "paper:2304.03442",
+      "source": "concept:exploration-exploitation",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:MCTS",
+      "target": "concept:planning",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:chain-of-thought",
+      "target": "concept:planning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "llms",
+      "source": "concept:chain-of-thought",
+      "target": "llms:concept:scaling law",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:reflection",
+      "target": "concept:autonomous agent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:world model",
+      "target": "concept:planning",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:goal-conditioned RL",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:imitation learning",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:hierarchical RL",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:safe RL",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2006.06629",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:1509.06461",
+      "target": "concept:reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1707.06347",
+      "target": "concept:self-play",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2302.04761",
       "target": "concept:autonomous agent",
       "key": 0
     },
     {
       "relation": "uses",
-      "source": "paper:2304.03442",
-      "target": "concept:memory",
-      "key": 0
-    },
-    {
-      "relation": "related_to",
-      "source": "paper:2304.03442",
-      "target": "concept:multi-agent system",
-      "key": 0
-    },
-    {
-      "relation": "introduces",
-      "source": "paper:2210.03629",
-      "target": "concept:agent loop",
-      "key": 0
-    },
-    {
-      "relation": "improves",
-      "source": "paper:2210.03629",
-      "target": "concept:reasoning",
+      "source": "paper:2302.04761",
+      "target": "concept:planning",
       "key": 0
     },
     {
       "relation": "introduces",
       "source": "paper:2305.16291",
+      "target": "concept:multi-agent system",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2304.03442",
       "target": "concept:tool use",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.03629",
+      "target": "concept:chain-of-thought",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2108.07732",
+      "target": "concept:MCTS",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1805.09190",
+      "target": "concept:world model",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.08581",
+      "target": "concept:tool use",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1703.04148",
+      "target": "concept:meta-learning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1807.05814",
+      "target": "concept:curiosity-driven exploration",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1606.07496",
+      "target": "concept:exploration-exploitation",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1906.02243",
+      "target": "concept:imitation learning",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1805.06920",
+      "target": "concept:inverse reinforcement learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2102.00994",
+      "target": "concept:safe RL",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:transformers",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:llms",
+      "target": "llms",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-acceleration",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:graph-networks",
+      "target": "graph-networks",
       "key": 0
     }
   ],

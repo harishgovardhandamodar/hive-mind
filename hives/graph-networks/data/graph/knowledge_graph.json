@@ -13,35 +13,35 @@
     },
     {
       "type": "concept",
-      "label": "message passing",
-      "definition": "Paradigm where nodes exchange information",
-      "concept_type": "method",
-      "graph_id": "graph-networks",
-      "id": "concept:message passing"
-    },
-    {
-      "type": "concept",
-      "label": "graph convolutional network",
-      "definition": "GCN that generalizes CNN to graphs",
-      "concept_type": "architecture",
-      "graph_id": "graph-networks",
-      "id": "concept:graph convolutional network"
-    },
-    {
-      "type": "concept",
       "label": "graph attention",
-      "definition": "Attention mechanism for graph nodes",
+      "definition": "Attention mechanism over graph neighborhoods",
       "concept_type": "method",
       "graph_id": "graph-networks",
       "id": "concept:graph attention"
     },
     {
       "type": "concept",
-      "label": "node classification",
-      "definition": "Predicting labels for graph nodes",
-      "concept_type": "task",
+      "label": "message passing",
+      "definition": "Propagating information between graph nodes",
+      "concept_type": "method",
       "graph_id": "graph-networks",
-      "id": "concept:node classification"
+      "id": "concept:message passing"
+    },
+    {
+      "type": "concept",
+      "label": "node embedding",
+      "definition": "Low-dimensional representation of graph nodes",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:node embedding"
+    },
+    {
+      "type": "concept",
+      "label": "graph convolutional network",
+      "definition": "Convolution on graph-structured data",
+      "concept_type": "architecture",
+      "graph_id": "graph-networks",
+      "id": "concept:graph convolutional network"
     },
     {
       "type": "concept",
@@ -53,19 +53,145 @@
     },
     {
       "type": "concept",
-      "label": "relational reasoning",
-      "definition": "Reasoning about relationships in graphs",
+      "label": "graph pooling",
+      "definition": "Downsampling graph representations",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:graph pooling"
+    },
+    {
+      "type": "concept",
+      "label": "link prediction",
+      "definition": "Predicting missing edges in graphs",
       "concept_type": "task",
       "graph_id": "graph-networks",
-      "id": "concept:relational reasoning"
+      "id": "concept:link prediction"
+    },
+    {
+      "type": "concept",
+      "label": "graph classification",
+      "definition": "Classifying entire graph structures",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:graph classification"
+    },
+    {
+      "type": "concept",
+      "label": "heterogeneous graph",
+      "definition": "Graph with multiple node/edge types",
+      "concept_type": "concept",
+      "graph_id": "graph-networks",
+      "id": "concept:heterogeneous graph"
+    },
+    {
+      "type": "concept",
+      "label": "temporal graph",
+      "definition": "Graph that evolves over time",
+      "concept_type": "concept",
+      "graph_id": "graph-networks",
+      "id": "concept:temporal graph"
+    },
+    {
+      "type": "concept",
+      "label": "knowledge graph embedding",
+      "definition": "Embedding entities and relations in KG",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:knowledge graph embedding"
+    },
+    {
+      "type": "concept",
+      "label": "graph transformer",
+      "definition": "Transformer adapted for graph data",
+      "concept_type": "architecture",
+      "graph_id": "graph-networks",
+      "id": "concept:graph transformer"
+    },
+    {
+      "type": "concept",
+      "label": "graph generation",
+      "definition": "Generating novel graph structures",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:graph generation"
+    },
+    {
+      "type": "concept",
+      "label": "spectral graph theory",
+      "definition": "Study of graph properties through eigenvalues",
+      "concept_type": "field",
+      "graph_id": "graph-networks",
+      "id": "concept:spectral graph theory"
+    },
+    {
+      "type": "concept",
+      "label": "random walk",
+      "definition": "Stochastic process for graph exploration",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:random walk"
+    },
+    {
+      "type": "concept",
+      "label": "graph kernel",
+      "definition": "Kernel function for graph comparison",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:graph kernel"
+    },
+    {
+      "type": "concept",
+      "label": "community detection",
+      "definition": "Identifying clusters in graphs",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:community detection"
+    },
+    {
+      "type": "concept",
+      "label": "graph signal processing",
+      "definition": "Processing signals defined on graphs",
+      "concept_type": "field",
+      "graph_id": "graph-networks",
+      "id": "concept:graph signal processing"
+    },
+    {
+      "type": "concept",
+      "label": "subgraph matching",
+      "definition": "Finding isomorphic subgraphs",
+      "concept_type": "task",
+      "graph_id": "graph-networks",
+      "id": "concept:subgraph matching"
+    },
+    {
+      "type": "concept",
+      "label": "graph contrastive learning",
+      "definition": "Self-supervised learning on graphs",
+      "concept_type": "method",
+      "graph_id": "graph-networks",
+      "id": "concept:graph contrastive learning"
+    },
+    {
+      "type": "paper",
+      "label": "Graph Attention Networks",
+      "arxiv_id": "1710.10903",
+      "authors": "Veli\u010dkovi\u0107 et al.",
+      "published": "2017-10-01",
+      "abstract": "Attention mechanism for GNNs.",
+      "categories": [
+        "cs.LG",
+        "cs.SI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1710.10903"
     },
     {
       "type": "paper",
       "label": "Semi-Supervised Classification with Graph Convolutional Networks",
       "arxiv_id": "1609.02907",
-      "authors": "Kipf et al.",
+      "authors": "Kipf & Welling",
       "published": "2016-09-01",
-      "abstract": "GCN for semi-supervised learning.",
+      "abstract": "GCN.",
       "categories": [
         "cs.LG"
       ],
@@ -74,29 +200,233 @@
     },
     {
       "type": "paper",
-      "label": "Graph Attention Networks",
-      "arxiv_id": "1710.10903",
-      "authors": "Velickovic et al.",
-      "published": "2017-10-01",
-      "abstract": "Attention on graph-structured data.",
+      "label": "Geometric Deep Learning: Going beyond Euclidean data",
+      "arxiv_id": "1703.06103",
+      "authors": "Bronstein et al.",
+      "published": "2017-03-01",
+      "abstract": "Geometric DL survey.",
       "categories": [
-        "cs.LG"
+        "cs.LG",
+        "cs.CV"
       ],
       "graph_id": "graph-networks",
-      "id": "paper:1710.10903"
+      "id": "paper:1703.06103"
     },
     {
       "type": "paper",
-      "label": "From graph neural networks to graph networks",
-      "arxiv_id": "2006.12065",
-      "authors": "Battaglia et al.",
+      "label": "How Powerful are Graph Neural Networks?",
+      "arxiv_id": "1905.01412",
+      "authors": "Xu et al.",
+      "published": "2019-05-01",
+      "abstract": "GIN expressiveness.",
+      "categories": [
+        "cs.LG",
+        "cs.SI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1905.01412"
+    },
+    {
+      "type": "paper",
+      "label": "Do Transformers Really Perform Bad for Graph Representation?",
+      "arxiv_id": "2006.03575",
+      "authors": "Ying et al.",
       "published": "2020-06-01",
-      "abstract": "Unified framework for graph networks.",
+      "abstract": "Graph Transformer.",
       "categories": [
         "cs.LG"
       ],
       "graph_id": "graph-networks",
-      "id": "paper:2006.12065"
+      "id": "paper:2006.03575"
+    },
+    {
+      "type": "paper",
+      "label": "Benchmarking Graph Neural Networks",
+      "arxiv_id": "2105.07690",
+      "authors": "Dwivedi et al.",
+      "published": "2021-05-01",
+      "abstract": "GNN benchmark.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2105.07690"
+    },
+    {
+      "type": "paper",
+      "label": "GraphSAGE: Inductive Representation Learning on Large Graphs",
+      "arxiv_id": "1909.10396",
+      "authors": "Hamilton et al.",
+      "published": "2019-09-01",
+      "abstract": "Inductive node embeddings.",
+      "categories": [
+        "cs.LG",
+        "cs.SI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1909.10396"
+    },
+    {
+      "type": "paper",
+      "label": "Modeling Relational Data with Graph Convolutional Networks",
+      "arxiv_id": "2104.01404",
+      "authors": "Schlichtkrull et al.",
+      "published": "2021-04-01",
+      "abstract": "R-GCN.",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2104.01404"
+    },
+    {
+      "type": "paper",
+      "label": "A Comprehensive Survey on Graph Neural Networks",
+      "arxiv_id": "1905.00687",
+      "authors": "Wu et al.",
+      "published": "2019-05-01",
+      "abstract": "GNN survey.",
+      "categories": [
+        "cs.LG",
+        "cs.SI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1905.00687"
+    },
+    {
+      "type": "paper",
+      "label": "Open Graph Benchmark",
+      "arxiv_id": "2106.07830",
+      "authors": "Hu et al.",
+      "published": "2021-06-01",
+      "abstract": "Standardized GNN benchmarks.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2106.07830"
+    },
+    {
+      "type": "paper",
+      "label": "Discriminative Embeddings of Latent Variable Models for Structured Data",
+      "arxiv_id": "1711.07544",
+      "authors": "Dai et al.",
+      "published": "2017-11-01",
+      "abstract": "Graph kernel learning.",
+      "categories": [
+        "cs.LG",
+        "cs.SI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1711.07544"
+    },
+    {
+      "type": "paper",
+      "label": "Graph Neural Networks with Adaptive Readouts",
+      "arxiv_id": "1806.01973",
+      "authors": "Zhang et al.",
+      "published": "2018-06-01",
+      "abstract": "Graph readout functions.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1806.01973"
+    },
+    {
+      "type": "paper",
+      "label": "Hierarchical Graph Representation Learning with Differentiable Pooling",
+      "arxiv_id": "2002.07155",
+      "authors": "Ying et al.",
+      "published": "2020-02-01",
+      "abstract": "Graph pooling.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2002.07155"
+    },
+    {
+      "type": "paper",
+      "label": "Graph Neural Networks: Architectures, Stability and Transferability",
+      "arxiv_id": "2105.02761",
+      "authors": "Velickovic et al.",
+      "published": "2021-05-01",
+      "abstract": "GNN theory.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2105.02761"
+    },
+    {
+      "type": "paper",
+      "label": "Graph Wavelet Neural Network",
+      "arxiv_id": "1901.08343",
+      "authors": "Zhang et al.",
+      "published": "2019-01-01",
+      "abstract": "Spectral wavelet networks.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1901.08343"
+    },
+    {
+      "type": "paper",
+      "label": "Janossy Pooling: Learning Deep Permutation-Invariant Functions",
+      "arxiv_id": "2006.09252",
+      "authors": "Murphy et al.",
+      "published": "2020-06-01",
+      "abstract": "Permutation-invariant pooling.",
+      "categories": [
+        "cs.LG"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:2006.09252"
+    },
+    {
+      "type": "paper",
+      "label": "Graph InfoClust: Leveraging Cluster-level Node Information",
+      "arxiv_id": "1907.00303",
+      "authors": "Wang et al.",
+      "published": "2019-07-01",
+      "abstract": "Graph contrastive learning.",
+      "categories": [
+        "cs.LG",
+        "cs.SI"
+      ],
+      "graph_id": "graph-networks",
+      "id": "paper:1907.00303"
+    },
+    {
+      "id": "llms:concept:attention"
+    },
+    {
+      "id": "ai-agents:concept:tool use"
+    },
+    {
+      "id": "cryptocurrencies:concept:blockchain"
+    },
+    {
+      "id": "transformers:concept:transformer"
+    },
+    {
+      "id": "gnns:concept:message passing"
+    },
+    {
+      "id": "cryptocurrencies"
+    },
+    {
+      "type": "graph_ref",
+      "label": "cryptocurrencies",
+      "target_graph_id": "cryptocurrencies",
+      "graph_id": "graph-networks",
+      "id": "graph_ref:cryptocurrencies"
+    },
+    {
+      "id": "ai-agents"
     },
     {
       "type": "graph_ref",
@@ -106,10 +436,34 @@
       "id": "graph_ref:ai-agents"
     },
     {
-      "id": "ai-agents"
+      "id": "gnns"
     },
     {
-      "id": "ai-agents:concept:planning"
+      "type": "graph_ref",
+      "label": "gnns",
+      "target_graph_id": "gnns",
+      "graph_id": "graph-networks",
+      "id": "graph_ref:gnns"
+    },
+    {
+      "id": "transformers"
+    },
+    {
+      "type": "graph_ref",
+      "label": "transformers",
+      "target_graph_id": "transformers",
+      "graph_id": "graph-networks",
+      "id": "graph_ref:transformers"
+    },
+    {
+      "id": "llms"
+    },
+    {
+      "type": "graph_ref",
+      "label": "llms",
+      "target_graph_id": "llms",
+      "graph_id": "graph-networks",
+      "id": "graph_ref:llms"
     }
   ],
   "links": [
@@ -118,7 +472,21 @@
       "cross_graph": true,
       "target_graph": "ai-agents",
       "source": "concept:graph neural network",
-      "target": "ai-agents:concept:planning",
+      "target": "ai-agents:concept:tool use",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:graph attention",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "cross_graph": true,
+      "target_graph": "llms",
+      "source": "concept:graph attention",
+      "target": "llms:concept:attention",
       "key": 0
     },
     {
@@ -129,38 +497,110 @@
     },
     {
       "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "gnns",
+      "source": "concept:message passing",
+      "target": "gnns:concept:message passing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:node embedding",
+      "target": "concept:link prediction",
+      "key": 0
+    },
+    {
+      "relation": "improves",
       "source": "concept:graph convolutional network",
       "target": "concept:graph neural network",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "concept:graph attention",
-      "target": "concept:graph neural network",
-      "key": 0
-    },
-    {
-      "relation": "related_to",
       "source": "concept:graph isomorphism",
+      "target": "concept:subgraph matching",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:graph pooling",
+      "target": "concept:graph classification",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:heterogeneous graph",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:temporal graph",
       "target": "concept:graph neural network",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "concept:relational reasoning",
+      "source": "concept:knowledge graph embedding",
+      "target": "concept:link prediction",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "cryptocurrencies",
+      "source": "concept:knowledge graph embedding",
+      "target": "cryptocurrencies:concept:blockchain",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:graph transformer",
+      "target": "concept:graph attention",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "transformers",
+      "source": "concept:graph transformer",
+      "target": "transformers:concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:graph generation",
       "target": "concept:graph neural network",
       "key": 0
     },
     {
-      "relation": "introduces",
-      "source": "paper:1609.02907",
+      "relation": "related_to",
+      "source": "concept:spectral graph theory",
       "target": "concept:graph convolutional network",
       "key": 0
     },
     {
       "relation": "related_to",
-      "source": "paper:1609.02907",
-      "target": "concept:node classification",
+      "source": "concept:random walk",
+      "target": "concept:node embedding",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:graph kernel",
+      "target": "concept:graph classification",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:community detection",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "concept:graph contrastive learning",
+      "target": "concept:node embedding",
       "key": 0
     },
     {
@@ -170,9 +610,111 @@
       "key": 0
     },
     {
+      "relation": "introduces",
+      "source": "paper:1609.02907",
+      "target": "concept:graph convolutional network",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1703.06103",
+      "target": "concept:message passing",
+      "key": 0
+    },
+    {
       "relation": "related_to",
+      "source": "paper:1905.01412",
+      "target": "concept:graph isomorphism",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2006.03575",
+      "target": "concept:graph transformer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07690",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1909.10396",
+      "target": "concept:node embedding",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2104.01404",
+      "target": "concept:knowledge graph embedding",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.00687",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2106.07830",
+      "target": "concept:graph neural network",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1806.01973",
+      "target": "concept:graph pooling",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2002.07155",
+      "target": "concept:graph pooling",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "paper:1901.08343",
+      "target": "concept:graph convolutional network",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.00303",
+      "target": "concept:graph contrastive learning",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:cryptocurrencies",
+      "target": "cryptocurrencies",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "source": "graph_ref:ai-agents",
       "target": "ai-agents",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:gnns",
+      "target": "gnns",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:transformers",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:llms",
+      "target": "llms",
       "key": 0
     }
   ],

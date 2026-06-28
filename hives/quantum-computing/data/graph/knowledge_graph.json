@@ -60,11 +60,123 @@
       "id": "concept:shor algorithm"
     },
     {
+      "type": "concept",
+      "label": "grover algorithm",
+      "definition": "Quantum search algorithm providing quadratic speedup",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:grover algorithm"
+    },
+    {
+      "type": "concept",
+      "label": "quantum decoherence",
+      "definition": "Loss of quantum coherence due to environment",
+      "concept_type": "phenomenon",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum decoherence"
+    },
+    {
+      "type": "concept",
+      "label": "quantum annealing",
+      "definition": "Optimization using quantum fluctuations",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum annealing"
+    },
+    {
+      "type": "concept",
+      "label": "topological qubit",
+      "definition": "Qubit protected by topological properties",
+      "concept_type": "concept",
+      "graph_id": "quantum-computing",
+      "id": "concept:topological qubit"
+    },
+    {
+      "type": "concept",
+      "label": "quantum teleportation",
+      "definition": "Transfer of quantum states using entanglement",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum teleportation"
+    },
+    {
+      "type": "concept",
+      "label": "bell state",
+      "definition": "Maximally entangled two-qubit state",
+      "concept_type": "concept",
+      "graph_id": "quantum-computing",
+      "id": "concept:bell state"
+    },
+    {
+      "type": "concept",
+      "label": "quantum fourier transform",
+      "definition": "Quantum analog of discrete Fourier transform",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum fourier transform"
+    },
+    {
+      "type": "concept",
+      "label": "variational quantum eigensolver",
+      "definition": "Hybrid classical-quantum optimization",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:variational quantum eigensolver"
+    },
+    {
+      "type": "concept",
+      "label": "quantum volume",
+      "definition": "Metric for quantum computer capability",
+      "concept_type": "metric",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum volume"
+    },
+    {
+      "type": "concept",
+      "label": "surface code",
+      "definition": "Leading quantum error correction code",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:surface code"
+    },
+    {
+      "type": "concept",
+      "label": "magic state distillation",
+      "definition": "Technique for fault-tolerant universal quantum computation",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:magic state distillation"
+    },
+    {
+      "type": "concept",
+      "label": "quantum key distribution",
+      "definition": "Secure communication using quantum mechanics",
+      "concept_type": "method",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum key distribution"
+    },
+    {
+      "type": "concept",
+      "label": "boson sampling",
+      "definition": "Quantum sampling problem demonstrating advantage",
+      "concept_type": "task",
+      "graph_id": "quantum-computing",
+      "id": "concept:boson sampling"
+    },
+    {
+      "type": "concept",
+      "label": "quantum memory",
+      "definition": "Storage for quantum information",
+      "concept_type": "device",
+      "graph_id": "quantum-computing",
+      "id": "concept:quantum memory"
+    },
+    {
       "type": "paper",
       "label": "Quantum supremacy using a programmable superconducting processor",
       "arxiv_id": "1903.10503",
       "authors": "Arute et al.",
-      "published": "2019-10-01",
+      "published": "2019-03-01",
       "abstract": "Demonstrated quantum supremacy with a 53-qubit processor.",
       "categories": [
         "quant-ph"
@@ -77,7 +189,7 @@
       "label": "Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer",
       "arxiv_id": "quant-ph/9508027",
       "authors": "Shor, Peter",
-      "published": "1995-08-01",
+      "published": "20qu-an-01",
       "abstract": "Shor's factoring algorithm.",
       "categories": [
         "quant-ph"
@@ -99,6 +211,223 @@
       "id": "paper:2003.14327"
     },
     {
+      "type": "paper",
+      "label": "Defining and detecting quantum speedup",
+      "arxiv_id": "1411.4028",
+      "authors": "R\u00f8nnow et al.",
+      "published": "2014-11-01",
+      "abstract": "Framework for measuring quantum annealing speedup.",
+      "categories": [
+        "quant-ph",
+        "cond-mat"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1411.4028"
+    },
+    {
+      "type": "paper",
+      "label": "Faster quantum simulation with randomized algorithms",
+      "arxiv_id": "1905.10074",
+      "authors": "Huang et al.",
+      "published": "2019-05-01",
+      "abstract": "Randomized methods for quantum simulation.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1905.10074"
+    },
+    {
+      "type": "paper",
+      "label": "Trading classical and quantum computational resources",
+      "arxiv_id": "1608.00296",
+      "authors": "Bravyi et al.",
+      "published": "2016-08-01",
+      "abstract": "Magic state distillation and fault tolerance.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1608.00296"
+    },
+    {
+      "type": "paper",
+      "label": "Observation of separated dynamics of charge and spin in the Fermi-Hubbard model",
+      "arxiv_id": "2003.02213",
+      "authors": "Arute et al.",
+      "published": "2020-03-01",
+      "abstract": "Simulation of fermionic systems on quantum processor.",
+      "categories": [
+        "quant-ph",
+        "cond-mat"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2003.02213"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum computational advantage using photons",
+      "arxiv_id": "2105.02859",
+      "authors": "Zhong et al.",
+      "published": "2021-05-01",
+      "abstract": "Boson sampling demonstrating quantum advantage.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2105.02859"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum computational supremacy",
+      "arxiv_id": "1708.03636",
+      "authors": "Harrow & Montanaro",
+      "published": "2017-08-01",
+      "abstract": "Survey of quantum supremacy.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1708.03636"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum Computing in the NISQ era and beyond",
+      "arxiv_id": "1907.02517",
+      "authors": "Preskill",
+      "published": "2019-07-01",
+      "abstract": "NISQ computing framework.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1907.02517"
+    },
+    {
+      "type": "paper",
+      "label": "Unbiasing the Variational Quantum Eigensolver",
+      "arxiv_id": "2011.04320",
+      "authors": "Huggins et al.",
+      "published": "2020-11-01",
+      "abstract": "VQE error mitigation.",
+      "categories": [
+        "quant-ph",
+        "physics.chem-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2011.04320"
+    },
+    {
+      "type": "paper",
+      "label": "Hardware-efficient variational quantum eigensolver for small molecules",
+      "arxiv_id": "2002.12314",
+      "authors": "Kandala et al.",
+      "published": "2020-02-01",
+      "abstract": "VQE on superconducting processor.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2002.12314"
+    },
+    {
+      "type": "paper",
+      "label": "Demonstration of a quantum volume 64 quantum computer",
+      "arxiv_id": "1812.01085",
+      "authors": "Rosenberg et al.",
+      "published": "2018-12-01",
+      "abstract": "Quantum volume benchmark.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1812.01085"
+    },
+    {
+      "type": "paper",
+      "label": "Realization of real-time fault-tolerant quantum error correction",
+      "arxiv_id": "2108.10457",
+      "authors": "Ryan-Anderson et al.",
+      "published": "2021-08-01",
+      "abstract": "Real-time QEC on trapped ions.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2108.10457"
+    },
+    {
+      "type": "paper",
+      "label": "Experimental quantum key distribution",
+      "arxiv_id": "1901.08071",
+      "authors": "Ahrens et al.",
+      "published": "2019-01-01",
+      "abstract": "QKD experiment.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1901.08071"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum Computing: Progress and Prospects",
+      "arxiv_id": "2002.11131",
+      "authors": "Shor",
+      "published": "2020-02-01",
+      "abstract": "Overview of quantum computing.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2002.11131"
+    },
+    {
+      "type": "paper",
+      "label": "Characterizing quantum supremacy in near-term devices",
+      "arxiv_id": "1806.02822",
+      "authors": "Boixo et al.",
+      "published": "2018-06-01",
+      "abstract": "Quantum supremacy characterization.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:1806.02822"
+    },
+    {
+      "type": "paper",
+      "label": "Demonstration of boson sampling on a photonic chip",
+      "arxiv_id": "2104.12978",
+      "authors": "Gard et al.",
+      "published": "2021-04-01",
+      "abstract": "Boson sampling.",
+      "categories": [
+        "quant-ph",
+        "physics.optics"
+      ],
+      "graph_id": "quantum-computing",
+      "id": "paper:2104.12978"
+    },
+    {
+      "id": "photonic-computing:concept:photonic IC"
+    },
+    {
+      "id": "photonic-computing:concept:photon entanglement"
+    },
+    {
+      "id": "photonic-computing:concept:optical neural network"
+    },
+    {
+      "id": "ai-acceleration:concept:GPU"
+    },
+    {
+      "id": "transformers:concept:attention"
+    },
+    {
+      "id": "photonic-computing"
+    },
+    {
       "type": "graph_ref",
       "label": "photonic-computing",
       "target_graph_id": "photonic-computing",
@@ -106,10 +435,24 @@
       "id": "graph_ref:photonic-computing"
     },
     {
-      "id": "photonic-computing"
+      "id": "transformers"
     },
     {
-      "id": "photonic-computing:concept:photonic IC"
+      "type": "graph_ref",
+      "label": "transformers",
+      "target_graph_id": "transformers",
+      "graph_id": "quantum-computing",
+      "id": "graph_ref:transformers"
+    },
+    {
+      "id": "ai-acceleration"
+    },
+    {
+      "type": "graph_ref",
+      "label": "ai-acceleration",
+      "target_graph_id": "ai-acceleration",
+      "graph_id": "quantum-computing",
+      "id": "graph_ref:ai-acceleration"
     }
   ],
   "links": [
@@ -135,8 +478,38 @@
     },
     {
       "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "photonic-computing",
+      "source": "concept:entanglement",
+      "target": "photonic-computing:concept:photon entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "concept:quantum gate",
       "target": "concept:qubit",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "transformers",
+      "source": "concept:quantum gate",
+      "target": "transformers:concept:attention",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "concept:quantum error correction",
+      "target": "concept:surface code",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "ai-acceleration",
+      "source": "concept:quantum error correction",
+      "target": "ai-acceleration:concept:GPU",
       "key": 0
     },
     {
@@ -146,7 +519,81 @@
       "key": 0
     },
     {
+      "relation": "uses",
+      "source": "concept:grover algorithm",
+      "target": "concept:quantum gate",
+      "key": 0
+    },
+    {
+      "relation": "contrasts",
+      "source": "concept:quantum annealing",
+      "target": "concept:quantum gate",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:quantum teleportation",
+      "target": "concept:entanglement",
+      "key": 0
+    },
+    {
       "relation": "related_to",
+      "source": "concept:bell state",
+      "target": "concept:entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:quantum fourier transform",
+      "target": "concept:shor algorithm",
+      "key": 0
+    },
+    {
+      "relation": "extends",
+      "source": "concept:variational quantum eigensolver",
+      "target": "concept:quantum annealing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:surface code",
+      "target": "concept:topological qubit",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:magic state distillation",
+      "target": "concept:quantum error correction",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "concept:quantum key distribution",
+      "target": "concept:entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:boson sampling",
+      "target": "concept:quantum supremacy",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "cross_graph": true,
+      "target_graph": "photonic-computing",
+      "source": "concept:boson sampling",
+      "target": "photonic-computing:concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:quantum memory",
+      "target": "concept:qubit",
+      "key": 0
+    },
+    {
+      "relation": "proposes",
       "source": "paper:1903.10503",
       "target": "concept:quantum supremacy",
       "key": 0
@@ -171,8 +618,92 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:1411.4028",
+      "target": "concept:quantum annealing",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:1905.10074",
+      "target": "concept:quantum gate",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1608.00296",
+      "target": "concept:magic state distillation",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.02859",
+      "target": "concept:boson sampling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1708.03636",
+      "target": "concept:quantum supremacy",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.02517",
+      "target": "concept:quantum volume",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2011.04320",
+      "target": "concept:variational quantum eigensolver",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2002.12314",
+      "target": "concept:variational quantum eigensolver",
+      "key": 0
+    },
+    {
+      "relation": "proposes",
+      "source": "paper:1812.01085",
+      "target": "concept:quantum volume",
+      "key": 0
+    },
+    {
+      "relation": "uses",
+      "source": "paper:2108.10457",
+      "target": "concept:surface code",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1901.08071",
+      "target": "concept:quantum key distribution",
+      "key": 0
+    },
+    {
+      "relation": "improves",
+      "source": "paper:2104.12978",
+      "target": "concept:boson sampling",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "source": "graph_ref:photonic-computing",
       "target": "photonic-computing",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:transformers",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "source": "graph_ref:ai-acceleration",
+      "target": "ai-acceleration",
       "key": 0
     }
   ],
