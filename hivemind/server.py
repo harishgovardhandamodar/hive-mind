@@ -36,17 +36,35 @@ class Handler(BaseHTTPRequestHandler):
             definition = body.get("definition", "")
             force = body.get("force", False)
             dry_run = body.get("dry_run", False)
+            no_resolve = body.get("no_resolve", False)
             text = body.get("text")
             connect_to = body.get("connect_to")
             if text:
                 results = ingester.ingest_from_text(text, hive, force)
             elif keyword:
                 result = ingester.ingest(keyword, definition, hive, force,
-                                         connect_to=connect_to, dry_run=dry_run)
+                                         connect_to=connect_to, dry_run=dry_run,
+                                         resolve=not no_resolve)
                 results = [result]
             else:
                 return self._json(400, {"error": "provide 'keyword' or 'text'"})
             self._json(200, {"results": results})
+        elif path == "/api/arxiv-import":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            ingester = ConceptIngester(_hm)
+            ids = body.get("ids", [])
+            hive = body.get("hive")
+            max_concepts = body.get("max_concepts", 10)
+            no_resolve = body.get("no_resolve", False)
+            if not ids:
+                return self._json(400, {"error": "provide 'ids' array"})
+            result = ingester.import_from_arxiv(ids, hive, max_concepts, resolve=not no_resolve)
+            self._json(200, result)
         else:
             self._json(404, {"error": "not found"})
 

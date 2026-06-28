@@ -1,8 +1,12 @@
 import difflib
 import os
 import re
+import time
+import xml.etree.ElementTree as ET
 from collections import Counter
 from typing import Any
+
+import requests
 
 STOPWORDS = {
     "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
@@ -156,6 +160,23 @@ def _phrase_key(phrase: str, original_text: str) -> float:
     return base
 
 
+def _parse_arxiv_id(entry) -> str | None:
+    """Extract arxiv ID from an Atom entry."""
+    for link in entry.findall("a:link", {"a": "http://www.w3.org/2005/Atom"}):
+        href = link.get("href", "")
+        if "abs/" in href:
+            return href.split("abs/")[-1].split("v")[0].strip("/")
+    id_tag = entry.findtext("a:id", "", {"a": "http://www.w3.org/2005/Atom"})
+    if "abs/" in id_tag:
+        return id_tag.split("abs/")[-1].split("v")[0]
+    return None
+
+
+def _get_text(entry, path: str, ns: dict) -> str:
+    text = entry.findtext(path, "", ns) or ""
+    return " ".join(text.split())
+
+
 def _fuzz(a: str, b: str) -> float:
     return difflib.SequenceMatcher(None, a.lower(), b.lower()).ratio()
 
@@ -238,11 +259,36 @@ class ConceptIngester:
             for gid, score in sorted_hives[:5]
         ]
 
+    def resolve_concept(self, node_id: str, name: str, kg,
+                         min_word_match: int = 1) -> list[str]:
+        """Find papers in kg whose title/abstract mention name and link them."""
+        name_lower = name.lower()
+        key_tokens = {t for t in name_lower.split() if len(t) > 2 and t not in STOPWORDS}
+        linked: list[str] = []
+        for n, data in kg.graph.nodes(data=True):
+            if data.get("type") != "paper":
+                continue
+            haystack = f"{data.get('label', '')} {data.get('abstract', '')}".lower()
+            # exact phrase match
+            if name_lower in haystack:
+                kg.add_edge(n, node_id, "related_to")
+                linked.append(n)
+                continue
+            # token overlap match
+            if key_tokens:
+                paper_tokens = {t for t in haystack.split() if len(t) > 2}
+                overlap = len(key_tokens & paper_tokens)
+                if overlap >= min_word_match and overlap / len(key_tokens) >= 0.5:
+                    kg.add_edge(n, node_id, "related_to")
+                    linked.append(n)
+        return linked
+
     def ingest(self, keyword: str, definition: str = "",
                hive: str | None = None, force: bool = False,
                relation: str = "related_to",
                connect_to: list[str] | None = None,
-               dry_run: bool = False) -> dict[str, Any]:
+               dry_run: bool = False,
+               resolve: bool = True) -> dict[str, Any]:
         name = keyword.strip()
         if not name:
             return {"status": "error", "message": "Empty keyword"}
@@ -303,6 +349,10 @@ class ConceptIngester:
                                 kg.add_edge(node_id, m["node_id"], relation)
                                 break
 
+        paper_links = []
+        if resolve:
+            paper_links = self.resolve_concept(node_id, name, kg)
+
         kg.save()
         return {
             "status": "added",
@@ -311,6 +361,7 @@ class ConceptIngester:
             "hive": target_hive,
             "similar": similar[:3] if similar else [],
             "added": {"id": node_id, "label": name, "definition": definition},
+            "paper_links": paper_links,
         }
 
     def ingest_batch(self, items: list[dict[str, Any]],
@@ -335,6 +386,87 @@ class ConceptIngester:
             result = self.ingest(kw, "", hive, force)
             results.append(result)
         return results
+
+    def import_from_arxiv(self, arxiv_ids: list[str],
+                          hive_name: str | None = None,
+                          max_concepts: int = 10,
+                          resolve: bool = True) -> dict[str, Any]:
+        """Fetch papers from arxiv by IDs, add them to a hive, extract concepts."""
+        if not arxiv_ids:
+            return {"status": "error", "message": "No arxiv IDs provided"}
+
+        # determine target hive
+        target_hive = hive_name
+        if not target_hive:
+            # use first paper's category to determine hive
+            target_hive = "imported"
+        if not self.fed.get_graph(target_hive):
+            self.hm.create_hive(target_hive)
+
+        kg = self.fed.get_graph(target_hive)
+        papers_added = []
+        concepts_added = []
+
+        ARXIV_URL = "https://export.arxiv.org/api/query?id_list={}"
+        NS = {"a": "http://www.w3.org/2005/Atom",
+              "arxiv": "http://arxiv.org/schemas/atom"}
+
+        for i in range(0, len(arxiv_ids), 50):
+            batch = arxiv_ids[i:i+50]
+            try:
+                r = requests.get(ARXIV_URL.format(",".join(batch)),
+                                 headers={"User-Agent": "HiveMind/1.0"},
+                                 timeout=15)
+                r.raise_for_status()
+                root = ET.fromstring(r.content)
+            except Exception as e:
+                return {"status": "error", "message": f"Arxiv fetch failed: {e}"}
+
+            for entry in root.findall("a:entry", NS):
+                arxiv_id = _parse_arxiv_id(entry)
+                if not arxiv_id or kg.has_paper(arxiv_id):
+                    continue
+
+                title = _get_text(entry, "a:title", NS)
+                abstract = _get_text(entry, "a:summary", NS)
+                authors = [a.findtext("a:name", "", NS)
+                           for a in entry.findall("a:author", NS)]
+                published = _get_text(entry, "a:published", NS)[:10]
+                categories = [c.get("term", "") for c in entry.findall("a:category", NS)]
+
+                paper_data = {
+                    "arxiv_id": arxiv_id,
+                    "title": title,
+                    "authors": authors,
+                    "published": published,
+                    "abstract": abstract,
+                    "categories": categories,
+                }
+                paper_node = kg.add_paper(paper_data)
+                papers_added.append(arxiv_id)
+
+                # extract concepts from title + abstract
+                combined = f"{title} {abstract}"
+                keywords = extract_keywords(combined, max_phrases=max_concepts)
+                for kw in keywords[:max_concepts]:
+                    concept_node = kg.add_concept(kw, "")
+                    kg.add_edge(paper_node, concept_node, "introduces")
+                    concepts_added.append(kw)
+                    # auto-resolve against other papers
+                    if resolve:
+                        self.resolve_concept(concept_node, kw, kg)
+
+                # Throttle arxiv API
+                time.sleep(0.3)
+
+        kg.save()
+        return {
+            "status": "ok",
+            "message": f"Imported {len(papers_added)} papers, {len(concepts_added)} concepts into '{target_hive}'",
+            "hive": target_hive,
+            "papers_added": papers_added,
+            "concepts_added": list(set(concepts_added)),
+        }
 
     def list_all_concepts(self) -> list[dict[str, Any]]:
         concepts = []

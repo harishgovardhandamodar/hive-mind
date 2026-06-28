@@ -49,6 +49,15 @@ def main() -> None:
     p_search = sub.add_parser("search", help="Unified search across all hives")
     p_search.add_argument("query", help="Search query")
 
+    p_arxiv = sub.add_parser("arxiv-import",
+                              help="Import papers from arxiv by IDs into a hive")
+    p_arxiv.add_argument("ids", nargs="+", help="Arxiv paper IDs (e.g. 1706.03762)")
+    p_arxiv.add_argument("--hive", "-H", help="Target hive (auto-created if omitted)")
+    p_arxiv.add_argument("--max-concepts", "-m", type=int, default=10,
+                         help="Max concepts to extract per paper")
+    p_arxiv.add_argument("--no-resolve", action="store_true",
+                         help="Skip linking concepts to existing papers")
+
     p_import = sub.add_parser("import",
                                help="Import an arxiv-to-obsidian knowledge graph")
     p_import.add_argument("path", help="Path to arxiv-to-obsidian project directory")
@@ -69,6 +78,8 @@ def main() -> None:
                           help="Connect to existing concepts in the target hive")
     p_ingest.add_argument("--force", "-f", action="store_true",
                           help="Add even if similar concept exists")
+    p_ingest.add_argument("--no-resolve", action="store_true",
+                          help="Skip linking concept to matching papers")
     p_ingest.add_argument("--dry-run", "-n", action="store_true",
                           help="Preview what would be added without writing")
     p_ingest.add_argument("--suggest", action="store_true",
@@ -138,6 +149,17 @@ def main() -> None:
         from .server import serve as run_server
         run_server(host=args.host, port=args.port, config=config)
 
+    elif args.command == "arxiv-import":
+        ingester = ConceptIngester(hm)
+        result = ingester.import_from_arxiv(
+            args.ids, args.hive, args.max_concepts, resolve=not args.no_resolve,
+        )
+        print(result["message"])
+        if result.get("papers_added"):
+            print(f"  Papers: {len(result['papers_added'])}")
+        if result.get("concepts_added"):
+            print(f"  Concepts: {len(result['concepts_added'])}")
+
     elif args.command == "inspect":
         kg = hm.get_hive_graph(args.name)
         if not kg:
@@ -185,7 +207,8 @@ def main() -> None:
             results = [ingester.ingest(args.keyword, args.definition,
                                         args.hive, args.force,
                                         connect_to=args.connect,
-                                        dry_run=args.dry_run)]
+                                        dry_run=args.dry_run,
+                                        resolve=not args.no_resolve)]
         else:
             print("Provide a keyword, --text, or --batch. Use --suggest to preview.")
             return

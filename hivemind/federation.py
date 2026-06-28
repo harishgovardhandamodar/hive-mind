@@ -202,25 +202,36 @@ class Federation:
         return edges
 
     def query_relation(self, text: str) -> dict[str, Any]:
-        """Parse a natural-language query and return a subgraph of relevant nodes
-        and paths between the two mentioned topics."""
         q = text.lower()
 
-        # Find which two hives are mentioned
         hive_names = {gid: gid.replace("-", " ") for gid in self.graphs}
         mentioned = []
         for gid, display in sorted(hive_names.items(), key=lambda x: -len(x[1])):
             if display in q or gid in q:
                 mentioned.append(gid)
+
+        # deduplicate but preserve order
+        seen_mention: set[str] = set()
+        mentioned_uniq = []
+        for m in mentioned:
+            if m not in seen_mention:
+                seen_mention.add(m)
+                mentioned_uniq.append(m)
+        mentioned = mentioned_uniq
+
         if len(mentioned) < 2:
-            return {"nodes": [], "edges": [], "explanation": "Mention two hives, e.g. 'How is Photonic computing related to AI acceleration?'"}
+            return {"nodes": [], "edges": [],
+                    "explanation": "Mention two hives, e.g. 'How is Photonic computing related to AI acceleration?'"}
 
-        src_id, tgt_id = mentioned[0], mentioned[1]
+        # If 3+ hives mentioned, use them as waypoints; else find meta-graph path
+        if len(mentioned) >= 3:
+            hive_chain = mentioned
+        else:
+            hive_chain = self._meta_path(mentioned[0], mentioned[1])
 
-        # Collect nodes: cross-graph edges between these two + matching concepts
         node_set: dict[str, dict] = {}
         edge_list: list[dict] = []
-        seen_edges: set[tuple[str, str, str]] = set()
+        seen_edges_set: set[tuple[str, str, str]] = set()
         node_id_set: set[str] = set()
 
         def add_node(nid: str, data: dict, gid: str) -> None:
@@ -234,76 +245,59 @@ class Federation:
                     "graph_id": gid,
                 }
 
-        def add_edge_uniq(src: str, tgt: str, rel: str, cross: bool = False, tgt_g: str = "") -> None:
+        def add_edge_uniq(src: str, tgt: str, rel: str,
+                          cross: bool = False, tgt_g: str = "") -> None:
             key = (src, tgt, rel)
-            if key not in seen_edges:
-                seen_edges.add(key)
+            if key not in seen_edges_set:
+                seen_edges_set.add(key)
                 edge_list.append({
                     "source": src, "target": tgt, "relation": rel,
                     "cross_graph": cross, "target_graph": tgt_g,
                 })
 
-        # 1. Cross-graph edges between the two hives
-        for gid in (src_id, tgt_id):
+        # Collect cross edges for each consecutive pair in the chain
+        chain_set = set(hive_chain)
+        for gid in chain_set:
             kg = self.graphs[gid]
             for u, v, d in kg.graph.edges(data=True):
-                if d.get("cross_graph") and d.get("target_graph") in (src_id, tgt_id):
-                    tgg = d["target_graph"]
-                    src_label = kg.graph.nodes[u].get("label", u) if kg.graph.has_node(u) else u
-                    tgt_label = d.get("label", v)
-                    add_node(u, kg.graph.nodes[u], gid)
-                    add_node(v, {"label": tgt_label, "type": "cross_ref"}, tgg)
+                tgg = d.get("target_graph")
+                if d.get("cross_graph") and tgg in chain_set:
+                    add_node(u, kg.graph.nodes[u], gid) if kg.graph.has_node(u) else None
+                    add_node(v, {"label": d.get("label", v), "type": "cross_ref"}, tgg)
                     add_edge_uniq(u, v, d.get("relation", "related_to"), True, tgg)
-                    # also add the target hive node
                     if tgg not in node_id_set:
                         node_id_set.add(tgg)
-                        node_set[tgg] = {"id": tgg, "label": tgg, "type": "hive", "graph_id": tgg}
+                        node_set[tgg] = {"id": tgg, "label": tgg,
+                                         "type": "hive", "graph_id": tgg}
 
-        # 2. Relevant concepts in each hive that match extra keywords
+        # Keyword matching across all chain hives
         extra = q
-        for gid in [src_id, tgt_id]:
+        for gid in hive_chain:
             extra = extra.replace(gid, "").replace(gid.replace("-", " "), "")
         keywords = [w for w in extra.split() if len(w) > 3]
 
-        for gid in (src_id, tgt_id):
+        for gid in chain_set:
             kg = self.graphs[gid]
             for node, data in kg.graph.nodes(data=True):
                 label = data.get("label", "").lower()
                 if any(kw in label or kw in node.lower() for kw in keywords):
                     add_node(node, data, gid)
 
-        # 3. Shortest paths between all pairs of concepts across the two hives
-        src_nodes = [n for n in node_set if n.startswith("concept:") and node_set[n].get("graph_id") == src_id]
-        tgt_nodes = [n for n in node_set if n.startswith("concept:") and node_set[n].get("graph_id") == tgt_id]
-        if not src_nodes:
-            src_kg = self.graphs[src_id]
-            src_nodes = [n for n, d in src_kg.graph.nodes(data=True) if d.get("type") == "concept"][:5]
-            for n in src_nodes:
-                add_node(n, src_kg.graph.nodes[n], src_id)
-        if not tgt_nodes:
-            tgt_kg = self.graphs[tgt_id]
-            tgt_nodes = [n for n, d in tgt_kg.graph.nodes(data=True) if d.get("type") == "concept"][:5]
-            for n in tgt_nodes:
-                add_node(n, tgt_kg.graph.nodes[n], tgt_id)
+        # Pull top concepts from each chain hive
+        src_id, tgt_id = hive_chain[0], hive_chain[-1]
+        for gid in hive_chain:
+            kg = self.graphs[gid]
+            concepts = [n for n, d in kg.graph.nodes(data=True)
+                        if d.get("type") == "concept" and n not in node_id_set][:5]
+            for n in concepts:
+                add_node(n, kg.graph.nodes[n], gid)
 
-        visited: set[str] = set()
-        for sn in src_nodes:
-            for tn in tgt_nodes:
-                path = self._find_path_in_graphs(sn, tn, src_id, tgt_id)
-                if path and len(path) <= 8:
-                    for u, v, rel, gid in path:
-                        kg = self.graphs[gid]
-                        add_node(u, kg.graph.nodes[u], gid) if kg.graph.has_node(u) else None
-                        add_node(v, kg.graph.nodes[v], gid) if kg.graph.has_node(v) else None
-                        add_edge_uniq(u, v, rel)
-                    break
-
-        # 4. Build human-readable explanation
+        # Build explanation
         cross_edges = [e for e in edge_list if e.get("cross_graph")]
         path_edges = [e for e in edge_list if not e.get("cross_graph")]
 
         lines = []
-        for ce in cross_edges[:3]:
+        for ce in cross_edges[:4]:
             s_label = node_set.get(ce["source"], {}).get("label", ce["source"])
             t_label = node_set.get(ce["target"], {}).get("label", ce["target"])
             lines.append(f"**{s_label}** *{ce['relation']}* **{t_label}**")
@@ -313,11 +307,12 @@ class Federation:
             t_label = node_set.get(pe["target"], {}).get("label", pe["target"])
             lines.append(f"**{s_label}** → *{pe['relation']}* → **{t_label}**")
 
-        explanation = f"### **{src_id}** ↔ **{tgt_id}**\n"
+        chain_display = " → ".join(f"**{h}**" for h in hive_chain)
+        explanation = f"### {chain_display}\n"
         if lines:
-            explanation += "\n".join(lines[:5])
+            explanation += "\n".join(lines[:6])
         else:
-            explanation += f"No direct connections found between _{src_id}_ and _{tgt_id}_."
+            explanation += f"No connections found between _{src_id}_ and _{tgt_id}_."
 
         return {
             "nodes": list(node_set.values()),
@@ -325,7 +320,29 @@ class Federation:
             "explanation": explanation,
             "source": src_id,
             "target": tgt_id,
+            "chain": hive_chain,
         }
+
+    def _meta_path(self, src: str, tgt: str) -> list[str]:
+        """Find shortest path through meta-graph from src to tgt."""
+        if src not in self.graphs or tgt not in self.graphs:
+            return [src, tgt]
+        import collections
+        adj: dict[str, list[str]] = {}
+        for u, v, _ in self.meta_graph.edges(data=True):
+            adj.setdefault(u, []).append(v)
+            adj.setdefault(v, []).append(u)
+        q = collections.deque([(src, [src])])
+        visited = {src}
+        while q:
+            cur, path = q.popleft()
+            if cur == tgt:
+                return path
+            for nb in adj.get(cur, []):
+                if nb not in visited:
+                    visited.add(nb)
+                    q.append((nb, path + [nb]))
+        return [src, tgt]
 
     def _find_path_in_graphs(self, src: str, tgt: str,
                               src_gid: str, tgt_gid: str) -> list | None:

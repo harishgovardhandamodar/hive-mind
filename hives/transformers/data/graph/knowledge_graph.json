@@ -478,6 +478,53 @@
       "concept_type": "concept",
       "graph_id": "transformers",
       "id": "concept:Neural Architecture Search"
+    },
+    {
+      "type": "concept",
+      "label": "Self-Attention",
+      "definition": "Attention mechanism where each position attends to all positions",
+      "concept_type": "concept",
+      "graph_id": "transformers",
+      "id": "concept:Self-Attention"
+    },
+    {
+      "type": "paper",
+      "label": "Speech-to-Text Adapter and Speech-to-Entity Retriever Augmented LLMs for Speech Understanding",
+      "arxiv_id": "2306.07944",
+      "authors": "Mingqiu Wang, Izhak Shafran, Hagen Soltau, Wei Han, Yuan Cao, Dian Yu, Laurent El Shafey",
+      "published": "2023-06-08",
+      "abstract": "Large Language Models (LLMs) have been applied in the speech domain, often incurring a performance drop due to misaligned between speech and language representations. To bridge this gap, we propose a joint speech and language model (SLM) using a Speech2Text adapter, which maps speech into text token embedding space without speech information loss. Additionally, using a CTC-based blank-filtering, we can reduce the speech sequence length to that of text. In speech MultiWoz dataset (DSTC11 challenge), SLM largely improves the dialog state tracking (DST) performance (24.7% to 28.4% accuracy). Further to address errors on rare entities, we augment SLM with a Speech2Entity retriever, which uses speech to retrieve relevant entities, and then adds them to the original SLM input as a prefix. With this retrieval-augmented SLM (ReSLM), the DST performance jumps to 34.6% accuracy. Moreover, augmenting the ASR task with the dialog understanding task improves the ASR performance from 9.4% to 8.5% WER.",
+      "categories": [
+        "eess.AS",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "graph_id": "transformers",
+      "id": "paper:2306.07944"
+    },
+    {
+      "type": "concept",
+      "label": "Speech-to-Entity Retriever",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "transformers",
+      "id": "concept:Speech-to-Entity Retriever"
+    },
+    {
+      "type": "concept",
+      "label": "Speech-to-Text Adapter",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "transformers",
+      "id": "concept:Speech-to-Text Adapter"
+    },
+    {
+      "type": "concept",
+      "label": "Speech Understanding",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "transformers",
+      "id": "concept:Speech Understanding"
     }
   ],
   "links": [
@@ -642,6 +689,12 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:1901.02860",
+      "target": "concept:Speech Understanding",
+      "key": 0
+    },
+    {
       "relation": "improves",
       "source": "paper:1910.03771",
       "target": "concept:encoder-decoder",
@@ -681,6 +734,12 @@
       "relation": "improves",
       "source": "paper:1905.03197",
       "target": "concept:transformer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.03197",
+      "target": "concept:Speech Understanding",
       "key": 0
     },
     {
@@ -736,6 +795,42 @@
       "source": "concept:Neural Architecture Search",
       "target": "concept:transformer",
       "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2306.07944",
+      "target": "concept:Speech-to-Entity Retriever",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2306.07944",
+      "target": "concept:Speech-to-Entity Retriever",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2306.07944",
+      "target": "concept:Speech-to-Text Adapter",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2306.07944",
+      "target": "concept:Speech-to-Text Adapter",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2306.07944",
+      "target": "concept:Speech Understanding",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2306.07944",
+      "target": "concept:Speech Understanding",
+      "key": 1
     }
   ],
   "graph_id": "transformers"
