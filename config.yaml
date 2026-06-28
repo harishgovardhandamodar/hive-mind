@@ -1,3 +1,7 @@
+# HiveMind configuration
+# Run with: docker compose up -d    (then open http://localhost:9090)
+# Or locally: python -m hivemind serve --host 0.0.0.0
+
 hives_dir: hives
 meta_graph_path: data/meta_graph.json
 server:

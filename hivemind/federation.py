@@ -1,5 +1,8 @@
 import json
+import math
 import os
+import re
+from collections import Counter
 from typing import Any
 
 import networkx as nx
@@ -104,20 +107,74 @@ class Federation:
     # ------------------------------------------------------------------
 
     def unified_search(self, query: str) -> list[dict[str, Any]]:
-        q = query.lower()
-        results = []
+        q = query.lower().strip()
+        if not q:
+            return []
+
+        # tokenize query
+        q_tokens = self._tokenize(q)
+        if not q_tokens:
+            return []
+
+        # collect all documents (node text fields)
+        docs: list[tuple[str, str, str, str, str, str]] = []  # (gid, node_id, label, type, def, text)
         for gid, kg in self.graphs.items():
             for node, data in kg.graph.nodes(data=True):
                 label = data.get("label", "")
-                if q in label.lower() or q in node.lower():
-                    results.append({
-                        "graph_id": gid,
-                        "node_id": node,
-                        "label": label,
-                        "type": data.get("type", "unknown"),
-                        "definition": data.get("definition", ""),
-                    })
-        return results
+                defn = data.get("definition", "")
+                text = f"{label} {defn}".lower()
+                docs.append((gid, node, label, data.get("type", "unknown"), defn, text))
+
+        # TF–IDF scoring
+        N = len(docs)
+        df: dict[str, int] = Counter()
+        doc_vectors: list[Counter] = []
+        for _, _, _, _, _, text in docs:
+            tokens = self._tokenize(text)
+            doc_vectors.append(Counter(tokens))
+            for t in set(tokens):
+                df[t] += 1
+
+        # score each doc by query token TF–IDF
+        scored: list[tuple[float, tuple[str, str, str, str, str]]] = []
+        for i, (gid, node, label, typ, defn, text) in enumerate(docs):
+            score = 0.0
+            tv = doc_vectors[i]
+            for qt in q_tokens:
+                if qt in tv:
+                    tf = tv[qt] / max(tv.values(), default=1)
+                    idf = math.log((N + 1) / (df.get(qt, 0) + 1)) + 1
+                    score += tf * idf
+            # bonus for exact label / substring match
+            if q in label.lower() or q in node.lower():
+                score += 1.0
+            if score > 0:
+                scored.append((score, (gid, node, label, typ, defn)))
+
+        scored.sort(key=lambda x: -x[0])
+        return [
+            {
+                "graph_id": gid,
+                "node_id": node,
+                "label": label,
+                "type": typ,
+                "definition": defn,
+                "score": round(s, 4),
+            }
+            for s, (gid, node, label, typ, defn) in scored[:50]
+        ]
+
+    @staticmethod
+    def _tokenize(text: str) -> list[str]:
+        words = re.findall(r"[A-Za-z0-9_.-]+", text.lower())
+        stopwords = {
+            "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
+            "of", "with", "by", "from", "as", "is", "was", "are", "were", "be",
+            "this", "that", "it", "its", "they", "them", "we", "our", "you",
+            "which", "what", "where", "when", "why", "how", "who", "not", "no",
+            "all", "each", "every", "both", "some", "any", "more", "most",
+        }
+        return [w for w in words if w not in stopwords and len(w) > 1]
 
     def get_all_nodes(self) -> list[dict[str, Any]]:
         nodes = []

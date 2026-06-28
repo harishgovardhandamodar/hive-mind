@@ -241,7 +241,8 @@ class ConceptIngester:
     def ingest(self, keyword: str, definition: str = "",
                hive: str | None = None, force: bool = False,
                relation: str = "related_to",
-               connect_to: list[str] | None = None) -> dict[str, Any]:
+               connect_to: list[str] | None = None,
+               dry_run: bool = False) -> dict[str, Any]:
         name = keyword.strip()
         if not name:
             return {"status": "error", "message": "Empty keyword"}
@@ -277,6 +278,16 @@ class ConceptIngester:
                            f"'{similar_in_target[0]['label']}'",
                 "similar": similar_in_target[:3],
                 "added": None,
+            }
+
+        if dry_run:
+            return {
+                "status": "dry_run",
+                "message": f"Would add '{name}' to hive '{target_hive}'",
+                "node_id": None,
+                "hive": target_hive,
+                "similar": similar[:3] if similar else [],
+                "added": {"id": f"concept:{name}", "label": name, "definition": definition},
             }
 
         node_id = kg.add_concept(name, definition)

@@ -69,6 +69,8 @@ def main() -> None:
                           help="Connect to existing concepts in the target hive")
     p_ingest.add_argument("--force", "-f", action="store_true",
                           help="Add even if similar concept exists")
+    p_ingest.add_argument("--dry-run", "-n", action="store_true",
+                          help="Preview what would be added without writing")
     p_ingest.add_argument("--suggest", action="store_true",
                           help="Only suggest, don't add")
     p_ingest.add_argument("--batch", "-b", help="Path to JSON file with batch items")
@@ -182,18 +184,17 @@ def main() -> None:
         elif args.keyword:
             results = [ingester.ingest(args.keyword, args.definition,
                                         args.hive, args.force,
-                                        connect_to=args.connect)]
+                                        connect_to=args.connect,
+                                        dry_run=args.dry_run)]
         else:
             print("Provide a keyword, --text, or --batch. Use --suggest to preview.")
             return
         for r in results:
             status = r["status"]
-            icon = {"added": "✓", "skipped": "~", "error": "✗"}.get(status, "?")
+            icon = {"added": "✓", "skipped": "~", "error": "✗", "dry_run": "?"}.get(status, "?")
             print(f"{icon}  {r['message']}")
             if r.get("similar"):
                 print(f"    Similar: {', '.join(s['label'] for s in r['similar'])}")
-            if status == "error" and r.get("message"):
-                pass
 
     elif args.command == "suggest":
         ingester = ConceptIngester(hm)

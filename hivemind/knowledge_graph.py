@@ -36,6 +36,7 @@ class KnowledgeGraph:
 
     def add_concept(self, name: str, definition: str = "",
                     concept_type: str = "concept") -> str:
+        name = " ".join(name.split())
         node_id = f"concept:{name}"
         if not self.graph.has_node(node_id):
             self.graph.add_node(

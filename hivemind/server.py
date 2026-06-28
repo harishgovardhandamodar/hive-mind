@@ -35,12 +35,14 @@ class Handler(BaseHTTPRequestHandler):
             hive = body.get("hive")
             definition = body.get("definition", "")
             force = body.get("force", False)
+            dry_run = body.get("dry_run", False)
             text = body.get("text")
             connect_to = body.get("connect_to")
             if text:
                 results = ingester.ingest_from_text(text, hive, force)
             elif keyword:
-                result = ingester.ingest(keyword, definition, hive, force, connect_to=connect_to)
+                result = ingester.ingest(keyword, definition, hive, force,
+                                         connect_to=connect_to, dry_run=dry_run)
                 results = [result]
             else:
                 return self._json(400, {"error": "provide 'keyword' or 'text'"})
@@ -69,7 +71,7 @@ class Handler(BaseHTTPRequestHandler):
             nodes = []
             edges = []
             for n, d in kg.graph.nodes(data=True):
-                nodes.append({
+                node = {
                     "id": n,
                     "label": d.get("label", n)[:60],
                     "type": d.get("type", "unknown"),
@@ -77,12 +79,21 @@ class Handler(BaseHTTPRequestHandler):
                     "group": (0 if d.get("type") == "paper"
                               else 1 if d.get("type") == "concept"
                               else 2),
-                })
+                }
+                if d.get("type") == "paper":
+                    node["arxiv_id"] = d.get("arxiv_id", "")
+                    node["authors"] = (d.get("authors", "") or "")[:120]
+                    node["abstract"] = (d.get("abstract", "") or "")[:300]
+                elif d.get("type") == "concept":
+                    node["definition"] = (d.get("definition", "") or "")[:200]
+                nodes.append(node)
             for u, v, d in kg.graph.edges(data=True):
                 edges.append({
                     "source": u,
                     "target": v,
                     "relation": d.get("relation", "related_to"),
+                    "cross_graph": d.get("cross_graph", False),
+                    "target_graph": d.get("target_graph", ""),
                 })
             self._json(200, {
                 "id": hive_id,
