@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HiveMind Dashboard</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f1117; color: #e1e4e8; overflow: hidden; height: 100vh; }
+
+#app { display: flex; height: 100vh; }
+
+/* Sidebar */
+#sidebar { width: 320px; min-width: 320px; background: #161b22; border-right: 1px solid #30363d; display: flex; flex-direction: column; overflow: hidden; }
+#sidebar h1 { font-size: 18px; padding: 16px 20px; border-bottom: 1px solid #30363d; color: #58a6ff; letter-spacing: 0.5px; }
+#sidebar h1 small { font-size: 11px; color: #8b949e; font-weight: 400; display: block; margin-top: 2px; letter-spacing: 0; }
+
+#hive-list { flex: 1; overflow-y: auto; padding: 8px; }
+.hive-card { background: #1c2128; border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all .15s; }
+.hive-card:hover { border-color: #58a6ff; background: #21262d; }
+.hive-card.active { border-color: #58a6ff; background: #1c2a3a; }
+.hive-card .name { font-size: 14px; font-weight: 600; color: #c9d1d9; }
+.hive-card .stats { font-size: 11px; color: #8b949e; margin-top: 4px; }
+.hive-card .stats span { margin-right: 12px; }
+.hive-card .stats .num { color: #58a6ff; }
+
+#status-bar { padding: 10px 20px; border-top: 1px solid #30363d; font-size: 11px; color: #8b949e; }
+
+/* Main panel */
+#main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+#toolbar { padding: 8px 16px; background: #161b22; border-bottom: 1px solid #30363d; display: flex; align-items: center; gap: 12px; }
+#toolbar .title { font-size: 13px; font-weight: 600; color: #c9d1d9; }
+#toolbar .subtitle { font-size: 11px; color: #8b949e; }
+#search-box { margin-left: auto; display: flex; gap: 6px; }
+#search-box input { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 4px 10px; color: #c9d1d9; font-size: 12px; width: 200px; outline: none; }
+#search-box input:focus { border-color: #58a6ff; }
+#search-box button { background: #238636; border: none; border-radius: 6px; padding: 4px 12px; color: #fff; font-size: 12px; cursor: pointer; }
+#search-box button:hover { background: #2ea043; }
+#view-toggle { display: flex; gap: 4px; }
+#view-toggle button { background: #21262d; border: 1px solid #30363d; border-radius: 6px; padding: 4px 12px; color: #8b949e; font-size: 11px; cursor: pointer; }
+#view-toggle button.active { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+
+#graph-container { flex: 1; position: relative; overflow: hidden; }
+#graph-container svg { width: 100%; height: 100%; }
+
+/* Graph styles */
+.node circle { stroke: #fff; stroke-width: 1.5px; cursor: pointer; transition: r .15s; }
+.node circle:hover { stroke: #58a6ff; }
+.node text { font-size: 11px; fill: #c9d1d9; pointer-events: none; }
+.node text.label { font-size: 11px; }
+.node text.type-label { font-size: 8px; fill: #8b949e; }
+
+.link { stroke: #30363d; stroke-opacity: 0.5; stroke-width: 1.5; }
+.link.cross { stroke: #d29922; stroke-dasharray: 4 3; }
+.link.ref { stroke: #58a6ff; stroke-width: 2; }
+
+.link-label { font-size: 8px; fill: #8b949e; }
+
+/* Search results overlay */
+#search-results { position: absolute; top: 0; right: 0; width: 360px; max-height: 100%; overflow-y: auto; background: #161b22; border-left: 1px solid #30363d; display: none; }
+#search-results.visible { display: block; }
+#search-results .header { padding: 12px 16px; border-bottom: 1px solid #30363d; font-weight: 600; font-size: 13px; }
+#search-results .result { padding: 8px 16px; border-bottom: 1px solid #21262d; font-size: 12px; cursor: pointer; }
+#search-results .result:hover { background: #1c2128; }
+#search-results .result .graph { color: #58a6ff; font-size: 10px; }
+#search-results .result .type { color: #d29922; font-size: 10px; margin-left: 8px; }
+#search-results .result .label { color: #c9d1d9; margin-top: 2px; }
+
+/* Tooltip */
+#tooltip { position: absolute; background: #1c2128; border: 1px solid #30363d; border-radius: 8px; padding: 10px 14px; font-size: 12px; pointer-events: none; display: none; z-index: 100; max-width: 300px; }
+#tooltip .tt-name { font-weight: 600; color: #c9d1d9; margin-bottom: 4px; }
+#tooltip .tt-detail { color: #8b949e; font-size: 11px; }
+
+.hive-card .cross { color: #d29922; }
+
+/* Legend */
+#legend { position: absolute; bottom: 16px; left: 16px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 10px 14px; font-size: 11px; }
+#legend .row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: #8b949e; }
+#legend .swatch { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #fff3; }
+#legend .swatch.paper { background: #1f6feb; }
+#legend .swatch.concept { background: #238636; }
+#legend .swatch.graph-ref { background: #da3633; }
+
+#loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #8b949e; font-size: 14px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sidebar">
+    <h1>🐝 HiveMind
+      <small>federated knowledge graphs</small>
+    </h1>
+    <div id="hive-list"></div>
+    <div id="status-bar"></div>
+  </div>
+  <div id="main">
+    <div id="toolbar">
+      <div class="title" id="view-title">Meta-Graph</div>
+      <div class="subtitle" id="view-subtitle">all hives</div>
+      <div id="view-toggle">
+        <button class="active" data-view="meta">Meta</button>
+        <button data-view="unified">Unified</button>
+      </div>
+      <div id="search-box">
+        <input id="search-input" placeholder="Search concepts..." />
+        <button id="search-btn">Search</button>
+      </div>
+    </div>
+    <div id="graph-container">
+      <div id="loading">Loading graph...</div>
+      <div id="tooltip"></div>
+      <div id="legend">
+        <div class="row"><span class="swatch paper"></span> Paper</div>
+        <div class="row"><span class="swatch concept"></span> Concept</div>
+        <div class="row"><span class="swatch graph-ref"></span> Graph Ref</div>
+        <div class="row">--- cross edge</div>
+      </div>
+      <div id="search-results">
+        <div class="header">Search Results</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const COLORS = d3.scaleOrdinal(d3.schemeCategory10);
+
+let state = {
+  view: 'meta',
+  selectedHive: null,
+  metaGraph: { nodes: [], edges: [] },
+  hives: [],
+};
+
+// ---- API ----
+async function api(path) {
+  const r = await fetch(path);
+  return r.json();
+}
+
+// ---- Render ----
+function render() {
+  if (state.view === 'meta') renderMetaGraph();
+  else if (state.view === 'unified') renderUnifiedGraph();
+}
+
+function renderMetaGraph() {
+  const svg = d3.select('#graph-container svg');
+  svg.selectAll('*').remove();
+  document.getElementById('view-title').textContent = 'Meta-Graph';
+  document.getElementById('view-subtitle').textContent = `${state.metaGraph.nodes.length} hives`;
+
+  if (!state.metaGraph.nodes.length) {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('loading').textContent = 'No hives found. Create one with: hivemind init <name>';
+    return;
+  }
+  document.getElementById('loading').style.display = 'none';
+
+  const width = document.getElementById('graph-container').clientWidth;
+  const height = document.getElementById('graph-container').clientHeight;
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  const g = svg.append('g');
+
+  const simulation = d3.forceSimulation(state.metaGraph.nodes)
+    .force('link', d3.forceLink(state.metaGraph.edges).id(d => d.id).distance(180))
+    .force('charge', d3.forceManyBody().strength(-400))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide(60));
+
+  const link = g.append('g')
+    .selectAll('line')
+    .data(state.metaGraph.edges)
+    .join('line')
+    .attr('class', 'link ref')
+    .attr('stroke-opacity', 0.6);
+
+  const linkLabel = g.append('g')
+    .selectAll('text')
+    .data(state.metaGraph.edges)
+    .join('text')
+    .attr('class', 'link-label')
+    .text(d => d.relation)
+    .attr('dy', -4);
+
+  const node = g.append('g')
+    .selectAll('g')
+    .data(state.metaGraph.nodes)
+    .join('g')
+    .attr('class', 'node')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+    );
+
+  node.append('circle')
+    .attr('r', d => 20 + Math.min(d.papers || 0, 30))
+    .attr('fill', d => COLORS(d.id))
+    .on('click', (e, d) => {
+      e.stopPropagation();
+      state.selectedHive = d.id;
+      loadHiveGraph(d.id);
+    })
+    .on('mouseover', (e, d) => showTooltip(e, `<strong>${d.label}</strong><br>${d.papers} papers, ${d.concepts} concepts, ${d.relations} relations`))
+    .on('mouseout', hideTooltip);
+
+  node.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', 4)
+    .attr('class', 'label')
+    .text(d => d.label.length > 18 ? d.label.slice(0, 16) + '…' : d.label);
+
+  simulation.on('tick', () => {
+    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    linkLabel.attr('x', d => (d.source.x + d.target.x) / 2)
+             .attr('y', d => (d.source.y + d.target.y) / 2);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+}
+
+function renderUnifiedGraph() {
+  document.getElementById('view-title').textContent = 'Unified Knowledge Graph';
+  document.getElementById('view-subtitle').textContent = 'all nodes across all hives';
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').textContent = 'Loading unified graph...';
+
+  Promise.all(state.hives.map(h => api(`/api/hive/${h.id}`)))
+    .then(hiveData => {
+      const allNodes = [];
+      const allEdges = [];
+      const nodeMap = new Map();
+
+      hiveData.forEach((hd, i) => {
+        const prefix = hd.id;
+        hd.nodes.forEach(n => {
+          const uid = `${prefix}:${n.id}`;
+          if (!nodeMap.has(uid)) {
+            nodeMap.set(uid, { ...n, uid, label: n.label, graphId: prefix });
+            allNodes.push(nodeMap.get(uid));
+          }
+        });
+        hd.edges.forEach(e => {
+          const suid = `${prefix}:${e.source}`;
+          const tuid = `${e.target_graph || prefix}:${e.target}`;
+          if (nodeMap.has(suid) && nodeMap.has(tuid)) {
+            allEdges.push({ ...e, source: suid, target: tuid });
+          }
+        });
+      });
+
+      renderD3Graph(allNodes, allEdges, true);
+      document.getElementById('loading').style.display = 'none';
+    });
+}
+
+function renderD3Graph(nodes, edges, unified = false) {
+  const svg = d3.select('#graph-container svg');
+  svg.selectAll('*').remove();
+
+  const width = document.getElementById('graph-container').clientWidth;
+  const height = document.getElementById('graph-container').clientHeight;
+  svg.attr('viewBox', [0, 0, width, height]);
+
+  if (!nodes.length) return;
+
+  const g = svg.append('g');
+  const zoom = d3.zoom().scaleExtent([0.1, 8]).on('zoom', (e) => g.attr('transform', e.transform));
+  svg.call(zoom);
+
+  const simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(edges).id(d => d.uid || d.id).distance(100))
+    .force('charge', d3.forceManyBody().strength(-120))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide(25));
+
+  const link = g.append('g')
+    .selectAll('line')
+    .data(edges)
+    .join('line')
+    .attr('class', d => {
+      if (d.cross_graph || (d.target_graph && d.target_graph !== d.source_graph)) return 'link cross';
+      return 'link';
+    })
+    .attr('stroke-opacity', 0.3);
+
+  const node = g.append('g')
+    .selectAll('g')
+    .data(nodes)
+    .join('g')
+    .attr('class', 'node')
+    .call(d3.drag()
+      .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+      .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+      .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+    );
+
+  const radiusMap = { paper: 8, concept: 10, graph_ref: 14 };
+  const colorMap = { paper: '#1f6feb', concept: '#238636', graph_ref: '#da3633' };
+
+  node.append('circle')
+    .attr('r', d => radiusMap[d.type] || 8)
+    .attr('fill', d => {
+      if (d.graphId && unified) return COLORS(d.graphId);
+      return colorMap[d.type] || '#8b949e';
+    })
+    .on('click', (e, d) => {
+      e.stopPropagation();
+      if (d.type === 'graph_ref') {
+        const tgt = d.target_graph_id || d.id.replace('graph_ref:', '');
+        if (tgt) loadHiveGraph(tgt);
+      }
+    })
+    .on('mouseover', (e, d) => {
+      let html = `<strong>${d.label}</strong><br>type: ${d.type}`;
+      if (d.graphId) html += `<br>hive: ${d.graphId}`;
+      if (d.target_graph_id) html += `<br>→ ${d.target_graph_id}`;
+      if (d.definition) html += `<br><em>${d.definition.slice(0, 120)}</em>`;
+      showTooltip(e, html);
+    })
+    .on('mouseout', hideTooltip);
+
+  node.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', d => -(radiusMap[d.type] || 8) - 4)
+    .attr('class', 'label')
+    .text(d => d.label.length > 20 ? d.label.slice(0, 18) + '…' : d.label);
+
+  simulation.on('tick', () => {
+    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node.attr('transform', d => `translate(${d.x},${d.y})`);
+  });
+}
+
+// ---- Hive list ----
+function loadHives() {
+  api('/api/hives').then(hives => {
+    state.hives = hives;
+    const list = document.getElementById('hive-list');
+    list.innerHTML = '';
+    hives.forEach(h => {
+      const card = document.createElement('div');
+      card.className = 'hive-card' + (state.selectedHive === h.id ? ' active' : '');
+      card.innerHTML = `
+        <div class="name">${h.id}</div>
+        <div class="stats">
+          <span>📄 <span class="num">${h.papers}</span></span>
+          <span>🧠 <span class="num">${h.concepts}</span></span>
+          <span>🔗 <span class="num">${h.relations}</span></span>
+          ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
+        </div>
+      `;
+      card.addEventListener('click', () => loadHiveGraph(h.id));
+      list.appendChild(card);
+    });
+    document.getElementById('status-bar').textContent =
+      `${hives.length} hives · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
+  });
+}
+
+function loadHiveGraph(hiveId) {
+  state.selectedHive = hiveId;
+  state.view = 'unified';
+  document.querySelectorAll('#view-toggle button').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-view="unified"]').classList.add('active');
+  document.getElementById('view-title').textContent = `Hive: ${hiveId}`;
+
+  // Update sidebar
+  document.querySelectorAll('.hive-card').forEach(c => c.classList.remove('active'));
+  const cards = document.querySelectorAll('.hive-card');
+  state.hives.forEach((h, i) => {
+    if (h.id === hiveId && cards[i]) cards[i].classList.add('active');
+  });
+
+  api(`/api/hive/${hiveId}`).then(data => {
+    document.getElementById('view-subtitle').textContent =
+      `${data.nodes.length} nodes, ${data.edges.length} edges`;
+    document.getElementById('loading').style.display = 'none';
+    renderD3Graph(data.nodes, data.edges);
+  });
+}
+
+// ---- Search ----
+let searchVisible = false;
+
+document.getElementById('search-btn').addEventListener('click', () => {
+  const q = document.getElementById('search-input').value.trim();
+  if (!q) return;
+  searchVisible = !searchVisible;
+  if (searchVisible) {
+    api(`/api/search?${encodeURIComponent(q)}`).then(results => {
+      const container = document.getElementById('search-results');
+      container.innerHTML = `<div class="header">${results.length} results for "${q}"</div>`;
+      results.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'result';
+        div.innerHTML = `<span class="graph">${r.graph_id}</span><span class="type">${r.type}</span><div class="label">${r.label}</div>`;
+        div.addEventListener('click', () => loadHiveGraph(r.graph_id));
+        container.appendChild(div);
+      });
+      container.classList.add('visible');
+    });
+  } else {
+    document.getElementById('search-results').classList.remove('visible');
+  }
+});
+
+// ---- Tooltip ----
+function showTooltip(e, html) {
+  const tt = document.getElementById('tooltip');
+  tt.innerHTML = html;
+  tt.style.display = 'block';
+  const rect = document.getElementById('graph-container').getBoundingClientRect();
+  tt.style.left = (e.pageX - rect.left + 12) + 'px';
+  tt.style.top = (e.pageY - rect.top - 10) + 'px';
+}
+
+function hideTooltip() {
+  document.getElementById('tooltip').style.display = 'none';
+}
+
+// ---- View toggle ----
+document.querySelectorAll('#view-toggle button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#view-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.view = btn.dataset.view;
+    if (state.view === 'meta') {
+      api('/api/meta-graph').then(mg => {
+        state.metaGraph = mg;
+        render();
+      });
+    } else if (state.view === 'unified') {
+      if (state.selectedHive) loadHiveGraph(state.selectedHive);
+      else renderUnifiedGraph();
+    }
+  });
+});
+
+// ---- Init ----
+Promise.all([
+  api('/api/meta-graph'),
+  api('/api/hives'),
+  api('/api/stats'),
+]).then(([metaGraph, hives, stats]) => {
+  state.metaGraph = metaGraph;
+  state.hives = hives;
+  renderMetaGraph();
+  loadHives();
+});
+
+// Resize
+window.addEventListener('resize', () => {
+  if (state.view === 'meta') renderMetaGraph();
+  else if (state.view === 'unified') render();
+});
+</script>
+</body>
+</html>
