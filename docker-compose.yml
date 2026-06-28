@@ -1,0 +1,9 @@
+services:
+  hivemind:
+    build: .
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./hives:/app/hives
+      - ./data:/app/data
+    restart: unless-stopped
