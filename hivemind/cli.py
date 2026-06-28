@@ -1,7 +1,10 @@
 import argparse
 import sys
 
+import json
+
 from .config import load as load_config
+from .concept_ingester import ConceptIngester, extract_keywords
 from .hive_mind import HiveMind
 
 
@@ -56,6 +59,22 @@ def main() -> None:
                          help="Port (default 9090)")
     p_serve.add_argument("--host", type=str, default="127.0.0.1",
                          help="Host (default 127.0.0.1)")
+
+    p_ingest = sub.add_parser("ingest", help="Ingest new concepts/keywords into a hive")
+    p_ingest.add_argument("keyword", nargs="?", help="Concept name to add")
+    p_ingest.add_argument("--hive", "-H", help="Target hive (auto-suggested if omitted)")
+    p_ingest.add_argument("--definition", "-d", default="", help="Definition text")
+    p_ingest.add_argument("--text", "-t", help="Extract keywords from text and ingest")
+    p_ingest.add_argument("--connect", "-c", nargs="*",
+                          help="Connect to existing concepts in the target hive")
+    p_ingest.add_argument("--force", "-f", action="store_true",
+                          help="Add even if similar concept exists")
+    p_ingest.add_argument("--suggest", action="store_true",
+                          help="Only suggest, don't add")
+    p_ingest.add_argument("--batch", "-b", help="Path to JSON file with batch items")
+
+    p_suggest = sub.add_parser("suggest", help="Suggest hives for a keyword")
+    p_suggest.add_argument("keyword", help="Keyword to find matching hives for")
 
     p_inspect = sub.add_parser("inspect", help="Show detailed info about a hive")
     p_inspect.add_argument("name", help="Hive name")
@@ -141,6 +160,51 @@ def main() -> None:
             print("  Cross-graph edges:")
             for e in cross:
                 print(f"    {e['source']} --{e['relation']}--> {e['target']}")
+
+    elif args.command == "ingest":
+        ingester = ConceptIngester(hm)
+        if args.suggest and args.keyword:
+            suggestions = ingester.suggest_hive(args.keyword)
+            if not suggestions:
+                print(f"No hives found for '{args.keyword}'.")
+            else:
+                print(f"Suggested hives for '{args.keyword}':")
+                for s in suggestions:
+                    tag = " (exists)" if s["existing_concept"] else ""
+                    print(f"  {s['graph_id']:<24} score={s['score']:.2f}{tag}")
+            return
+        if args.text:
+            results = ingester.ingest_from_text(args.text, args.hive, args.force)
+        elif args.batch:
+            with open(args.batch) as f:
+                items = json.load(f)
+            results = ingester.ingest_batch(items, args.hive, args.force)
+        elif args.keyword:
+            results = [ingester.ingest(args.keyword, args.definition,
+                                        args.hive, args.force,
+                                        connect_to=args.connect)]
+        else:
+            print("Provide a keyword, --text, or --batch. Use --suggest to preview.")
+            return
+        for r in results:
+            status = r["status"]
+            icon = {"added": "✓", "skipped": "~", "error": "✗"}.get(status, "?")
+            print(f"{icon}  {r['message']}")
+            if r.get("similar"):
+                print(f"    Similar: {', '.join(s['label'] for s in r['similar'])}")
+            if status == "error" and r.get("message"):
+                pass
+
+    elif args.command == "suggest":
+        ingester = ConceptIngester(hm)
+        suggestions = ingester.suggest_hive(args.keyword)
+        if not suggestions:
+            print(f"No hives found for '{args.keyword}'.")
+            return
+        print(f"Hive suggestions for '{args.keyword}':")
+        for s in suggestions:
+            tag = " (exists)" if s["existing_concept"] else ""
+            print(f"  {s['graph_id']:<24} score={s['score']:.2f}{tag}")
 
     elif args.command == "stats":
         s = hm.stats()

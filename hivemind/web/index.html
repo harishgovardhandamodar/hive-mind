@@ -35,6 +35,7 @@
   --paper-color: #1f6feb;
   --concept-color: #238636;
   --graphref-color: #da3633;
+  --edge-color: #636e7b;
 }
 
 html.light {
@@ -66,6 +67,7 @@ html.light {
   --paper-color: #0969da;
   --concept-color: #1a7f37;
   --graphref-color: #cf222e;
+  --edge-color: #afb8c1;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -113,7 +115,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .node text.label { font-size: 11px; }
 .node text.type-label { font-size: 8px; fill: var(--text-secondary); }
 
-.link { stroke: var(--border); stroke-opacity: 0.5; stroke-width: 1.5; }
+.link { stroke: var(--edge-color); stroke-opacity: 0.65; stroke-width: 1.5; }
 .link.cross { stroke: var(--accent-yellow); stroke-dasharray: 4 3; }
 .link.ref { stroke: var(--accent); stroke-width: 2; }
 
@@ -153,6 +155,78 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
   transition: all .2s; padding: 0; line-height: 1;
 }
 .theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Query panel */
+#query-panel {
+  position: absolute; top: 0; left: 0; right: 0;
+  background: var(--bg-results); border-bottom: 1px solid var(--border);
+  display: none; z-index: 50; max-height: 40%;
+  overflow-y: auto;
+}
+#query-panel.visible { display: block; }
+#query-panel .header {
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  font-weight: 600; font-size: 13px; color: var(--text-title);
+}
+#query-explanation {
+  padding: 12px 16px; font-size: 13px; line-height: 1.6;
+  color: var(--text);
+}
+#query-explanation strong { color: var(--accent); }
+#query-explanation em { color: var(--accent-yellow); font-style: normal; }
+#query-close {
+  position: absolute; top: 8px; right: 12px;
+  cursor: pointer; color: var(--text-secondary); font-size: 18px;
+  line-height: 1; padding: 2px 6px; border-radius: 4px;
+}
+#query-close:hover { background: var(--bg-card-hover); color: var(--text); }
+
+/* Ingest panel */
+#ingest-panel {
+  position: absolute; top: 0; left: 0; right: 0;
+  background: var(--bg-results); border-bottom: 1px solid var(--border);
+  display: none; z-index: 50; overflow-y: auto;
+}
+#ingest-panel.visible { display: block; }
+#ingest-panel .header {
+  padding: 10px 16px; border-bottom: 1px solid var(--border);
+  font-weight: 600; font-size: 13px; color: var(--text-title);
+}
+#ingest-panel .header.small { font-size: 12px; padding: 8px 16px; background: var(--bg-card); }
+#ingest-close {
+  position: absolute; top: 8px; right: 12px;
+  cursor: pointer; color: var(--text-secondary); font-size: 18px;
+  line-height: 1; padding: 2px 6px; border-radius: 4px;
+}
+#ingest-close:hover { background: var(--bg-card-hover); color: var(--text); }
+#ingest-form, #ingest-bulk { padding: 12px 16px; }
+.ingest-row { margin-bottom: 10px; }
+.ingest-row label { display: block; font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+.ingest-row label .opt { font-style: italic; }
+.ingest-row input, .ingest-row textarea, .ingest-row select {
+  width: 100%; background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 10px; color: var(--text-title);
+  font-size: 12px; outline: none; font-family: inherit;
+}
+.ingest-row input:focus, .ingest-row textarea:focus, .ingest-row select:focus {
+  border-color: var(--accent);
+}
+.ingest-actions { display: flex; gap: 8px; margin-top: 10px; }
+.ingest-actions button {
+  background: var(--btn-bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 14px; color: var(--text);
+  font-size: 12px; cursor: pointer; transition: all .15s;
+}
+.ingest-actions button:hover { border-color: var(--accent); }
+.ingest-actions button.primary { background: var(--accent-green); border-color: var(--accent-green); color: #fff; }
+.ingest-actions button.primary:hover { background: var(--accent-green-hover); }
+.ingest-divider { border-top: 1px solid var(--border); }
+#ingest-result, #ingest-extracted {
+  margin-top: 10px; font-size: 12px; line-height: 1.5;
+}
+#ingest-result .ok { color: var(--accent-green); }
+#ingest-result .warn { color: var(--accent-yellow); }
+#ingest-result .err { color: var(--graphref-color); }
 </style>
 </head>
 <body>
@@ -173,9 +247,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
         <button data-view="unified">Unified</button>
       </div>
       <button class="theme-btn" id="theme-toggle" title="Toggle theme">&#9788;</button>
+      <button id="ingest-btn" style="background:var(--accent-yellow);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">+ Concept</button>
       <div id="search-box">
-        <input id="search-input" placeholder="Search concepts..." />
-        <button id="search-btn">Search</button>
+        <input id="query-input" placeholder="Ask a question..." title="e.g. How is Photonic computing related to AI acceleration?" />
+        <button id="query-btn">Ask</button>
       </div>
     </div>
     <div id="graph-container">
@@ -190,6 +265,48 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       </div>
       <div id="search-results">
         <div class="header">Search Results</div>
+      </div>
+      <div id="query-panel">
+        <div class="header">Query Result</div>
+        <div id="query-explanation"></div>
+        <div id="query-close" title="Close">&times;</div>
+      </div>
+      <div id="ingest-panel">
+        <div class="header">Add New Concept</div>
+        <div id="ingest-close" title="Close">&times;</div>
+        <div id="ingest-form">
+          <div class="ingest-row">
+            <label>Keyword</label>
+            <input id="ingest-keyword" placeholder="e.g. Differentiable Programming" />
+          </div>
+          <div class="ingest-row">
+            <label>Definition <span class="opt">(optional)</span></label>
+            <textarea id="ingest-definition" rows="2" placeholder="Brief description..."></textarea>
+          </div>
+          <div class="ingest-row">
+            <label>Target Hive</label>
+            <select id="ingest-hive"><option value="">— auto-suggest —</option></select>
+          </div>
+          <div class="ingest-row">
+            <label>Connect to <span class="opt">(optional)</span></label>
+            <input id="ingest-connect" placeholder="Existing concept names, comma-separated" />
+          </div>
+          <div class="ingest-actions">
+            <button id="ingest-suggest-btn">Suggest Hive</button>
+            <button id="ingest-add-btn" class="primary">Add Concept</button>
+          </div>
+          <div id="ingest-result"></div>
+        </div>
+        <div class="ingest-divider"></div>
+        <div class="header small">Bulk Extract from Text</div>
+        <div id="ingest-bulk">
+          <textarea id="ingest-text" rows="3" placeholder="Paste paper abstract / text to extract keywords from..."></textarea>
+          <div class="ingest-actions">
+            <button id="ingest-extract-btn">Extract Keywords</button>
+            <button id="ingest-bulk-add-btn" class="primary">Add All</button>
+          </div>
+          <div id="ingest-extracted"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -471,29 +588,33 @@ function loadHiveGraph(hiveId) {
   });
 }
 
-// ---- Search ----
-let searchVisible = false;
-
-document.getElementById('search-btn').addEventListener('click', () => {
-  const q = document.getElementById('search-input').value.trim();
+// ---- Query ----
+document.getElementById('query-btn').addEventListener('click', () => {
+  const q = document.getElementById('query-input').value.trim();
   if (!q) return;
-  searchVisible = !searchVisible;
-  if (searchVisible) {
-    api(`/api/search?query=${encodeURIComponent(q)}`).then(results => {
-      const container = document.getElementById('search-results');
-      container.innerHTML = `<div class="header">${results.length} results for "${q}"</div>`;
-      results.forEach(r => {
-        const div = document.createElement('div');
-        div.className = 'result';
-        div.innerHTML = `<span class="graph">${r.graph_id}</span><span class="type">${r.type}</span><div class="label">${r.label}</div>`;
-        div.addEventListener('click', () => loadHiveGraph(r.graph_id));
-        container.appendChild(div);
-      });
-      container.classList.add('visible');
-    });
-  } else {
-    document.getElementById('search-results').classList.remove('visible');
-  }
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').textContent = 'Querying...';
+  api(`/api/query?q=${encodeURIComponent(q)}`).then(result => {
+    document.getElementById('loading').style.display = 'none';
+    const panel = document.getElementById('query-panel');
+    const expl = document.getElementById('query-explanation');
+    expl.innerHTML = result.explanation || 'No results.';
+    panel.classList.add('visible');
+
+    if (result.nodes && result.nodes.length) {
+      renderD3Graph(result.nodes, result.edges);
+      document.getElementById('view-title').textContent = `Query: ${result.source} ↔ ${result.target}`;
+      document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges`;
+    }
+  });
+});
+
+document.getElementById('query-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('query-btn').click();
+});
+
+document.getElementById('query-close').addEventListener('click', () => {
+  document.getElementById('query-panel').classList.remove('visible');
 });
 
 // ---- Tooltip ----
@@ -526,6 +647,121 @@ document.querySelectorAll('#view-toggle button').forEach(btn => {
       else renderUnifiedGraph();
     }
   });
+});
+
+// ---- Ingest ----
+document.getElementById('ingest-btn').addEventListener('click', () => {
+  const panel = document.getElementById('ingest-panel');
+  const sel = document.getElementById('ingest-hive');
+  // populate hive dropdown
+  sel.innerHTML = '<option value="">— auto-suggest —</option>';
+  state.hives.forEach(h => {
+    const opt = document.createElement('option');
+    opt.value = h.id; opt.textContent = h.id;
+    sel.appendChild(opt);
+  });
+  panel.classList.toggle('visible');
+  document.getElementById('ingest-keyword').focus();
+});
+
+document.getElementById('ingest-close').addEventListener('click', () => {
+  document.getElementById('ingest-panel').classList.remove('visible');
+});
+
+document.getElementById('ingest-suggest-btn').addEventListener('click', async () => {
+  const kw = document.getElementById('ingest-keyword').value.trim();
+  if (!kw) return;
+  const res = await api(`/api/suggest-concepts?keyword=${encodeURIComponent(kw)}`);
+  const div = document.getElementById('ingest-result');
+  if (!res.suggestions || !res.suggestions.length) {
+    div.innerHTML = '<span class="warn">No matching hives found.</span>';
+    return;
+  }
+  let html = '<div class="ok"><strong>Suggested hives:</strong></div>';
+  res.suggestions.forEach(s => {
+    html += `<div>• ${s.graph_id} (score: ${s.score}${s.existing_concept ? ', already exists' : ''})</div>`;
+  });
+  if (res.similar && res.similar.length) {
+    html += '<div style="margin-top:4px"><strong>Similar existing concepts:</strong></div>';
+    res.similar.slice(0, 4).forEach(s => {
+      html += `<div>• ${s.label} (in ${s.graph_id}, score ${s.score})</div>`;
+    });
+  }
+  div.innerHTML = html;
+});
+
+document.getElementById('ingest-add-btn').addEventListener('click', async () => {
+  const keyword = document.getElementById('ingest-keyword').value.trim();
+  if (!keyword) return;
+  const definition = document.getElementById('ingest-definition').value.trim();
+  const hive = document.getElementById('ingest-hive').value || null;
+  const connectRaw = document.getElementById('ingest-connect').value.trim();
+  const connectTo = connectRaw ? connectRaw.split(',').map(s => s.trim()).filter(Boolean) : null;
+
+  const res = await fetch('/api/ingest', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ keyword, definition, hive, connect_to: connectTo }),
+  });
+  const data = await res.json();
+  const div = document.getElementById('ingest-result');
+  let html = '';
+  (data.results || []).forEach(r => {
+    if (r.status === 'added') html += `<div class="ok">✓ ${r.message}</div>`;
+    else if (r.status === 'skipped') html += `<div class="warn">~ ${r.message}</div>`;
+    else html += `<div class="err">✗ ${r.message}</div>`;
+    if (r.similar && r.similar.length) {
+      html += `<div style="margin-left:12px;font-size:11px;color:var(--text-secondary)">Similar: ${r.similar.map(s => s.label).join(', ')}</div>`;
+    }
+  });
+  div.innerHTML = html || '<span class="err">No results</span>';
+  // refresh hive list
+  loadHives();
+  if (state.selectedHive) loadHiveGraph(state.selectedHive);
+});
+
+document.getElementById('ingest-extract-btn').addEventListener('click', async () => {
+  const text = document.getElementById('ingest-text').value.trim();
+  if (!text) return;
+  const res = await api(`/api/extract-keywords?text=${encodeURIComponent(text)}`);
+  const div = document.getElementById('ingest-extracted');
+  if (!res.keywords || !res.keywords.length) {
+    div.innerHTML = '<span class="warn">No keywords extracted.</span>';
+    return;
+  }
+  let html = '<div class="ok"><strong>Extracted keywords:</strong></div><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">';
+  res.keywords.forEach(kw => {
+    html += `<span style="background:var(--bg-card);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:11px;">${kw}</span>`;
+  });
+  html += '</div>';
+  div.innerHTML = html;
+  document.getElementById('ingest-extracted').dataset.keywords = JSON.stringify(res.keywords);
+});
+
+document.getElementById('ingest-bulk-add-btn').addEventListener('click', async () => {
+  const raw = document.getElementById('ingest-extracted').dataset.keywords;
+  if (!raw) return;
+  const keywords = JSON.parse(raw);
+  const hive = document.getElementById('ingest-hive').value || null;
+  const div = document.getElementById('ingest-extracted');
+  div.innerHTML = '<span>Adding concepts...</span>';
+  const res = await fetch('/api/ingest', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      text: keywords.join(', '),
+      hive,
+    }),
+  });
+  const data = await res.json();
+  let html = '';
+  (data.results || []).forEach(r => {
+    if (r.status === 'added') html += `<div class="ok">✓ ${r.message}</div>`;
+    else if (r.status === 'skipped') html += `<div class="warn">~ ${r.message}</div>`;
+  });
+  div.innerHTML = html || '<span class="warn">No new concepts added.</span>';
+  loadHives();
+  if (state.selectedHive) loadHiveGraph(state.selectedHive);
 });
 
 // ---- Init ----

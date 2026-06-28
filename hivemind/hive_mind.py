@@ -98,5 +98,8 @@ class HiveMind:
     def meta_graph(self) -> dict[str, Any]:
         return self.federation.meta_graph_data()
 
+    def query_relation(self, text: str) -> dict[str, Any]:
+        return self.federation.query_relation(text)
+
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()

@@ -464,6 +464,38 @@
       "target_graph_id": "llms",
       "graph_id": "graph-networks",
       "id": "graph_ref:llms"
+    },
+    {
+      "type": "concept",
+      "label": "Networks",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "graph-networks",
+      "id": "concept:Networks"
+    },
+    {
+      "type": "concept",
+      "label": "Neural",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "graph-networks",
+      "id": "concept:Neural"
+    },
+    {
+      "type": "concept",
+      "label": "Spiking Neural",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "graph-networks",
+      "id": "concept:Spiking Neural"
+    },
+    {
+      "type": "concept",
+      "label": "propose Spiking",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "graph-networks",
+      "id": "concept:propose Spiking"
     }
   ],
   "links": [

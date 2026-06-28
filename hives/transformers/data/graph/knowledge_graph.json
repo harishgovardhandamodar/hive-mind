@@ -462,6 +462,22 @@
       "target_graph_id": "graph-networks",
       "graph_id": "transformers",
       "id": "graph_ref:graph-networks"
+    },
+    {
+      "type": "concept",
+      "label": "Differentiable Programming",
+      "definition": "A programming paradigm where programs are fully differentiable",
+      "concept_type": "concept",
+      "graph_id": "transformers",
+      "id": "concept:Differentiable Programming"
+    },
+    {
+      "type": "concept",
+      "label": "Neural Architecture Search",
+      "definition": "Automated search for optimal neural network architectures",
+      "concept_type": "concept",
+      "graph_id": "transformers",
+      "id": "concept:Neural Architecture Search"
     }
   ],
   "links": [
@@ -713,6 +729,12 @@
       "relation": "references",
       "source": "graph_ref:graph-networks",
       "target": "graph-networks",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:Neural Architecture Search",
+      "target": "concept:transformer",
       "key": 0
     }
   ],

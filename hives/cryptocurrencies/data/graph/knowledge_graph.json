@@ -421,6 +421,14 @@
       "target_graph_id": "ai-acceleration",
       "graph_id": "cryptocurrencies",
       "id": "graph_ref:ai-acceleration"
+    },
+    {
+      "type": "concept",
+      "label": "Homomorphic Encryption",
+      "definition": "Encryption that allows computation on encrypted data",
+      "concept_type": "concept",
+      "graph_id": "cryptocurrencies",
+      "id": "concept:Homomorphic Encryption"
     }
   ],
   "links": [
@@ -672,6 +680,18 @@
       "relation": "references",
       "source": "graph_ref:ai-acceleration",
       "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:Homomorphic Encryption",
+      "target": "concept:zero-knowledge proof",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "concept:Homomorphic Encryption",
+      "target": "concept:blockchain",
       "key": 0
     }
   ],

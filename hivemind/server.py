@@ -3,9 +3,10 @@ import os
 import sys
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import urlparse, unquote
 
 from .config import load as load_config
+from .concept_ingester import ConceptIngester, extract_keywords
 from .hive_mind import HiveMind
 
 _hm: HiveMind | None = None
@@ -13,6 +14,39 @@ _WEB_DIR = os.path.join(os.path.dirname(__file__), "web")
 
 
 class Handler(BaseHTTPRequestHandler):
+
+    def _read_body(self) -> str:
+        length = int(self.headers.get("Content-Length", 0))
+        return self.rfile.read(length).decode("utf-8") if length else ""
+
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/")
+
+        if path == "/api/ingest":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            ingester = ConceptIngester(_hm)
+            keyword = body.get("keyword", "")
+            hive = body.get("hive")
+            definition = body.get("definition", "")
+            force = body.get("force", False)
+            text = body.get("text")
+            connect_to = body.get("connect_to")
+            if text:
+                results = ingester.ingest_from_text(text, hive, force)
+            elif keyword:
+                result = ingester.ingest(keyword, definition, hive, force, connect_to=connect_to)
+                results = [result]
+            else:
+                return self._json(400, {"error": "provide 'keyword' or 'text'"})
+            self._json(200, {"results": results})
+        else:
+            self._json(404, {"error": "not found"})
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -56,9 +90,32 @@ class Handler(BaseHTTPRequestHandler):
                 "nodes": nodes,
                 "edges": edges,
             })
+        elif path == "/api/query":
+            query = parsed.query
+            q = unquote(query.split("=", 1)[1]) if "=" in query else ""
+            result = _hm.query_relation(q) if _hm and q else {"nodes": [], "edges": [], "explanation": ""}
+            self._json(200, result)
+        elif path == "/api/suggest-concepts":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            ingester = ConceptIngester(_hm)
+            query = parsed.query
+            keyword = unquote(query.split("=", 1)[1]) if "=" in query else ""
+            if not keyword:
+                return self._json(400, {"error": "provide ?keyword=..."})
+            suggestions = ingester.suggest_hive(keyword)
+            similar = ingester.find_similar(keyword, threshold=0.4)
+            self._json(200, {"suggestions": suggestions, "similar": similar[:10]})
+        elif path == "/api/extract-keywords":
+            query = parsed.query
+            text = unquote(query.split("=", 1)[1]) if "=" in query else ""
+            if not text:
+                return self._json(400, {"error": "provide ?text=..."})
+            keywords = extract_keywords(text)
+            self._json(200, {"keywords": keywords[:30]})
         elif path == "/api/search":
             query = parsed.query
-            q = query.split("=", 1)[1] if "=" in query else ""
+            q = unquote(query.split("=", 1)[1]) if "=" in query else ""
             results = _hm.unified_search(q) if _hm and q else []
             self._json(200, results[:50])
         else:
