@@ -124,6 +124,19 @@ class Handler(BaseHTTPRequestHandler):
                                             "papers": len(result.get("papers_added", [])),
                                             "concepts": len(result.get("concepts_added", []))})
             self._json(200, result)
+        elif path.startswith("/api/hive/") and path.endswith("/visibility"):
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            hive_id = path.split("/")[-2]
+            visible = body.get("visible", True)
+            _hm.set_hive_visibility(hive_id, visible)
+            broadcast_event("hive-update", {"hive": hive_id, "action": "visibility",
+                                            "visible": visible})
+            self._json(200, {"status": "ok", "hive": hive_id, "visible": visible})
         else:
             self._json(404, {"error": "not found"})
 

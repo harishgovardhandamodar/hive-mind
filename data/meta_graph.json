@@ -7,66 +7,77 @@
       "label": "quantum-computing",
       "path": "/home/fox/codebase/hive-mind/hives/quantum-computing/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "quantum-computing"
     },
     {
       "label": "photonic-computing",
       "path": "/home/fox/codebase/hive-mind/hives/photonic-computing/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "photonic-computing"
     },
     {
       "label": "ai-acceleration",
       "path": "/home/fox/codebase/hive-mind/hives/ai-acceleration/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "ai-acceleration"
     },
     {
       "label": "graph-networks",
       "path": "/home/fox/codebase/hive-mind/hives/graph-networks/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "graph-networks"
     },
     {
       "label": "gnns",
       "path": "/home/fox/codebase/hive-mind/hives/gnns/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "gnns"
     },
     {
       "label": "transformers",
       "path": "/home/fox/codebase/hive-mind/hives/transformers/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "transformers"
     },
     {
       "label": "llms",
       "path": "/home/fox/codebase/hive-mind/hives/llms/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "llms"
     },
     {
       "label": "ai-agents",
       "path": "/home/fox/codebase/hive-mind/hives/ai-agents/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "ai-agents"
     },
     {
       "label": "cryptocurrencies",
       "path": "/home/fox/codebase/hive-mind/hives/cryptocurrencies/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "cryptocurrencies"
     },
     {
       "label": "proof-of-work",
       "path": "/home/fox/codebase/hive-mind/hives/proof-of-work/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "proof-of-work"
     },
     {
       "label": "proof-of-stake",
       "path": "/home/fox/codebase/hive-mind/hives/proof-of-stake/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
+      "visible": true,
       "id": "proof-of-stake"
     }
   ],

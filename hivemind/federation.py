@@ -54,6 +54,7 @@ class Federation:
         result = []
         for gid, kg in self.graphs.items():
             s = kg.stats()
+            visible = self.meta_graph.nodes[gid].get("visible", True) if self.meta_graph.has_node(gid) else True
             result.append({
                 "id": gid,
                 "path": kg.path,
@@ -62,6 +63,7 @@ class Federation:
                 "graph_refs": s["graph_refs"],
                 "relations": s["relations"],
                 "cross_edges": s["cross_edges"],
+                "visible": visible,
             })
         return result
 
@@ -410,7 +412,11 @@ class Federation:
                 label=gid,
                 path=kg.path,
                 type="knowledge_graph",
+                visible=True,
             )
+        else:
+            if "visible" not in self.meta_graph.nodes[gid]:
+                self.meta_graph.nodes[gid]["visible"] = True
         # Restore cross-graph refs from the KG into meta-graph
         for ref in kg.get_all_graph_refs():
             tgt = ref["target_graph_id"]
@@ -426,6 +432,8 @@ class Federation:
             with open(self.meta_graph_path) as f:
                 data = json.load(f)
             self.meta_graph = nx.node_link_graph(data, multigraph=True, directed=True, edges="links")
+            for _, d in self.meta_graph.nodes(data=True):
+                d.setdefault("visible", True)
 
     def _save_meta(self) -> None:
         os.makedirs(os.path.dirname(self.meta_graph_path), exist_ok=True)
@@ -433,23 +441,40 @@ class Federation:
         with open(self.meta_graph_path, "w") as f:
             json.dump(data, f, indent=2)
 
-    def meta_graph_data(self) -> dict[str, Any]:
+    def meta_graph_data(self, include_hidden: bool = False) -> dict[str, Any]:
+        visible_nodes = set()
+        for n, d in self.meta_graph.nodes(data=True):
+            if include_hidden or d.get("visible", True):
+                visible_nodes.add(n)
         nodes = []
         edges = []
         for n, d in self.meta_graph.nodes(data=True):
+            if n not in visible_nodes:
+                continue
             s = self.graphs[n].stats() if n in self.graphs else {}
             nodes.append({
                 "id": n,
                 "label": d.get("label", n),
                 "type": "knowledge_graph",
+                "visible": d.get("visible", True),
                 "papers": s.get("papers", 0),
                 "concepts": s.get("concepts", 0),
                 "relations": s.get("relations", 0),
             })
         for u, v, d in self.meta_graph.edges(data=True):
-            edges.append({
-                "source": u,
-                "target": v,
-                "relation": d.get("relation", "references"),
-            })
+            if u in visible_nodes and v in visible_nodes:
+                edges.append({
+                    "source": u,
+                    "target": v,
+                    "relation": d.get("relation", "references"),
+                })
         return {"nodes": nodes, "edges": edges}
+
+    def set_hive_visibility(self, gid: str, visible: bool) -> None:
+        if self.meta_graph.has_node(gid):
+            self.meta_graph.nodes[gid]["visible"] = visible
+            self._save_meta()
+        elif gid in self.graphs:
+            self.meta_graph.add_node(gid, label=gid, type="knowledge_graph",
+                                     visible=visible)
+            self._save_meta()

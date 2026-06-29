@@ -108,6 +108,9 @@ class HiveMind:
     def meta_graph(self) -> dict[str, Any]:
         return self.federation.meta_graph_data()
 
+    def set_hive_visibility(self, hive_id: str, visible: bool) -> None:
+        self.federation.set_hive_visibility(hive_id, visible)
+
     def query_relation(self, text: str) -> dict[str, Any]:
         return self.federation.query_relation(text)
 

@@ -153,6 +153,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #metric-select { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; color: var(--text-secondary); font-size: 11px; outline: none; cursor: pointer; }
 #metric-select:hover { border-color: var(--accent); }
 
+.vis-toggle { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); float: right; margin-top: 2px; }
+.hive-card.hidden { opacity: 0.45; }
+
 .theme-btn {
   background: none; border: 1px solid var(--border); border-radius: 6px;
   width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
@@ -460,7 +463,12 @@ function renderUnifiedGraph() {
   document.getElementById('loading').style.display = 'block';
   document.getElementById('loading').textContent = 'Loading unified graph...';
 
-  Promise.all(state.hives.map(h => api(`/api/hive/${h.id}`)))
+  const visibleHives = state.hives.filter(h => h.visible !== false);
+  if (!visibleHives.length) {
+    document.getElementById('loading').textContent = 'No visible hives. Toggle visibility in the sidebar.';
+    return;
+  }
+  Promise.all(visibleHives.map(h => api(`/api/hive/${h.id}`)))
     .then(hiveData => {
       const allNodes = [];
       const allEdges = [];
@@ -590,8 +598,9 @@ function loadHives() {
     hives.forEach(h => {
       const card = document.createElement('div');
       card.className = 'hive-card' + (state.selectedHive === h.id ? ' active' : '');
+      if (h.visible === false) card.classList.add('hidden');
       card.innerHTML = `
-        <div class="name">${h.id}</div>
+        <div class="name">${h.id} <input type="checkbox" class="vis-toggle" ${h.visible !== false ? 'checked' : ''} title="Show/hide in graphs" /></div>
         <div class="stats">
           <span>📄 <span class="num">${h.papers}</span></span>
           <span>🧠 <span class="num">${h.concepts}</span></span>
@@ -605,16 +614,35 @@ function loadHives() {
         </div>
       `;
       card.addEventListener('click', (e) => {
-        if (e.target.closest('.hive-action-btn')) return;
+        if (e.target.closest('.vis-toggle') || e.target.closest('.hive-action-btn')) return;
         loadHiveGraph(h.id);
+      });
+      card.querySelector('.vis-toggle').addEventListener('change', async (e) => {
+        e.stopPropagation();
+        const visible = e.target.checked;
+        card.classList.toggle('hidden', !visible);
+        await fetch(`/api/hive/${h.id}/visibility`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({visible}),
+        });
+        // Re-render graphs
+        refreshGraphs();
       });
       list.appendChild(card);
     });
+    const visibleCount = hives.filter(h => h.visible !== false).length;
     document.getElementById('status-bar').textContent =
-      `${hives.length} hives · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
+      `${visibleCount}/${hives.length} hives · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
   }).catch(err => {
     document.getElementById('status-bar').textContent = 'Error loading hives: ' + err.message;
   });
+}
+
+async function refreshGraphs() {
+  const mg = await api('/api/meta-graph');
+  state.metaGraph = mg;
+  render();
 }
 
 function loadHiveGraph(hiveId) {
