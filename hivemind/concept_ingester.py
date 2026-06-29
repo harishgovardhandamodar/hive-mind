@@ -435,6 +435,84 @@ class ConceptIngester:
             results.append(result)
         return results
 
+    def search_arxiv(self, query: str, hive_name: str | None = None,
+                      max_results: int = 10,
+                      max_concepts: int = 10,
+                      resolve: bool = True) -> dict[str, Any]:
+        """Search arxiv by query, fetch matching papers, add to a hive."""
+        if not query:
+            return {"status": "error", "message": "No search query provided"}
+
+        target_hive = hive_name
+        if not target_hive:
+            target_hive = query.lower().replace(" ", "-")[:30]
+        if not self.fed.get_graph(target_hive):
+            self.hm.create_hive(target_hive)
+
+        kg = self.fed.get_graph(target_hive)
+        papers_added = []
+        concepts_added = []
+
+        ARXIV_URL = "https://export.arxiv.org/api/query?search_query=all:{}&max_results={}&start=0"
+        NS = {"a": "http://www.w3.org/2005/Atom",
+              "arxiv": "http://arxiv.org/schemas/atom"}
+
+        try:
+            url = ARXIV_URL.format(requests.utils.quote(query), max_results)
+            r = requests.get(url, headers={"User-Agent": "HiveMind/1.0"}, timeout=30)
+            r.raise_for_status()
+            root = ET.fromstring(r.content)
+        except Exception as e:
+            return {"status": "error", "message": f"Arxiv search failed: {e}"}
+
+        entries = root.findall("a:entry", NS)
+        if not entries:
+            return {"status": "ok", "message": f"No arxiv results for '{query}'",
+                    "hive": target_hive, "papers_added": [], "concepts_added": []}
+
+        for entry in entries:
+            arxiv_id = _parse_arxiv_id(entry)
+            if not arxiv_id or kg.has_paper(arxiv_id):
+                continue
+
+            title = _get_text(entry, "a:title", NS)
+            abstract = _get_text(entry, "a:summary", NS)
+            authors = [a.findtext("a:name", "", NS)
+                       for a in entry.findall("a:author", NS)]
+            published = _get_text(entry, "a:published", NS)[:10]
+            categories = [c.get("term", "") for c in entry.findall("a:category", NS)]
+
+            paper_data = {
+                "arxiv_id": arxiv_id,
+                "title": title,
+                "authors": authors,
+                "published": published,
+                "abstract": abstract,
+                "categories": categories,
+            }
+            paper_node = kg.add_paper(paper_data)
+            papers_added.append(arxiv_id)
+
+            combined = f"{title} {abstract}"
+            keywords = extract_keywords(combined, max_phrases=max_concepts)
+            for kw in keywords[:max_concepts]:
+                concept_node = kg.add_concept(kw, "")
+                kg.add_edge(paper_node, concept_node, "introduces")
+                concepts_added.append(kw)
+                if resolve:
+                    self.resolve_concept(concept_node, kw, kg)
+
+            time.sleep(0.3)
+
+        kg.save()
+        return {
+            "status": "ok",
+            "message": f"Fetched {len(papers_added)} papers, {len(set(concepts_added))} concepts into '{target_hive}'",
+            "hive": target_hive,
+            "papers_added": papers_added,
+            "concepts_added": list(set(concepts_added)),
+        }
+
     def import_from_arxiv(self, arxiv_ids: list[str],
                           hive_name: str | None = None,
                           max_concepts: int = 10,

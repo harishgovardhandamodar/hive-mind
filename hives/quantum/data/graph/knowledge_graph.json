@@ -1,0 +1,700 @@
+{
+  "directed": true,
+  "multigraph": true,
+  "graph": {},
+  "nodes": [
+    {
+      "type": "paper",
+      "label": "Tierkreis: A Dataflow Framework for Hybrid Quantum-Classical Computing",
+      "arxiv_id": "2211.02350",
+      "authors": "Seyon Sivarajah, Lukas Heidemann, Alan Lawrence, Ross Duncan",
+      "published": "2022-11-04",
+      "abstract": "We present Tierkreis, a higher-order dataflow graph program representation and runtime designed for compositional, quantum-classical hybrid algorithms. The design of the system is motivated by the remote nature of quantum computers, the need for hybrid algorithms to involve cloud and distributed computing, and the long-running nature of these algorithms. The graph-based representation reflects how designers reason about and visualise algorithms, and allows automatic parallelism and asynchronicity. A strong, static type system and higher-order semantics allow for high expressivity and compositionality in the program. The flexible runtime protocol enables third-party developers to add functionality using any language or environment. With Tierkreis, quantum software developers can easily build, visualise, verify, test, and debug complex hybrid workflows, and immediately deploy them to the cloud or a custom distributed environment.",
+      "categories": [
+        "quant-ph",
+        "cs.DC"
+      ],
+      "graph_id": "quantum",
+      "id": "paper:2211.02350"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum-Classical Computing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Quantum-Classical Computing"
+    },
+    {
+      "type": "concept",
+      "label": "Hybrid Quantum-Classical",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Hybrid Quantum-Classical"
+    },
+    {
+      "type": "concept",
+      "label": "Tierkreis Dataflow",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Tierkreis Dataflow"
+    },
+    {
+      "type": "concept",
+      "label": "Dataflow Framework",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Dataflow Framework"
+    },
+    {
+      "type": "concept",
+      "label": "Hybrid Quantum-Classical Computing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Hybrid Quantum-Classical Computing"
+    },
+    {
+      "type": "concept",
+      "label": "Tierkreis Dataflow Framework",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Tierkreis Dataflow Framework"
+    },
+    {
+      "type": "concept",
+      "label": "With Tierkreis",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:With Tierkreis"
+    },
+    {
+      "type": "concept",
+      "label": "Tierkreis higher-order",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Tierkreis higher-order"
+    },
+    {
+      "type": "concept",
+      "label": "Tierkreis quantum",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Tierkreis quantum"
+    },
+    {
+      "type": "concept",
+      "label": "Tierkreis higher-order dataflow",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Tierkreis higher-order dataflow"
+    },
+    {
+      "type": "paper",
+      "label": "Quantum Computing: Vision and Challenges",
+      "arxiv_id": "2403.02240",
+      "authors": "Sukhpal Singh Gill, Oktay Cetinkaya, Stefano Marrone, Daniel Claudino, David Haunschild, Leon Schlote, Huaming Wu, Carlo Ottaviani, Xiaoyuan Liu, Sree Pragna Machupalli, Kamalpreet Kaur, Priyansh Arora, Ji Liu, Ahmed Farouk, Houbing Herbert Song, Steve Uhlig, Kotagiri Ramamohanarao",
+      "published": "2024-03-04",
+      "abstract": "The recent development of quantum computing, which uses entanglement, superposition, and other quantum fundamental concepts, can provide substantial processing advantages over traditional computing. These quantum features help solve many complex problems that cannot be solved otherwise with conventional computing methods. These problems include modeling quantum mechanics, logistics, chemical-based advances, drug design, statistical science, sustainable energy, banking, reliable communication, and quantum chemical engineering. The last few years have witnessed remarkable progress in quantum software and algorithm creation and quantum hardware research, which has significantly advanced the prospect of realizing quantum computers. It would be helpful to have comprehensive literature research on this area to grasp the current status and find outstanding problems that require considerable attention from the research community working in the quantum computing industry. To better understand quantum computing, this paper examines the foundations and vision based on current research in this area. We discuss cutting-edge developments in quantum computer hardware advancement and subsequent advances in quantum cryptography, quantum software, and high-scalability quantum computers. Many potential challenges and exciting new trends for quantum technology research and development are highlighted in this paper for a broader debate.",
+      "categories": [
+        "cs.DC",
+        "cs.ET",
+        "quant-ph"
+      ],
+      "graph_id": "quantum",
+      "id": "paper:2403.02240"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum Computing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Quantum Computing"
+    },
+    {
+      "type": "concept",
+      "label": "Computing Vision",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Computing Vision"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum Computing Vision",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Quantum Computing Vision"
+    },
+    {
+      "type": "concept",
+      "label": "computers. Many",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:computers. Many"
+    },
+    {
+      "type": "concept",
+      "label": "Many potential",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Many potential"
+    },
+    {
+      "type": "concept",
+      "label": "computers. Many potential",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:computers. Many potential"
+    },
+    {
+      "type": "concept",
+      "label": "Many potential challenges",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Many potential challenges"
+    },
+    {
+      "type": "concept",
+      "label": "quantum computers. Many",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:quantum computers. Many"
+    },
+    {
+      "type": "concept",
+      "label": "and Challenges",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:and Challenges"
+    },
+    {
+      "type": "concept",
+      "label": "To better",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:To better"
+    },
+    {
+      "type": "paper",
+      "label": "Entangling Disciplines: Causality, Entropy and Time-Travel Paradoxes on a Quantum Computer",
+      "arxiv_id": "2506.15909",
+      "authors": "Maria Violaris",
+      "published": "2025-06-18",
+      "abstract": "Merging disciplines has led to incredible learnings and breakthroughs throughout history, including the discovery of quantum computing: a cross between computation and quantum physics. In this paper, I will discuss how we can cross quantum computing with topics in fundamental physics. This leads to fruitful, interactive learning opportunities that fuse deep open physics problems with key insights about quantum information science. By outlining quantum circuit experiments that can be run on current and near-term quantum computers, I demonstrate how to help learners engage with principles in special relativity, general relativity and thermodynamics. In turn, these connections can advance their understanding of quantum computing. Learners can further explore the quantum computing activities in this paper via the Quantum Paradoxes content series of videos, blogs and code tutorials that I created with IBM Quantum.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "quantum",
+      "id": "paper:2506.15909"
+    },
+    {
+      "type": "concept",
+      "label": "Entangling Disciplines",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Entangling Disciplines"
+    },
+    {
+      "type": "concept",
+      "label": "Disciplines Causality",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Disciplines Causality"
+    },
+    {
+      "type": "concept",
+      "label": "Time-Travel Paradoxes",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Time-Travel Paradoxes"
+    },
+    {
+      "type": "concept",
+      "label": "Causality Entropy",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Causality Entropy"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum Paradoxes",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Quantum Paradoxes"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum Computer",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Quantum Computer"
+    },
+    {
+      "type": "concept",
+      "label": "Computer Merging",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Computer Merging"
+    },
+    {
+      "type": "concept",
+      "label": "IBM Quantum.",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:IBM Quantum."
+    },
+    {
+      "type": "concept",
+      "label": "Entangling Disciplines Causality",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Entangling Disciplines Causality"
+    },
+    {
+      "type": "concept",
+      "label": "Disciplines Causality Entropy",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "quantum",
+      "id": "concept:Disciplines Causality Entropy"
+    }
+  ],
+  "links": [
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Quantum-Classical Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Quantum-Classical Computing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Hybrid Quantum-Classical",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Hybrid Quantum-Classical",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis Dataflow",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis Dataflow",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Dataflow Framework",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Dataflow Framework",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Hybrid Quantum-Classical Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Hybrid Quantum-Classical Computing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis Dataflow Framework",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis Dataflow Framework",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:With Tierkreis",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:With Tierkreis",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis higher-order",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis higher-order",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis quantum",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis higher-order dataflow",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Tierkreis higher-order dataflow",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Quantum Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Computing Vision",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Quantum Computing Vision",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Quantum Paradoxes",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2211.02350",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:Quantum Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Quantum Computing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:Computing Vision",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Computing Vision",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:Quantum Computing Vision",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Quantum Computing Vision",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:computers. Many",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:computers. Many",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:Many potential",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Many potential",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:computers. Many potential",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:computers. Many potential",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:Many potential challenges",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Many potential challenges",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:quantum computers. Many",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:quantum computers. Many",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:and Challenges",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:and Challenges",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.02240",
+      "target": "concept:To better",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:To better",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Quantum Paradoxes",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.02240",
+      "target": "concept:Computer Merging",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Entangling Disciplines",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Entangling Disciplines",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Disciplines Causality",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Disciplines Causality",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Time-Travel Paradoxes",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Time-Travel Paradoxes",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Causality Entropy",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Causality Entropy",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Quantum Paradoxes",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Quantum Paradoxes",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Quantum Computer",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Computer Merging",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Computer Merging",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:IBM Quantum.",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:IBM Quantum.",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Entangling Disciplines Causality",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Entangling Disciplines Causality",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2506.15909",
+      "target": "concept:Disciplines Causality Entropy",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2506.15909",
+      "target": "concept:Disciplines Causality Entropy",
+      "key": 1
+    }
+  ],
+  "graph_id": "quantum"
+}

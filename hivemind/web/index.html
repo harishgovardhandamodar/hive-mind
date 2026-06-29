@@ -153,8 +153,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #metric-select { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; color: var(--text-secondary); font-size: 11px; outline: none; cursor: pointer; }
 #metric-select:hover { border-color: var(--accent); }
 
-.vis-toggle { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); float: right; margin-top: 2px; }
-.hive-card.hidden { opacity: 0.45; }
+
 
 #config-btn { background:none; border:none; cursor:pointer; font-size:14px; padding:0 0 0 8px; color:var(--text-secondary); vertical-align:middle; line-height:1; }
 #config-btn:hover { color:var(--accent); }
@@ -611,12 +610,11 @@ function loadHives() {
     state.hives = hives;
     const list = document.getElementById('hive-list');
     list.innerHTML = '';
-    hives.forEach(h => {
+    hives.filter(h => h.visible !== false).forEach(h => {
       const card = document.createElement('div');
       card.className = 'hive-card' + (state.selectedHive === h.id ? ' active' : '');
-      if (h.visible === false) card.classList.add('hidden');
       card.innerHTML = `
-        <div class="name">${h.id} <input type="checkbox" class="vis-toggle" ${h.visible !== false ? 'checked' : ''} title="Show/hide in graphs" /></div>
+        <div class="name">${h.id}</div>
         <div class="stats">
           <span>📄 <span class="num">${h.papers}</span></span>
           <span>🧠 <span class="num">${h.concepts}</span></span>
@@ -627,23 +625,12 @@ function loadHives() {
           <button class="hive-action-btn" data-action="embed" data-hive="${h.id}" title="Generate vector embeddings">🧠</button>
           <button class="hive-action-btn" data-action="history" data-hive="${h.id}" title="Backup history">📋</button>
           <button class="hive-action-btn" data-action="export" data-hive="${h.id}" title="Export as JSON-LD">📦</button>
+          <button class="hive-action-btn" data-action="fetch" data-hive="${h.id}" title="Fetch more arxiv papers on this topic">📡</button>
         </div>
       `;
       card.addEventListener('click', (e) => {
-        if (e.target.closest('.vis-toggle') || e.target.closest('.hive-action-btn')) return;
+        if (e.target.closest('.hive-action-btn')) return;
         loadHiveGraph(h.id);
-      });
-      card.querySelector('.vis-toggle').addEventListener('change', async (e) => {
-        e.stopPropagation();
-        const visible = e.target.checked;
-        card.classList.toggle('hidden', !visible);
-        await fetch(`/api/hive/${h.id}/visibility`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({visible}),
-        });
-        // Re-render graphs
-        refreshGraphs();
       });
       list.appendChild(card);
     });
@@ -776,8 +763,7 @@ function populateConfig() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({visible: cb.checked}),
       });
-      const card = document.querySelector(`.hive-card[data-hive-id="${h.id}"]`);
-      if (card) card.classList.toggle('hidden', !cb.checked);
+      loadHives();
       refreshGraphs();
     });
     const label = document.createElement('label');
@@ -968,6 +954,24 @@ document.addEventListener('click', async (e) => {
     a.href = url; a.download = `${hive}.jsonld`; a.click();
     URL.revokeObjectURL(url);
     showToast(`Exported ${hive} as JSON-LD`, 'ok');
+  } else if (action === 'fetch') {
+    const hive = btn.dataset.hive;
+    showToast(`Searching arxiv for papers related to "${hive}"...`, 'ok');
+    fetch('/api/arxiv-search', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query: hive, hive, max_results: 10}),
+    }).then(r => r.json()).then(res => {
+      const added = (res.papers_added || []).length;
+      const concepts = (res.concepts_added || []).length;
+      if (added) {
+        showToast(`Fetched ${added} papers, ${concepts} concepts into "${res.hive}"`, 'ok');
+        loadHives();
+        if (state.selectedHive) loadHiveGraph(state.selectedHive);
+      } else {
+        showToast(res.message || 'No new papers found', 'warn');
+      }
+    }).catch(err => showToast('Fetch failed: ' + err.message, 'err'));
   } else if (action === 'embed') {
     const metric = document.getElementById('metric-select').value;
     showToast(`Generating embeddings for ${hive}...`, 'ok');

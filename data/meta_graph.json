@@ -63,22 +63,29 @@
       "label": "cryptocurrencies",
       "path": "/home/fox/codebase/hive-mind/hives/cryptocurrencies/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "visible": true,
+      "visible": false,
       "id": "cryptocurrencies"
     },
     {
       "label": "proof-of-work",
       "path": "/home/fox/codebase/hive-mind/hives/proof-of-work/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "visible": true,
+      "visible": false,
       "id": "proof-of-work"
     },
     {
       "label": "proof-of-stake",
       "path": "/home/fox/codebase/hive-mind/hives/proof-of-stake/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "visible": true,
+      "visible": false,
       "id": "proof-of-stake"
+    },
+    {
+      "label": "quantum",
+      "path": "/home/fox/codebase/hive-mind/hives/quantum/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "id": "quantum"
     }
   ],
   "links": [

@@ -476,6 +476,931 @@
       "target_graph_id": "graph-networks",
       "graph_id": "ai-acceleration",
       "id": "graph_ref:graph-networks"
+    },
+    {
+      "type": "paper",
+      "label": "Designing AI Systems that Augment Human Performed vs. Demonstrated Critical Thinking",
+      "arxiv_id": "2504.14689",
+      "authors": "Katelyn Xiaoying Mei, Nic Weber",
+      "published": "2025-04-20",
+      "abstract": "The recent rapid advancement of LLM-based AI systems has accelerated our search and production of information. While the advantages brought by these systems seemingly improve the performance or efficiency of human activities, they do not necessarily enhance human capabilities. Recent research has started to examine the impact of generative AI on individuals' cognitive abilities, especially critical thinking. Based on definitions of critical thinking across psychology and education, this position paper proposes the distinction between demonstrated and performed critical thinking in the era of generative AI and discusses the implication of this distinction in research and development of AI systems that aim to augment human critical thinking.",
+      "categories": [
+        "cs.HC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2504.14689"
+    },
+    {
+      "type": "concept",
+      "label": "Critical Thinking",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Critical Thinking"
+    },
+    {
+      "type": "concept",
+      "label": "Human Performed",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Human Performed"
+    },
+    {
+      "type": "concept",
+      "label": "Augment Human",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Augment Human"
+    },
+    {
+      "type": "concept",
+      "label": "Designing AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Designing AI"
+    },
+    {
+      "type": "concept",
+      "label": "LLM-based AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:LLM-based AI"
+    },
+    {
+      "type": "concept",
+      "label": "AI Systems",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Systems"
+    },
+    {
+      "type": "concept",
+      "label": "Augment Human Performed",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Augment Human Performed"
+    },
+    {
+      "type": "concept",
+      "label": "Designing AI Systems",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Designing AI Systems"
+    },
+    {
+      "type": "concept",
+      "label": "capabilities. Recent",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:capabilities. Recent"
+    },
+    {
+      "type": "concept",
+      "label": "Recent research",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Recent research"
+    },
+    {
+      "type": "paper",
+      "label": "Beyond principlism: Practical strategies for ethical AI use in research practices",
+      "arxiv_id": "2401.15284",
+      "authors": "Zhicheng Lin",
+      "published": "2024-01-27",
+      "abstract": "The rapid adoption of generative artificial intelligence (AI) in scientific research, particularly large language models (LLMs), has outpaced the development of ethical guidelines, leading to a \"Triple-Too\" problem: too many high-level ethical initiatives, too abstract principles lacking contextual and practical relevance, and too much focus on restrictions and risks over benefits and utilities. Existing approaches--principlism (reliance on abstract ethical principles), formalism (rigid application of rules), and technological solutionism (overemphasis on technological fixes)--offer little practical guidance for addressing ethical challenges of AI in scientific research practices. To bridge the gap between abstract principles and day-to-day research practices, a user-centered, realism-inspired approach is proposed here. It outlines five specific goals for ethical AI use: 1) understanding model training and output, including bias mitigation strategies; 2) respecting privacy, confidentiality, and copyright; 3) avoiding plagiarism and policy violations; 4) applying AI beneficially compared to alternatives; and 5) using AI transparently and reproducibly. Each goal is accompanied by actionable strategies and realistic cases of misuse and corrective measures. I argue that ethical AI application requires evaluating its utility against existing alternatives rather than isolated performance metrics. Additionally, I propose documentation guidelines to enhance transparency and reproducibility in AI-assisted research. Moving forward, we need targeted professional development, training programs, and balanced enforcement mechanisms to promote responsible AI use while fostering innovation. By refining these ethical guidelines and adapting them to emerging AI capabilities, we can accelerate scientific progress without compromising research integrity.",
+      "categories": [
+        "cs.CY",
+        "cs.AI"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2401.15284"
+    },
+    {
+      "type": "concept",
+      "label": "Existing approaches--principlism",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Existing approaches--principlism"
+    },
+    {
+      "type": "concept",
+      "label": "principlism Practical",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:principlism Practical"
+    },
+    {
+      "type": "concept",
+      "label": "metrics. Additionally",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:metrics. Additionally"
+    },
+    {
+      "type": "concept",
+      "label": "AI-assisted research.",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI-assisted research."
+    },
+    {
+      "type": "concept",
+      "label": "Practical strategies",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Practical strategies"
+    },
+    {
+      "type": "concept",
+      "label": "utilities. Existing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:utilities. Existing"
+    },
+    {
+      "type": "concept",
+      "label": "Beyond principlism",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Beyond principlism"
+    },
+    {
+      "type": "concept",
+      "label": "Triple-Too problem",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Triple-Too problem"
+    },
+    {
+      "type": "concept",
+      "label": "AI transparently",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI transparently"
+    },
+    {
+      "type": "concept",
+      "label": "research. Moving",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:research. Moving"
+    },
+    {
+      "type": "paper",
+      "label": "Accelerating Edge AI with Morpher: An Integrated Design, Compilation and Simulation Framework for CGRAs",
+      "arxiv_id": "2309.06127",
+      "authors": "Dhananjaya Wijerathne, Zhaoying Li, Tulika Mitra",
+      "published": "2023-09-12",
+      "abstract": "Coarse-Grained Reconfigurable Arrays (CGRAs) hold great promise as power-efficient edge accelerator, offering versatility beyond AI applications. Morpher, an open-source, architecture-adaptive CGRA design framework, is specifically designed to explore the vast design space of CGRAs. The comprehensive ecosystem of Morpher includes a tailored compiler, simulator, accelerator synthesis, and validation framework. This study provides an overview of Morpher, highlighting its capabilities in automatically compiling AI application kernels onto user-defined CGRA architectures and verifying their functionality. Through the Morpher framework, the versatility of CGRAs is harnessed to facilitate efficient compilation and verification of edge AI applications, covering important kernels representative of a wide range of embedded AI workloads. Morpher is available online at https://github.com/ecolab-nus/morpher-v2.",
+      "categories": [
+        "cs.AR",
+        "cs.LG",
+        "cs.PF"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2309.06127"
+    },
+    {
+      "type": "concept",
+      "label": "Coarse-Grained Reconfigurable",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Coarse-Grained Reconfigurable"
+    },
+    {
+      "type": "concept",
+      "label": "Reconfigurable Arrays",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Reconfigurable Arrays"
+    },
+    {
+      "type": "concept",
+      "label": "Simulation Framework",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Simulation Framework"
+    },
+    {
+      "type": "concept",
+      "label": "CGRAs Coarse-Grained",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:CGRAs Coarse-Grained"
+    },
+    {
+      "type": "concept",
+      "label": "Design Compilation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Design Compilation"
+    },
+    {
+      "type": "concept",
+      "label": "Accelerating Edge",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Accelerating Edge"
+    },
+    {
+      "type": "concept",
+      "label": "Integrated Design",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Integrated Design"
+    },
+    {
+      "type": "concept",
+      "label": "Arrays CGRAs",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Arrays CGRAs"
+    },
+    {
+      "type": "concept",
+      "label": "Edge AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Edge AI"
+    },
+    {
+      "type": "concept",
+      "label": "Coarse-Grained Reconfigurable Arrays",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Coarse-Grained Reconfigurable Arrays"
+    },
+    {
+      "type": "paper",
+      "label": "Prefill/Decode-Aware Evaluation of LLM Inference on Emerging AI Accelerators",
+      "arxiv_id": "2606.17104",
+      "authors": "Shun Usami, Venkatram Vishwanath, E. Wes Bethel",
+      "published": "2026-06-14",
+      "abstract": "As large language models (LLMs) are increasingly deployed in latency- and cost-sensitive settings, inference efficiency has become a central systems challenge. While GPUs dominate current deployments, a growing number of AI accelerators claim advantages for LLM inference, yet it remains unclear under which conditions such accelerators outperform GPUs in practice. Recent inference systems decompose execution into Prefill and Decode phases, which exhibit distinct computational characteristics and latency metrics, commonly captured by time to first token (TTFT) and time per output token (TPOT). This paper presents a phase-aware evaluation of LLM inference performance across GPUs and emerging AI accelerators using a common model, Llama2-7B. By separately measuring Prefill and Decode performance, we reveal that accelerator advantages differ by phase and metric. Our results show that GPUs consistently excel in the compute-intensive Prefill phase, while GroqRack achieves significantly lower TPOT during Decode (batching not currently supported). However, GPUs regain an advantage in Decode throughput as batch size increases. These findings demonstrate that each platform exhibits distinct phase-dependent strengths. We further analyze heterogeneous Prefill/Decode disaggregation across different accelerator platforms, identifying performance gains and the workload and network conditions under which such gains are realized.",
+      "categories": [
+        "cs.AR",
+        "cs.AI",
+        "cs.DC"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2606.17104"
+    },
+    {
+      "type": "concept",
+      "label": "Decode-Aware Evaluation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Decode-Aware Evaluation"
+    },
+    {
+      "type": "concept",
+      "label": "Prefill Decode-Aware",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Prefill Decode-Aware"
+    },
+    {
+      "type": "concept",
+      "label": "AI Accelerators",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Accelerators"
+    },
+    {
+      "type": "concept",
+      "label": "Prefill Decode",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Prefill Decode"
+    },
+    {
+      "type": "concept",
+      "label": "LLM Inference",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:LLM Inference"
+    },
+    {
+      "type": "concept",
+      "label": "Emerging AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Emerging AI"
+    },
+    {
+      "type": "concept",
+      "label": "Prefill Decode-Aware Evaluation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Prefill Decode-Aware Evaluation"
+    },
+    {
+      "type": "concept",
+      "label": "Emerging AI Accelerators",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Emerging AI Accelerators"
+    },
+    {
+      "type": "concept",
+      "label": "However GPUs",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:However GPUs"
+    },
+    {
+      "type": "concept",
+      "label": "GroqRack",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:GroqRack"
+    },
+    {
+      "type": "paper",
+      "label": "Dataflow & Tiling Strategies in Edge-AI FPGA Accelerators: A Comprehensive Literature Review",
+      "arxiv_id": "2505.08992",
+      "authors": "Richie Li",
+      "published": "2025-05-13",
+      "abstract": "Edge-AI applications demand high-throughput, low-latency inference on FPGAs under tight resource and power constraints. This survey provides a comprehensive review of two key architectural decisions for FPGA-based neural network accelerators: (i) the dataflow (the order and manner in which data is moved and reused on chip), and (ii) the tiling/blocking strategy (how large tensors are partitioned to fit on-chip). We first present a broadened taxonomy of canonical dataflow styles: Weight-Stationary, Output-Stationary, Row-Stationary, and No-Local-Reuse, including formal definitions, pseudocode/diagrams, and real FPGA examples. We then discuss analytical frameworks (MAESTRO, Timeloop) and compare them with a concise feature table, illustrating how they model reuse, performance, and hardware costs, and include a case study of a 3x3 convolution layer to demonstrate typical tool outputs. Next, we detail multi-level tiling and loop unrolling/pipelining strategies for FPGAs, clarifying how each memory tier (registers, LUTRAM, BRAM, HBM) can be exploited. Our four case studies - FINN, FINN-R, FlightLLM, and SSR - highlight distinct dataflows (from binary streaming to hybrid sparse transformations) and tiling patterns. We include a unified comparison matrix covering platform, precision, throughput, resource utilization, and energy efficiency, plus small block diagrams for each design. We conclude by examining design automation trade-offs among HLS, DSL, and hand-coded RTL, offering a \"lessons learned\" summary box, and charting future research directions in partial reconfiguration, hybrid dataflows, and domain-specific compiler flows for next-generation edge AI FPGA accelerators.",
+      "categories": [
+        "cs.AR"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2505.08992"
+    },
+    {
+      "type": "concept",
+      "label": "Weight-Stationary Output-Stationary",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Weight-Stationary Output-Stationary"
+    },
+    {
+      "type": "concept",
+      "label": "Output-Stationary Row-Stationary",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Output-Stationary Row-Stationary"
+    },
+    {
+      "type": "concept",
+      "label": "Accelerators Comprehensive",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Accelerators Comprehensive"
+    },
+    {
+      "type": "concept",
+      "label": "Comprehensive Literature",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Comprehensive Literature"
+    },
+    {
+      "type": "concept",
+      "label": "Tiling Strategies",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Tiling Strategies"
+    },
+    {
+      "type": "concept",
+      "label": "FPGA Accelerators",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:FPGA Accelerators"
+    },
+    {
+      "type": "concept",
+      "label": "Literature Review",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Literature Review"
+    },
+    {
+      "type": "concept",
+      "label": "MAESTRO Timeloop",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:MAESTRO Timeloop"
+    },
+    {
+      "type": "concept",
+      "label": "FINN-R FlightLLM",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:FINN-R FlightLLM"
+    },
+    {
+      "type": "concept",
+      "label": "Dataflow Tiling",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Dataflow Tiling"
+    },
+    {
+      "type": "paper",
+      "label": "Hardware Accelerators for Artificial Intelligence",
+      "arxiv_id": "2411.13717",
+      "authors": "S M Mojahidul Ahsan, Anurag Dhungel, Mrittika Chowdhury, Md Sakib Hasan, Tamzidul Hoque",
+      "published": "2024-11-20",
+      "abstract": "In this chapter, we aim to explore an in-depth exploration of the specialized hardware accelerators designed to enhance Artificial Intelligence (AI) applications, focusing on their necessity, development, and impact on the field of AI. It covers the transition from traditional computing systems to advanced AI-specific hardware, addressing the growing demands of AI algorithms and the inefficiencies of conventional architectures. The discussion extends to various types of accelerators, including GPUs, FPGAs, and ASICs, and their roles in optimizing AI workloads. Additionally, it touches on the challenges and considerations in designing and implementing these accelerators, along with future prospects in the evolution of AI hardware. This comprehensive overview aims to equip readers with a clear understanding of the current landscape and future directions in AI hardware development, making it accessible to both experts and newcomers to the field.",
+      "categories": [
+        "cs.AR",
+        "cs.ET"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2411.13717"
+    },
+    {
+      "type": "concept",
+      "label": "Artificial Intelligence",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Artificial Intelligence"
+    },
+    {
+      "type": "concept",
+      "label": "Hardware Accelerators",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Hardware Accelerators"
+    },
+    {
+      "type": "concept",
+      "label": "Intelligence AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Intelligence AI"
+    },
+    {
+      "type": "concept",
+      "label": "GPUs FPGAs",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:GPUs FPGAs"
+    },
+    {
+      "type": "concept",
+      "label": "Artificial Intelligence AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Artificial Intelligence AI"
+    },
+    {
+      "type": "concept",
+      "label": "workloads. Additionally",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:workloads. Additionally"
+    },
+    {
+      "type": "concept",
+      "label": "advanced AI-specific",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:advanced AI-specific"
+    },
+    {
+      "type": "concept",
+      "label": "AI-specific hardware",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI-specific hardware"
+    },
+    {
+      "type": "concept",
+      "label": "enhance Artificial",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:enhance Artificial"
+    },
+    {
+      "type": "concept",
+      "label": "AI applications",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI applications"
+    },
+    {
+      "type": "paper",
+      "label": "Exploration of TPUs for AI Applications",
+      "arxiv_id": "2309.08918",
+      "authors": "Diego Sanmart\u00edn Carri\u00f3n, Vera Prohaska",
+      "published": "2023-09-16",
+      "abstract": "Tensor Processing Units (TPUs) are specialized hardware accelerators for deep learning developed by Google. This paper aims to explore TPUs in cloud and edge computing focusing on its applications in AI. We provide an overview of TPUs, their general architecture, specifically their design in relation to neural networks, compilation techniques and supporting frameworks. Furthermore, we provide a comparative analysis of Cloud and Edge TPU performance against other counterpart chip architectures. Our results show that TPUs can provide significant performance improvements in both cloud and edge computing. Additionally, this paper underscores the imperative need for further research in optimization techniques for efficient deployment of AI architectures on the Edge TPU and benchmarking standards for a more robust comparative analysis in edge computing scenarios. The primary motivation behind this push for research is that efficient AI acceleration, facilitated by TPUs, can lead to substantial savings in terms of time, money, and environmental resources.",
+      "categories": [
+        "cs.AR",
+        "cs.AI"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2309.08918"
+    },
+    {
+      "type": "concept",
+      "label": "Applications Tensor",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Applications Tensor"
+    },
+    {
+      "type": "concept",
+      "label": "Tensor Processing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Tensor Processing"
+    },
+    {
+      "type": "concept",
+      "label": "Processing Units",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Processing Units"
+    },
+    {
+      "type": "concept",
+      "label": "AI Applications",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Applications"
+    },
+    {
+      "type": "concept",
+      "label": "Units TPUs",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Units TPUs"
+    },
+    {
+      "type": "concept",
+      "label": "Edge TPU",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Edge TPU"
+    },
+    {
+      "type": "concept",
+      "label": "Applications Tensor Processing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Applications Tensor Processing"
+    },
+    {
+      "type": "concept",
+      "label": "Tensor Processing Units",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Tensor Processing Units"
+    },
+    {
+      "type": "concept",
+      "label": "AI Applications Tensor",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Applications Tensor"
+    },
+    {
+      "type": "concept",
+      "label": "Processing Units TPUs",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Processing Units TPUs"
+    },
+    {
+      "type": "paper",
+      "label": "ASI-Evolve: AI Accelerates AI",
+      "arxiv_id": "2603.29640",
+      "authors": "Weixian Xu, Tiantian Mi, Yixiu Liu, Yang Nan, Zhimeng Zhou, Lyumanshan Ye, Lin Zhang, Yu Qiao, Pengfei Liu",
+      "published": "2026-03-31",
+      "abstract": "Can AI accelerate the development of AI itself? While recent agentic systems have shown strong performance on well-scoped tasks with rapid feedback, it remains unclear whether they can tackle the costly, long-horizon, and weakly supervised research loops that drive real AI progress. We present ASI-Evolve, an agentic framework for AI-for-AI research that closes this loop through a learn-design-experiment-analyze cycle. ASI-Evolve augments standard evolutionary agents with two key components: a cognition base that injects accumulated human priors into each round of exploration, and a dedicated analyzer that distills complex experimental outcomes into reusable insights for future iterations. To our knowledge, ASI-Evolve is the first unified framework to demonstrate AI-driven discovery across three central components of AI development: data, architectures, and learning algorithms. In neural architecture design, it discovered 105 SOTA linear attention architectures, with the best discovered model surpassing DeltaNet by +0.97 points, nearly 3x the gain of recent human-designed improvements. In pretraining data curation, the evolved pipeline improves average benchmark performance by +3.96 points, with gains exceeding 18 points on MMLU. In reinforcement learning algorithm design, discovered algorithms outperform GRPO by up to +12.5 points on AMC32, +11.67 points on AIME24, and +5.04 points on OlympiadBench. We further provide initial evidence that this AI-for-AI paradigm can transfer beyond the AI stack through experiments in mathematics and biomedicine. Together, these results suggest that ASI-Evolve represents a promising step toward enabling AI to accelerate AI across the foundational stages of development, offering early evidence for the feasibility of closed-loop AI research.",
+      "categories": [
+        "cs.AI"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2603.29640"
+    },
+    {
+      "type": "concept",
+      "label": "AI Accelerates",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Accelerates"
+    },
+    {
+      "type": "concept",
+      "label": "Accelerates AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Accelerates AI"
+    },
+    {
+      "type": "concept",
+      "label": "ASI-Evolve AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:ASI-Evolve AI"
+    },
+    {
+      "type": "concept",
+      "label": "ASI-Evolve AI Accelerates",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:ASI-Evolve AI Accelerates"
+    },
+    {
+      "type": "concept",
+      "label": "AI Accelerates AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Accelerates AI"
+    },
+    {
+      "type": "concept",
+      "label": "Can AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Can AI"
+    },
+    {
+      "type": "concept",
+      "label": "AI Can AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Can AI"
+    },
+    {
+      "type": "concept",
+      "label": "biomedicine. Together",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:biomedicine. Together"
+    },
+    {
+      "type": "concept",
+      "label": "ASI-Evolve represents",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:ASI-Evolve represents"
+    },
+    {
+      "type": "concept",
+      "label": "knowledge ASI-Evolve",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:knowledge ASI-Evolve"
+    },
+    {
+      "type": "paper",
+      "label": "Design Principles for Lifelong Learning AI Accelerators",
+      "arxiv_id": "2310.04467",
+      "authors": "Dhireesha Kudithipudi, Anurag Daram, Abdullah M. Zyarah, Fatima Tuz Zohora, James B. Aimone, Angel Yanguas-Gil, Nicholas Soures, Emre Neftci, Matthew Mattina, Vincenzo Lomonaco, Clare D. Thiem, Benjamin Epstein",
+      "published": "2023-10-05",
+      "abstract": "Lifelong learning - an agent's ability to learn throughout its lifetime - is a hallmark of biological learning systems and a central challenge for artificial intelligence (AI). The development of lifelong learning algorithms could lead to a range of novel AI applications, but this will also require the development of appropriate hardware accelerators, particularly if the models are to be deployed on edge platforms, which have strict size, weight, and power constraints. Here, we explore the design of lifelong learning AI accelerators that are intended for deployment in untethered environments. We identify key desirable capabilities for lifelong learning accelerators and highlight metrics to evaluate such accelerators. We then discuss current edge AI accelerators and explore the future design of lifelong learning accelerators, considering the role that different emerging technologies could play.",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2310.04467"
+    },
+    {
+      "type": "concept",
+      "label": "Accelerators Lifelong",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Accelerators Lifelong"
+    },
+    {
+      "type": "concept",
+      "label": "Design Principles",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Design Principles"
+    },
+    {
+      "type": "concept",
+      "label": "Lifelong Learning",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Lifelong Learning"
+    },
+    {
+      "type": "concept",
+      "label": "Learning AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Learning AI"
+    },
+    {
+      "type": "concept",
+      "label": "Learning AI Accelerators",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Learning AI Accelerators"
+    },
+    {
+      "type": "concept",
+      "label": "AI Accelerators Lifelong",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Accelerators Lifelong"
+    },
+    {
+      "type": "concept",
+      "label": "Lifelong Learning AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Lifelong Learning AI"
+    },
+    {
+      "type": "concept",
+      "label": "intelligence AI",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:intelligence AI"
+    },
+    {
+      "type": "paper",
+      "label": "Real-Time Quantized Image Super-Resolution on Mobile NPUs, Mobile AI 2021 Challenge: Report",
+      "arxiv_id": "2105.07825",
+      "authors": "Andrey Ignatov, Radu Timofte, Maurizio Denna, Abdel Younes, Andrew Lek, Mustafa Ayazoglu, Jie Liu, Zongcai Du, Jiaming Guo, Xueyi Zhou, Hao Jia, Youliang Yan, Zexin Zhang, Yixin Chen, Yunbo Peng, Yue Lin, Xindong Zhang, Hui Zeng, Kun Zeng, Peirong Li, Zhihuang Liu, Shiqi Xue, Shengpeng Wang",
+      "published": "2021-05-17",
+      "abstract": "Image super-resolution is one of the most popular computer vision problems with many important applications to mobile devices. While many solutions have been proposed for this task, they are usually not optimized even for common smartphone AI hardware, not to mention more constrained smart TV platforms that are often supporting INT8 inference only. To address this problem, we introduce the first Mobile AI challenge, where the target is to develop an end-to-end deep learning-based image super-resolution solutions that can demonstrate a real-time performance on mobile or edge NPUs. For this, the participants were provided with the DIV2K dataset and trained quantized models to do an efficient 3X image upscaling. The runtime of all models was evaluated on the Synaptics VS680 Smart Home board with a dedicated NPU capable of accelerating quantized neural networks. The proposed solutions are fully compatible with all major mobile AI accelerators and are capable of reconstructing Full HD images under 40-60 ms while achieving high fidelity results. A detailed description of all models developed in the challenge is provided in this paper.",
+      "categories": [
+        "eess.IV",
+        "cs.CV",
+        "cs.LG"
+      ],
+      "graph_id": "ai-acceleration",
+      "id": "paper:2105.07825"
+    },
+    {
+      "type": "concept",
+      "label": "Image Super-Resolution",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Image Super-Resolution"
+    },
+    {
+      "type": "concept",
+      "label": "Real-Time Quantized",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Real-Time Quantized"
+    },
+    {
+      "type": "concept",
+      "label": "Challenge Report",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Challenge Report"
+    },
+    {
+      "type": "concept",
+      "label": "Quantized Image",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Quantized Image"
+    },
+    {
+      "type": "concept",
+      "label": "Synaptics VS680",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Synaptics VS680"
+    },
+    {
+      "type": "concept",
+      "label": "AI Challenge",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:AI Challenge"
+    },
+    {
+      "type": "concept",
+      "label": "Report Image",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Report Image"
+    },
+    {
+      "type": "concept",
+      "label": "Mobile NPUs",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:Mobile NPUs"
+    },
+    {
+      "type": "concept",
+      "label": "NPUs Mobile",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:NPUs Mobile"
+    },
+    {
+      "type": "concept",
+      "label": "VS680 Smart",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "ai-acceleration",
+      "id": "concept:VS680 Smart"
     }
   ],
   "links": [
@@ -648,15 +1573,51 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:1810.08581",
+      "target": "concept:Lifelong Learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1810.08581",
+      "target": "concept:Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1810.08581",
+      "target": "concept:Learning AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1810.08581",
+      "target": "concept:Lifelong Learning AI",
+      "key": 0
+    },
+    {
       "relation": "introduces",
       "source": "paper:1910.02054",
       "target": "concept:TPU",
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:1910.02054",
+      "target": "concept:Edge TPU",
+      "key": 0
+    },
+    {
       "relation": "uses",
       "source": "paper:2107.02606",
       "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02606",
+      "target": "concept:LLM Inference",
       "key": 0
     },
     {
@@ -678,9 +1639,21 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:2205.09710",
+      "target": "concept:LLM Inference",
+      "key": 0
+    },
+    {
       "relation": "improves",
       "source": "paper:2304.03267",
       "target": "concept:GPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2304.03267",
+      "target": "concept:LLM Inference",
       "key": 0
     },
     {
@@ -691,14 +1664,38 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:1803.02135",
+      "target": "concept:LLM Inference",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "paper:1502.04149",
       "target": "concept:deep learning accelerator",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1502.04149",
+      "target": "concept:Hardware Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1502.04149",
+      "target": "concept:AI-specific hardware",
       "key": 0
     },
     {
       "relation": "introduces",
       "source": "paper:1901.09519",
       "target": "concept:knowledge distillation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1901.09519",
+      "target": "concept:knowledge ASI-Evolve",
       "key": 0
     },
     {
@@ -730,6 +1727,1500 @@
       "source": "graph_ref:graph-networks",
       "target": "graph-networks",
       "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Critical Thinking",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Critical Thinking",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Human Performed",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Human Performed",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Augment Human",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Augment Human",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Designing AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Designing AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:LLM-based AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:LLM-based AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:AI Systems",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:AI Systems",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Augment Human Performed",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Augment Human Performed",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Designing AI Systems",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Designing AI Systems",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:capabilities. Recent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:capabilities. Recent",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2504.14689",
+      "target": "concept:Recent research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:Recent research",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2504.14689",
+      "target": "concept:enhance Artificial",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:Existing approaches--principlism",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Existing approaches--principlism",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:principlism Practical",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:principlism Practical",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:metrics. Additionally",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:metrics. Additionally",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:AI-assisted research.",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:AI-assisted research.",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:Practical strategies",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Practical strategies",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:utilities. Existing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:utilities. Existing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:Beyond principlism",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Beyond principlism",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:Triple-Too problem",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:AI transparently",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:AI transparently",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2401.15284",
+      "target": "concept:research. Moving",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:research. Moving",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Emerging AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Emerging AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Tiling Strategies",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Artificial Intelligence",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Artificial Intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:enhance Artificial",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:Design Principles",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2401.15284",
+      "target": "concept:intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Coarse-Grained Reconfigurable",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Coarse-Grained Reconfigurable",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Reconfigurable Arrays",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Reconfigurable Arrays",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Simulation Framework",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Simulation Framework",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:CGRAs Coarse-Grained",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:CGRAs Coarse-Grained",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Design Compilation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Design Compilation",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Accelerating Edge",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Accelerating Edge",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Integrated Design",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Integrated Design",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Arrays CGRAs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Arrays CGRAs",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Edge AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Edge AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.06127",
+      "target": "concept:Coarse-Grained Reconfigurable Arrays",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Coarse-Grained Reconfigurable Arrays",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Accelerators Comprehensive",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Comprehensive Literature",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:workloads. Additionally",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:AI applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:AI applications",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:AI Applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Edge TPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.06127",
+      "target": "concept:Design Principles",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:Decode-Aware Evaluation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Decode-Aware Evaluation",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:Prefill Decode-Aware",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Prefill Decode-Aware",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:AI Accelerators",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:AI Accelerators",
+      "key": 2
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:Prefill Decode",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Prefill Decode",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:LLM Inference",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:LLM Inference",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:Emerging AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Emerging AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:Prefill Decode-Aware Evaluation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Prefill Decode-Aware Evaluation",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:Emerging AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Emerging AI Accelerators",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:However GPUs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:However GPUs",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2606.17104",
+      "target": "concept:GroqRack",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:GroqRack",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Accelerators Comprehensive",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:FPGA Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Hardware Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:GPUs FPGAs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:Learning AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2606.17104",
+      "target": "concept:AI Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Weight-Stationary Output-Stationary",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Output-Stationary Row-Stationary",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Accelerators Comprehensive",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Accelerators Comprehensive",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Comprehensive Literature",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Comprehensive Literature",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Tiling Strategies",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Tiling Strategies",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:FPGA Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:FPGA Accelerators",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Literature Review",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Literature Review",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:MAESTRO Timeloop",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:FINN-R FlightLLM",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2505.08992",
+      "target": "concept:Dataflow Tiling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Dataflow Tiling",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Hardware Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:GPUs FPGAs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:AI-specific hardware",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:AI applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:AI applications",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Applications Tensor",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:AI Applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Edge TPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:AI Applications Tensor",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2505.08992",
+      "target": "concept:Design Principles",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:Artificial Intelligence",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:Artificial Intelligence",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:Hardware Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:Hardware Accelerators",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:Intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:Intelligence AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:GPUs FPGAs",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:Artificial Intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:Artificial Intelligence AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:workloads. Additionally",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:workloads. Additionally",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:advanced AI-specific",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:advanced AI-specific",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:AI-specific hardware",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:AI-specific hardware",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:enhance Artificial",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:enhance Artificial",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2411.13717",
+      "target": "concept:AI applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:Learning AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:AI Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2411.13717",
+      "target": "concept:intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Applications Tensor",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Applications Tensor",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Tensor Processing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Tensor Processing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Processing Units",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Processing Units",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:AI Applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:AI Applications",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Units TPUs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Units TPUs",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Edge TPU",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Edge TPU",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Applications Tensor Processing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Applications Tensor Processing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Tensor Processing Units",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Tensor Processing Units",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:AI Applications Tensor",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:AI Applications Tensor",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2309.08918",
+      "target": "concept:Processing Units TPUs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Processing Units TPUs",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Design Principles",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Lifelong Learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Learning AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:AI Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:Lifelong Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2309.08918",
+      "target": "concept:AI applications",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:AI Accelerates",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:AI Accelerates",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:Accelerates AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:Accelerates AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:ASI-Evolve AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:ASI-Evolve AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:ASI-Evolve AI Accelerates",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:ASI-Evolve AI Accelerates",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:AI Accelerates AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:AI Accelerates AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:Can AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:Can AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:AI Can AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:AI Can AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:biomedicine. Together",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:biomedicine. Together",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:ASI-Evolve represents",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:ASI-Evolve represents",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2603.29640",
+      "target": "concept:knowledge ASI-Evolve",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:knowledge ASI-Evolve",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:Lifelong Learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:Learning AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2603.29640",
+      "target": "concept:Lifelong Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Accelerators Lifelong",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:Design Principles",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Design Principles",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:Lifelong Learning",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Lifelong Learning",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:AI Accelerators",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Learning AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:Learning AI Accelerators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Learning AI Accelerators",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:AI Accelerators Lifelong",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:AI Accelerators Lifelong",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:Lifelong Learning AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Lifelong Learning AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:intelligence AI",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:intelligence AI",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2310.04467",
+      "target": "concept:AI applications",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:AI applications",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:Challenge Report",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2310.04467",
+      "target": "concept:AI Challenge",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Image Super-Resolution",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Image Super-Resolution",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Real-Time Quantized",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Real-Time Quantized",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Challenge Report",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Challenge Report",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Quantized Image",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Quantized Image",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Synaptics VS680",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Synaptics VS680",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:AI Challenge",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:AI Challenge",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Report Image",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Report Image",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:Mobile NPUs",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:Mobile NPUs",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:NPUs Mobile",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:NPUs Mobile",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2105.07825",
+      "target": "concept:VS680 Smart",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.07825",
+      "target": "concept:VS680 Smart",
+      "key": 1
     }
   ],
   "graph_id": "ai-acceleration"

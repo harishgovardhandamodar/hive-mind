@@ -448,6 +448,894 @@
       "target_graph_id": "quantum-computing",
       "graph_id": "photonic-computing",
       "id": "graph_ref:quantum-computing"
+    },
+    {
+      "type": "paper",
+      "label": "Photonic quantum information processing: a concise review",
+      "arxiv_id": "1907.06331",
+      "authors": "Sergei Slussarenko, Geoff J. Pryde",
+      "published": "2019-07-15",
+      "abstract": "Photons have been a flagship system for studying quantum mechanics, advancing quantum information science, and developing quantum technologies. Quantum entanglement, teleportation, quantum key distribution and early quantum computing demonstrations were pioneered in this technology because photons represent a naturally mobile and low-noise system with quantum-limited detection readily available. The quantum states of individual photons can be manipulated with very high precision using interferometry, an experimental staple that has been under continuous development since the 19th century. The complexity of photonic quantum computing device and protocol realizations has raced ahead as both underlying technologies and theoretical schemes have continued to develop. Today, photonic quantum computing represents an exciting path to medium- and large-scale processing. It promises to out aside its reputation for requiring excessive resource overheads due to inefficient two-qubit gates. Instead, the ability to generate large numbers of photons---and the development of integrated platforms, improved sources and detectors, novel noise-tolerant theoretical approaches, and more---have solidified it as a leading contender for both quantum information processing and quantum networking. Our concise review provides a flyover of some key aspects of the field, with a focus on experiment. Apart from being a short and accessible introduction, its many references to in-depth articles and longer specialist reviews serve as a launching point for deeper study of the field.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1907.06331"
+    },
+    {
+      "type": "concept",
+      "label": "technologies. Quantum",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:technologies. Quantum"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum entanglement",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Quantum entanglement"
+    },
+    {
+      "type": "concept",
+      "label": "experiment. Apart",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:experiment. Apart"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic quantum",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic quantum"
+    },
+    {
+      "type": "concept",
+      "label": "review Photons",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:review Photons"
+    },
+    {
+      "type": "concept",
+      "label": "develop. Today",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:develop. Today"
+    },
+    {
+      "type": "concept",
+      "label": "Today photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Today photonic"
+    },
+    {
+      "type": "concept",
+      "label": "gates. Instead",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:gates. Instead"
+    },
+    {
+      "type": "concept",
+      "label": "technologies. Quantum entanglement",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:technologies. Quantum entanglement"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum entanglement teleportation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Quantum entanglement teleportation"
+    },
+    {
+      "type": "paper",
+      "label": "Multi-photon boson-sampling machines beating early classical computers",
+      "arxiv_id": "1612.06956",
+      "authors": "Hui Wang, Yu He, Yu-Huai Li, Zu-En Su, Bo Li, He-Liang Huang, Xing Ding, Ming-Cheng Chen, Chang Liu, Jian Qin, Jin-Peng Li, Yu-Ming He, Christian Schneider, Martin Kamp, Cheng-Zhi Peng, Sven Hoefling, Chao-Yang Lu, Jian-Wei Pan",
+      "published": "2016-12-21",
+      "abstract": "Boson sampling is considered as a strong candidate to demonstrate the quantum computational supremacy over classical computers. However, previous proof-of-principle experiments suffered from small photon number and low sampling rates owing to the inefficiencies of the single-photon sources and multi-port optical interferometers. Here, we develop two central components for high-performance boson sampling: robust multi-photon interferometers with 0.99 transmission rate, and actively demultiplexed single-photon sources from a quantum-dot-micropillar with simultaneously high efficiency, purity and indistinguishability. We implement and validate 3-, 4-, and 5-photon boson sampling, and achieve sampling rates of 4.96 kHz, 151 Hz, and 4 Hz, respectively, which are over 24,000 times faster than the previous experiments, and over 220 times faster than obtaining one sample through calculating the matrices permanent using the first electronic computer (ENIAC) and transistorized computer (TRADIC) in the human history. Our architecture is feasible to be scaled up to larger number of photons and with higher rate to race against classical computers, and might provide experimental evidence against the Extended Church-Turing Thesis.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1612.06956"
+    },
+    {
+      "type": "concept",
+      "label": "Extended Church-Turing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Extended Church-Turing"
+    },
+    {
+      "type": "concept",
+      "label": "Church-Turing Thesis.",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Church-Turing Thesis."
+    },
+    {
+      "type": "concept",
+      "label": "Extended Church-Turing Thesis.",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Extended Church-Turing Thesis."
+    },
+    {
+      "type": "concept",
+      "label": "Multi-photon boson-sampling",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Multi-photon boson-sampling"
+    },
+    {
+      "type": "concept",
+      "label": "computers Boson",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:computers Boson"
+    },
+    {
+      "type": "concept",
+      "label": "Hz respectively",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Hz respectively"
+    },
+    {
+      "type": "concept",
+      "label": "computer TRADIC",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:computer TRADIC"
+    },
+    {
+      "type": "concept",
+      "label": "Boson sampling",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Boson sampling"
+    },
+    {
+      "type": "concept",
+      "label": "computer ENIAC",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:computer ENIAC"
+    },
+    {
+      "type": "concept",
+      "label": "kHz Hz",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:kHz Hz"
+    },
+    {
+      "type": "paper",
+      "label": "Piquasso: A Photonic Quantum Computer Simulation Software Platform",
+      "arxiv_id": "2403.04006",
+      "authors": "Zolt\u00e1n Kolarovszki, Tomasz Rybotycki, P\u00e9ter Rakyta, \u00c1goston Kaposi, Boldizs\u00e1r Po\u00f3r, Szabolcs J\u00f3czik, D\u00e1niel T. R. Nagy, Henrik Varga, Kareem H. El-Safty, Gregory Morse, Micha\u0142 Oszmaniec, Tam\u00e1s Kozsik, Zolt\u00e1n Zimbor\u00e1s",
+      "published": "2024-03-06",
+      "abstract": "We introduce the Piquasso quantum programming framework, a full-stack open-source software platform for the simulation and programming of photonic quantum computers. Piquasso can be programmed via a high-level Python programming interface enabling users to perform efficient quantum computing with discrete and continuous variables. Via optional high-performance C++ backends, Piquasso provides state-of-the-art performance in the simulation of photonic quantum computers. The Piquasso framework is supported by an intuitive web-based graphical user interface where the users can design quantum circuits, run computations, and visualize the results.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2403.04006"
+    },
+    {
+      "type": "concept",
+      "label": "Computer Simulation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Computer Simulation"
+    },
+    {
+      "type": "concept",
+      "label": "Simulation Software",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Simulation Software"
+    },
+    {
+      "type": "concept",
+      "label": "Piquasso Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Piquasso Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Software Platform",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Software Platform"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic Quantum",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic Quantum"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum Computer",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Quantum Computer"
+    },
+    {
+      "type": "concept",
+      "label": "Computer Simulation Software",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Computer Simulation Software"
+    },
+    {
+      "type": "concept",
+      "label": "Simulation Software Platform",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Simulation Software Platform"
+    },
+    {
+      "type": "concept",
+      "label": "Quantum Computer Simulation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Quantum Computer Simulation"
+    },
+    {
+      "type": "concept",
+      "label": "Piquasso Photonic Quantum",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Piquasso Photonic Quantum"
+    },
+    {
+      "type": "paper",
+      "label": "Thermal Crosstalk Modelling and Compensation Methods for Programmable Photonic Integrated Circuits",
+      "arxiv_id": "2404.10589",
+      "authors": "Isidora Teofilovic, Ali Cem, David Sanchez-Jacome, Daniel Perez-Lopez, Francesco Da Ros",
+      "published": "2024-03-19",
+      "abstract": "Photonic integrated circuits play an important role in the field of optical computing, promising faster and more energy-efficient operations compared to their digital counterparts. This advantage stems from the inherent suitability of optical signals to carry out matrix multiplication. However, even deterministic phenomena such as thermal crosstalk make precise programming of photonic chips a challenging task. Here, we train and experimentally evaluate three models incorporating varying degrees of physics intuition to predict the effect of thermal crosstalk in different locations of an integrated programmable photonic mesh. We quantify the effect of thermal crosstalk by the resonance wavelength shift in the power spectrum of a microring resonator implemented in the chip, achieving modelling errors <0.5 pm. We experimentally validate the models through compensation of the crosstalk-induced wavelength shift. Finally, we evaluate the generalization capabilities of one of the models by employing it to predict and compensate for the effect of thermal crosstalk for parts of the chip it was not trained on, revealing root-mean-square-errors of <2.0 pm.",
+      "categories": [
+        "cs.ET",
+        "cs.LG",
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2404.10589"
+    },
+    {
+      "type": "concept",
+      "label": "Programmable Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Programmable Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Crosstalk Modelling",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Crosstalk Modelling"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic Integrated",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic Integrated"
+    },
+    {
+      "type": "concept",
+      "label": "Integrated Circuits",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Integrated Circuits"
+    },
+    {
+      "type": "concept",
+      "label": "Thermal Crosstalk",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Thermal Crosstalk"
+    },
+    {
+      "type": "concept",
+      "label": "Circuits Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Circuits Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Programmable Photonic Integrated",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Programmable Photonic Integrated"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic Integrated Circuits",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic Integrated Circuits"
+    },
+    {
+      "type": "concept",
+      "label": "Integrated Circuits Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Integrated Circuits Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Thermal Crosstalk Modelling",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Thermal Crosstalk Modelling"
+    },
+    {
+      "type": "paper",
+      "label": "A compiler for universal photonic quantum computers",
+      "arxiv_id": "2210.09251",
+      "authors": "Felix Zilk, Korbinian Staudacher, Tobias Guggemos, Karl F\u00fcrlinger, Dieter Kranzlm\u00fcller, Philip Walther",
+      "published": "2022-10-17",
+      "abstract": "Photons are a natural resource in quantum information, and the last decade showed significant progress in high-quality single photon generation and detection. Furthermore, photonic qubits are easy to manipulate and do not require particularly strongly sealed environments, making them an appealing platform for quantum computing. With the one-way model, the vision of a universal and large-scale quantum computer based on photonics becomes feasible. In one-way computing, the input state is not an initial product state, but a so-called cluster state. A series of measurements on the cluster state's individual qubits and their temporal order, together with a feed-forward procedure, determine the quantum circuit to be executed. We propose a pipeline to convert a QASM circuit into a graph representation named measurement-graph (m-graph), that can be directly translated to hardware instructions on an optical one-way quantum computer. In addition, we optimize the graph using ZX-Calculus before evaluating the execution on an experimental discrete variable photonic platform.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2210.09251"
+    },
+    {
+      "type": "concept",
+      "label": "ZX-Calculus",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:ZX-Calculus"
+    },
+    {
+      "type": "concept",
+      "label": "detection. Furthermore",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:detection. Furthermore"
+    },
+    {
+      "type": "concept",
+      "label": "Furthermore photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Furthermore photonic"
+    },
+    {
+      "type": "concept",
+      "label": "computers Photons",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:computers Photons"
+    },
+    {
+      "type": "concept",
+      "label": "convert QASM",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:convert QASM"
+    },
+    {
+      "type": "concept",
+      "label": "QASM circuit",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:QASM circuit"
+    },
+    {
+      "type": "concept",
+      "label": "detection. Furthermore photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:detection. Furthermore photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Furthermore photonic qubits",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Furthermore photonic qubits"
+    },
+    {
+      "type": "concept",
+      "label": "quantum computers Photons",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:quantum computers Photons"
+    },
+    {
+      "type": "concept",
+      "label": "convert QASM circuit",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:convert QASM circuit"
+    },
+    {
+      "type": "paper",
+      "label": "PRISM: Photonics-Informed Inverse Lithography for Manufacturable Inverse-Designed Photonic Integrated Circuits",
+      "arxiv_id": "2602.15762",
+      "authors": "Hongjian Zhou, Haoyu Yang, Nicholas Gangi, Tianle Xu, Rena Huang, Jiaqi Gu",
+      "published": "2026-02-17",
+      "abstract": "Recent advances in photonic inverse design have demonstrated the ability to automatically synthesize compact, high-performance photonic components that surpass conventional, hand-designed structures, offering a promising path toward scalable and functionality-rich photonic hardware. However, the practical deployment of inverse-designed PICs is bottlenecked by manufacturability: their irregular, subwavelength geometries are highly sensitive to fabrication variations, leading to large performance degradation, low yield, and a persistent gap between simulated optimality and fabricated performance. Unlike electronics, photonics lacks a systematic, flexible mask optimization flow. Fabrication deviations in photonic components cause large optical response drift and compounding error in cascaded circuits, while calibrating fabrication models remains costly and expertise-heavy, often requiring repeated fabrication cycles that are inaccessible to most designers. To bridge this gap, we introduce PRISM, a photonics-informed inverse lithography workflow that makes photonic mask optimization data-efficient, reliable, and optics-informed. PRISM (i) synthesizes compact, informative calibration patterns to minimize required fabrication data, (ii) trains a physics-grounded differentiable fabrication model, enabling gradient-based optimization, and (iii) performs photonics-informed inverse mask optimization that prioritizes performance-critical features beyond geometry matching. Across multiple inverse-designed components with both electron-beam lithography and deep ultra-violet photolithography processes, PRISM significantly boosts post-fabrication performance and yield while reducing calibration area and turnaround time, enabling and democratizing manufacturable and high-yield inverse-designed photonic hardware at scale.",
+      "categories": [
+        "physics.optics",
+        "cs.ET"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2602.15762"
+    },
+    {
+      "type": "concept",
+      "label": "Manufacturable Inverse-Designed",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Manufacturable Inverse-Designed"
+    },
+    {
+      "type": "concept",
+      "label": "Photonics-Informed Inverse",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonics-Informed Inverse"
+    },
+    {
+      "type": "concept",
+      "label": "Inverse-Designed Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Inverse-Designed Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "PRISM Photonics-Informed",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:PRISM Photonics-Informed"
+    },
+    {
+      "type": "concept",
+      "label": "Inverse Lithography",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Inverse Lithography"
+    },
+    {
+      "type": "concept",
+      "label": "Circuits Recent",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Circuits Recent"
+    },
+    {
+      "type": "concept",
+      "label": "Manufacturable Inverse-Designed Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Manufacturable Inverse-Designed Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Photonics-Informed Inverse Lithography",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonics-Informed Inverse Lithography"
+    },
+    {
+      "type": "paper",
+      "label": "Tutorial: Computing topological invariants in two-dimensional photonic crystals",
+      "arxiv_id": "1912.00944",
+      "authors": "Mar\u00eda Blanco de Paz, Chiara Devescovi, Geza Giedke, Juan Jos\u00e9 Saenz, Maia G. Vergniory, Barry Bradlyn, Dario Bercioux, Aitzol Garc\u00eda-Etxarri",
+      "published": "2019-12-02",
+      "abstract": "The field of topological photonics emerged as one of the most promising areas for applications in transformative technologies: possible applications are in topological lasers or quantum optics interfaces. Nevertheless, efficient and simple methods for diagnosing the topology of optical systems remain elusive for an important part of the community. In this tutorial, we provide a summary of numerical methods to calculate topological invariants emerging from the propagation of light in photonic crystals. We first describe the fundamental properties of wave propagation in lattices with a space-dependent periodic electric permittivity. Next, we provide an introduction to topological invariants; proposing an optimal strategy to calculate them through the numerical evaluation of Maxwell's equation in a discretized reciprocal space. Finally, we will complement the tutorial with a few practical examples of photonic crystal systems showing different topological properties, such as photonic valley-Chern insulators, photonic crystals presenting an \"obstructed atomic limit\", photonic systems supporting fragile topology and finally photonic Chern insulators, where we also periodically modulated the magnetic permeability.",
+      "categories": [
+        "cond-mat.mes-hall",
+        "physics.optics"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:1912.00944"
+    },
+    {
+      "type": "concept",
+      "label": "Tutorial Computing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Tutorial Computing"
+    },
+    {
+      "type": "concept",
+      "label": "valley-Chern",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:valley-Chern"
+    },
+    {
+      "type": "concept",
+      "label": "interfaces. Nevertheless",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:interfaces. Nevertheless"
+    },
+    {
+      "type": "concept",
+      "label": "Computing topological",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Computing topological"
+    },
+    {
+      "type": "concept",
+      "label": "permittivity. Next",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:permittivity. Next"
+    },
+    {
+      "type": "concept",
+      "label": "Maxwell equation",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Maxwell equation"
+    },
+    {
+      "type": "concept",
+      "label": "Chern insulators",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Chern insulators"
+    },
+    {
+      "type": "concept",
+      "label": "space. Finally",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:space. Finally"
+    },
+    {
+      "type": "concept",
+      "label": "photonic Chern",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:photonic Chern"
+    },
+    {
+      "type": "concept",
+      "label": "Computing topological invariants",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Computing topological invariants"
+    },
+    {
+      "type": "paper",
+      "label": "Photonics for artificial intelligence and neuromorphic computing",
+      "arxiv_id": "2011.00111",
+      "authors": "Bhavin J. Shastri, Alexander N. Tait, Thomas Ferreira de Lima, Wolfram H. P. Pernice, Harish Bhaskaran, C. David Wright, Paul R. Prucnal",
+      "published": "2020-10-30",
+      "abstract": "Research in photonic computing has flourished due to the proliferation of optoelectronic components on photonic integration platforms. Photonic integrated circuits have enabled ultrafast artificial neural networks, providing a framework for a new class of information processing machines. Algorithms running on such hardware have the potential to address the growing demand for machine learning and artificial intelligence, in areas such as medical diagnosis, telecommunications, and high-performance and scientific computing. In parallel, the development of neuromorphic electronics has highlighted challenges in that domain, in particular, related to processor latency. Neuromorphic photonics offers sub-nanosecond latencies, providing a complementary opportunity to extend the domain of artificial intelligence. Here, we review recent advances in integrated photonic neuromorphic systems, discuss current and future challenges, and outline the advances in science and technology needed to meet those challenges.",
+      "categories": [
+        "physics.optics",
+        "cs.NE",
+        "physics.app-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2011.00111"
+    },
+    {
+      "type": "concept",
+      "label": "Neuromorphic photonics",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Neuromorphic photonics"
+    },
+    {
+      "type": "concept",
+      "label": "latency. Neuromorphic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:latency. Neuromorphic"
+    },
+    {
+      "type": "concept",
+      "label": "machines. Algorithms",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:machines. Algorithms"
+    },
+    {
+      "type": "concept",
+      "label": "platforms. Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:platforms. Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic integrated",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic integrated"
+    },
+    {
+      "type": "concept",
+      "label": "computing Research",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:computing Research"
+    },
+    {
+      "type": "concept",
+      "label": "Algorithms running",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Algorithms running"
+    },
+    {
+      "type": "concept",
+      "label": "neuromorphic computing Research",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:neuromorphic computing Research"
+    },
+    {
+      "type": "concept",
+      "label": "integration platforms. Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:integration platforms. Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "processing machines. Algorithms",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:processing machines. Algorithms"
+    },
+    {
+      "type": "paper",
+      "label": "System-Level Performance Modeling of Photonic In-Memory Computing",
+      "arxiv_id": "2602.00892",
+      "authors": "Jebacyril Arockiaraj, Sasindu Wijeratne, Sugeet Sunder, Md Abdullah-Al Kaiser, Akhilesh Jaiswal, Ajey P. Jacob, Viktor Prasanna",
+      "published": "2026-01-31",
+      "abstract": "Photonic in-memory computing is a high-speed, low-energy alternative to traditional transistor-based digital computing that utilizes high photonic operating frequencies and bandwidths. In this work, we develop a comprehensive system-level performance model for photonic in-memory computing, capturing the effects of key latency sources such as external memory access and opto-electronic conversion. We perform algorithm-to-hardware mapping across a range of workloads, including the Sod shock tube problem, Matricized Tensor Times Khatri-Rao Product (MTTKRP), and the Vlasov-Maxwell equation, to evaluate how the latencies impact real-world high-performance computing workloads. Our performance model shows that, while accounting for system overheads, a compact 1x256 bit single-wavelength photonic SRAM array, fabricated using the standard silicon photonics process by GlobalFoundries, sustains up to 1.5 TOPS, 0.9 TOPS, and 1.3 TOPS on the Sod shock tube problem, MTTKRP, and the Vlasov-Maxwell equation with an average energy efficiency of 2.5 TOPS/W.",
+      "categories": [
+        "cs.DC"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:2602.00892"
+    },
+    {
+      "type": "concept",
+      "label": "System-Level Performance",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:System-Level Performance"
+    },
+    {
+      "type": "concept",
+      "label": "Performance Modeling",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Performance Modeling"
+    },
+    {
+      "type": "concept",
+      "label": "In-Memory Computing",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:In-Memory Computing"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic In-Memory",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic In-Memory"
+    },
+    {
+      "type": "concept",
+      "label": "Computing Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Computing Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Khatri-Rao Product",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Khatri-Rao Product"
+    },
+    {
+      "type": "concept",
+      "label": "Matricized Tensor",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Matricized Tensor"
+    },
+    {
+      "type": "concept",
+      "label": "Times Khatri-Rao",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Times Khatri-Rao"
+    },
+    {
+      "type": "concept",
+      "label": "Product MTTKRP",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Product MTTKRP"
+    },
+    {
+      "type": "concept",
+      "label": "Tensor Times",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Tensor Times"
+    },
+    {
+      "type": "paper",
+      "label": "The Photonic Module: an on-demand resource for photonic entanglement",
+      "arxiv_id": "0706.2226",
+      "authors": "Simon J. Devitt, Andrew D. Greentree, Radu Ionicioiu, Jeremy L. O'Brien, William J. Munro, Lloyd C. L. Hollenberg",
+      "published": "2007-06-15",
+      "abstract": "Photonic entanglement has a wide range of applications in quantum computation and communication. Here we introduce a new device: the \"photonic module\", which allows for the rapid, deterministic preparation of a large class of entangled photon states. The module is an application independent, \"plug and play\" device, with sufficient flexibility to prepare entanglement for all major quantum computation and communication applications in a completely deterministic fashion without number-discriminated photon detection. We present two alternative constructions for the module, one using free-space components and one in a photonic bandgap structures. The natural operation of the module is to generate states within the stabilizer formalism and we present an analysis on the cavity-QED requirements to experimentally realize this device.",
+      "categories": [
+        "quant-ph"
+      ],
+      "graph_id": "photonic-computing",
+      "id": "paper:0706.2226"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic Module",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic Module"
+    },
+    {
+      "type": "concept",
+      "label": "cavity-QED",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:cavity-QED"
+    },
+    {
+      "type": "concept",
+      "label": "entanglement Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:entanglement Photonic"
+    },
+    {
+      "type": "concept",
+      "label": "Photonic entanglement",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:Photonic entanglement"
+    },
+    {
+      "type": "concept",
+      "label": "entanglement Photonic entanglement",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:entanglement Photonic entanglement"
+    },
+    {
+      "type": "concept",
+      "label": "photonic entanglement Photonic",
+      "definition": "",
+      "concept_type": "concept",
+      "graph_id": "photonic-computing",
+      "id": "concept:photonic entanglement Photonic"
     }
   ],
   "links": [
@@ -570,6 +1458,162 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Circuits Recent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.04737",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
       "relation": "introduces",
       "source": "paper:1805.04743",
       "target": "concept:optical neural network",
@@ -582,9 +1626,153 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:1805.04743",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1805.04743",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1805.04743",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1805.04743",
+      "target": "concept:Circuits Recent",
+      "key": 0
+    },
+    {
       "relation": "improves",
       "source": "paper:1909.06128",
       "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1909.06128",
+      "target": "concept:photonic entanglement Photonic",
       "key": 0
     },
     {
@@ -595,8 +1783,212 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:technologies. Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Quantum entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:review Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:computers Boson",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Boson sampling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Piquasso Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:quantum computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2105.02859",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "paper:1710.00746",
       "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.00746",
+      "target": "concept:Tutorial Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.00746",
+      "target": "concept:Computing topological",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.00746",
+      "target": "concept:computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.00746",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1710.00746",
+      "target": "concept:Computing Photonic",
       "key": 0
     },
     {
@@ -607,8 +1999,296 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2204.12464",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "paper:2006.04776",
       "target": "concept:optical neural network",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Tutorial Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Computing topological",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Neuromorphic photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:latency. Neuromorphic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:neuromorphic computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.04776",
+      "target": "concept:photonic entanglement Photonic",
       "key": 0
     },
     {
@@ -624,9 +2304,291 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Matricized Tensor",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Tensor Times",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1807.10093",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
       "relation": "uses",
       "source": "paper:2103.08813",
       "target": "concept:silicon photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2103.08813",
+      "target": "concept:photonic entanglement Photonic",
       "key": 0
     },
     {
@@ -637,8 +2599,464 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1905.12311",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Circuits Recent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2201.00101",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "paper:1705.09183",
       "target": "concept:quantum photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:technologies. Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Quantum entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Piquasso Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Neuromorphic photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1705.09183",
+      "target": "concept:photonic entanglement Photonic",
       "key": 0
     },
     {
@@ -649,14 +3067,320 @@
     },
     {
       "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:technologies. Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Quantum entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Piquasso Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Circuits Recent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2012.02772",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
       "source": "paper:1601.06402",
       "target": "concept:silicon photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1601.06402",
+      "target": "concept:Neuromorphic photonics",
       "key": 0
     },
     {
       "relation": "introduces",
       "source": "paper:2107.02391",
       "target": "concept:optical interconnect",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2107.02391",
+      "target": "concept:photonic entanglement Photonic",
       "key": 0
     },
     {
@@ -672,6 +3396,36 @@
       "key": 0
     },
     {
+      "relation": "related_to",
+      "source": "paper:2006.09415",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.09415",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.09415",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.09415",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2006.09415",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
       "relation": "references",
       "source": "graph_ref:ai-acceleration",
       "target": "ai-acceleration",
@@ -682,6 +3436,1914 @@
       "source": "graph_ref:quantum-computing",
       "target": "quantum-computing",
       "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:technologies. Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:technologies. Quantum",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:Quantum entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Quantum entanglement",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:experiment. Apart",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:experiment. Apart",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic quantum",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:review Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:review Photons",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:develop. Today",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:develop. Today",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:Today photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Today photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:gates. Instead",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:gates. Instead",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:technologies. Quantum entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:technologies. Quantum entanglement",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1907.06331",
+      "target": "concept:Quantum entanglement teleportation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Piquasso Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:quantum computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Tutorial Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Computing topological",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1907.06331",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:Extended Church-Turing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Extended Church-Turing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:Church-Turing Thesis.",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Church-Turing Thesis.",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:Extended Church-Turing Thesis.",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Extended Church-Turing Thesis.",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:Multi-photon boson-sampling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Multi-photon boson-sampling",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:computers Boson",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:computers Boson",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:Hz respectively",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:computer TRADIC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:computer TRADIC",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:Boson sampling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Boson sampling",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:computer ENIAC",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:computer ENIAC",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1612.06956",
+      "target": "concept:kHz Hz",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Computer Simulation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Quantum Computer Simulation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:quantum computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Times Khatri-Rao",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1612.06956",
+      "target": "concept:Tensor Times",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Computer Simulation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Computer Simulation",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Simulation Software",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Simulation Software",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Piquasso Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Piquasso Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Software Platform",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Software Platform",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic Quantum",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Quantum Computer",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Quantum Computer",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Computer Simulation Software",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Computer Simulation Software",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Simulation Software Platform",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Simulation Software Platform",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Quantum Computer Simulation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Quantum Computer Simulation",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2403.04006",
+      "target": "concept:Piquasso Photonic Quantum",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Piquasso Photonic Quantum",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Tutorial Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Computing topological",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:System-Level Performance",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Performance Modeling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2403.04006",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Programmable Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Programmable Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Crosstalk Modelling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Crosstalk Modelling",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic Integrated",
+      "key": 2
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Integrated Circuits",
+      "key": 2
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Thermal Crosstalk",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Thermal Crosstalk",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Circuits Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Programmable Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Integrated Circuits Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2404.10589",
+      "target": "concept:Thermal Crosstalk Modelling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Thermal Crosstalk Modelling",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Circuits Recent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2404.10589",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:ZX-Calculus",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:ZX-Calculus",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:detection. Furthermore",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:detection. Furthermore",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Furthermore photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:computers Photons",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:convert QASM",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:convert QASM",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:QASM circuit",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:QASM circuit",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:detection. Furthermore photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:detection. Furthermore photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:Furthermore photonic qubits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Furthermore photonic qubits",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:quantum computers Photons",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:quantum computers Photons",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2210.09251",
+      "target": "concept:convert QASM circuit",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:convert QASM circuit",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Neuromorphic photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Khatri-Rao Product",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Product MTTKRP",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2210.09251",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Manufacturable Inverse-Designed",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Manufacturable Inverse-Designed",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonics-Informed Inverse",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonics-Informed Inverse",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Inverse-Designed Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:PRISM Photonics-Informed",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:PRISM Photonics-Informed",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Inverse Lithography",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Inverse Lithography",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonic Integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonic Integrated",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Integrated Circuits",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Integrated Circuits",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Circuits Recent",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Circuits Recent",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Manufacturable Inverse-Designed Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Manufacturable Inverse-Designed Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonics-Informed Inverse Lithography",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonics-Informed Inverse Lithography",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Neuromorphic photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:System-Level Performance",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Performance Modeling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.15762",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:Tutorial Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Tutorial Computing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:valley-Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:valley-Chern",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:interfaces. Nevertheless",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:interfaces. Nevertheless",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:Computing topological",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Computing topological",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:permittivity. Next",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:permittivity. Next",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:Maxwell equation",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Maxwell equation",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:Chern insulators",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Chern insulators",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:space. Finally",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:space. Finally",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:photonic Chern",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:photonic Chern",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:1912.00944",
+      "target": "concept:Computing topological invariants",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Computing topological invariants",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Neuromorphic photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:1912.00944",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:Neuromorphic photonics",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Neuromorphic photonics",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:latency. Neuromorphic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:latency. Neuromorphic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:machines. Algorithms",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:machines. Algorithms",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:platforms. Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:Photonic integrated",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Photonic integrated",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:computing Research",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:Algorithms running",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Algorithms running",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:neuromorphic computing Research",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:neuromorphic computing Research",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:integration platforms. Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:integration platforms. Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2011.00111",
+      "target": "concept:processing machines. Algorithms",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:processing machines. Algorithms",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2011.00111",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:System-Level Performance",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:System-Level Performance",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Performance Modeling",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Performance Modeling",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:In-Memory Computing",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:In-Memory Computing",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Photonic In-Memory",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Photonic In-Memory",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Computing Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Computing Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Khatri-Rao Product",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Khatri-Rao Product",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Matricized Tensor",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Matricized Tensor",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Times Khatri-Rao",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Times Khatri-Rao",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Product MTTKRP",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Product MTTKRP",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:2602.00892",
+      "target": "concept:Tensor Times",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Tensor Times",
+      "key": 1
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:2602.00892",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0706.2226",
+      "target": "concept:Photonic Module",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:0706.2226",
+      "target": "concept:Photonic Module",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0706.2226",
+      "target": "concept:cavity-QED",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:0706.2226",
+      "target": "concept:cavity-QED",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0706.2226",
+      "target": "concept:entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:0706.2226",
+      "target": "concept:entanglement Photonic",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0706.2226",
+      "target": "concept:Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:0706.2226",
+      "target": "concept:Photonic entanglement",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0706.2226",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:0706.2226",
+      "target": "concept:entanglement Photonic entanglement",
+      "key": 1
+    },
+    {
+      "relation": "introduces",
+      "source": "paper:0706.2226",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 0
+    },
+    {
+      "relation": "related_to",
+      "source": "paper:0706.2226",
+      "target": "concept:photonic entanglement Photonic",
+      "key": 1
     }
   ],
   "graph_id": "photonic-computing"

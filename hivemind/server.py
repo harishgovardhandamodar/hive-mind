@@ -124,6 +124,26 @@ class Handler(BaseHTTPRequestHandler):
                                             "papers": len(result.get("papers_added", [])),
                                             "concepts": len(result.get("concepts_added", []))})
             self._json(200, result)
+        elif path == "/api/arxiv-search":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            ingester = ConceptIngester(_hm)
+            query = body.get("query", "")
+            hive = body.get("hive")
+            max_results = body.get("max_results", 10)
+            max_concepts = body.get("max_concepts", 10)
+            no_resolve = body.get("no_resolve", False)
+            if not query:
+                return self._json(400, {"error": "provide 'query' string"})
+            result = ingester.search_arxiv(query, hive, max_results, max_concepts, resolve=not no_resolve)
+            broadcast_event("hive-update", {"hive": result.get("hive", hive), "action": "arxiv-search",
+                                            "papers": len(result.get("papers_added", [])),
+                                            "concepts": len(result.get("concepts_added", []))})
+            self._json(200, result)
         elif path.startswith("/api/hive/") and path.endswith("/visibility"):
             try:
                 body = json.loads(self._read_body())
