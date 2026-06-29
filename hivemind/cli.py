@@ -20,6 +20,11 @@ def main() -> None:
             "  hivemind connect src-hive concept:A tgt-hive concept:B --relation extends\n"
             "  hivemind search 'transformer attention'\n"
             "  hivemind import /path/to/graph --name my-hive\n"
+            "  hivemind history my-hive\n"
+            "  hivemind diff my-hive 20250628_120000\n"
+            "  hivemind rollback my-hive 20250628_120000\n"
+            "  hivemind export my-hive --format jsonld\n"
+            "  hivemind export my-hive --format obsidian --output ./obsidian-vault\n"
             "  hivemind serve\n"
             "  hivemind stats\n"
         ),
@@ -91,6 +96,25 @@ def main() -> None:
 
     p_inspect = sub.add_parser("inspect", help="Show detailed info about a hive")
     p_inspect.add_argument("name", help="Hive name")
+
+    p_history = sub.add_parser("history", help="Show backup history for a hive")
+    p_history.add_argument("name", help="Hive name")
+
+    p_diff = sub.add_parser("diff", help="Show changed nodes/edges between current state and a backup")
+    p_diff.add_argument("name", help="Hive name")
+    p_diff.add_argument("version", help="Backup version to diff against")
+
+    p_rollback = sub.add_parser("rollback", help="Restore a hive to a previous backup version")
+    p_rollback.add_argument("name", help="Hive name")
+    p_rollback.add_argument("version", help="Backup version to restore")
+
+    p_export = sub.add_parser("export", help="Export a hive in a specific format")
+    p_export.add_argument("name", help="Hive name")
+    p_export.add_argument("--format", "-f", default="jsonld",
+                         choices=["jsonld", "obsidian"],
+                         help="Export format (default: jsonld)")
+    p_export.add_argument("--output", "-o", default="",
+                         help="Output directory (for obsidian format)")
 
     sub.add_parser("stats", help="Show federation statistics")
 
@@ -229,6 +253,79 @@ def main() -> None:
         for s in suggestions:
             tag = " (exists)" if s["existing_concept"] else ""
             print(f"  {s['graph_id']:<24} score={s['score']:.2f}{tag}")
+
+    elif args.command == "history":
+        try:
+            backups = hm.list_backups(args.name)
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
+        if not backups:
+            print(f"No backups for hive '{args.name}'.")
+            return
+        print(f"Backup history for '{args.name}':")
+        print(f"{'Version':<22} {'Papers':>8} {'Concepts':>10} {'Size':>10}")
+        print("-" * 52)
+        for b in backups:
+            print(f"{b['timestamp']:<22} {b['papers']:>8} {b['concepts']:>10} {b['size']:>10}")
+
+    elif args.command == "diff":
+        try:
+            current_data = hm.get_hive_graph(args.name)
+            if not current_data:
+                print(f"Hive '{args.name}' not found.")
+                sys.exit(1)
+            backup_data = hm.get_backup(args.name, args.version)
+            if not backup_data:
+                print(f"Backup '{args.version}' not found for hive '{args.name}'.")
+                sys.exit(1)
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
+        current_nodes = {(n, d.get("label", n), d.get("type", ""))
+                         for n, d in current_data.graph.nodes(data=True)}
+        curr_labels = {n for n, _, _ in current_nodes}
+        backup_nodes = {(n["id"], n.get("label", n["id"]), n.get("type", ""))
+                        for n in backup_data.get("nodes", [])}
+        back_labels = {n for n, _, _ in backup_nodes}
+        added = curr_labels - back_labels
+        removed = back_labels - curr_labels
+        if not added and not removed:
+            print("No changes — current state matches backup.")
+        else:
+            if added:
+                print("Added nodes:")
+                for n in sorted(added):
+                    print(f"  + {n}")
+            if removed:
+                print("Removed nodes:")
+                for n in sorted(removed):
+                    print(f"  - {n}")
+
+    elif args.command == "rollback":
+        try:
+            msg = hm.rollback(args.name, args.version)
+            print(msg)
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
+
+    elif args.command == "export":
+        try:
+            result = hm.export_hive(args.name, args.format, args.output or None)
+            if args.format == "jsonld":
+                print(json.dumps(result, indent=2))
+            elif args.format == "obsidian":
+                if args.output:
+                    print(f"Exported {len(result)} markdown files to {args.output}")
+                else:
+                    for fname, content in result.items():
+                        print(f"--- {fname}.md ---")
+                        print(content)
+                        print()
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
 
     elif args.command == "stats":
         s = hm.stats()

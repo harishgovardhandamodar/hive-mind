@@ -5,6 +5,7 @@ from typing import Any
 import networkx as nx
 
 from .config import load as load_config
+from .exporter import export_jsonld, export_obsidian
 from .federation import Federation
 from .knowledge_graph import KnowledgeGraph
 
@@ -100,6 +101,43 @@ class HiveMind:
 
     def query_relation(self, text: str) -> dict[str, Any]:
         return self.federation.query_relation(text)
+
+    # ------------------------------------------------------------------
+    # Backups & rollback
+    # ------------------------------------------------------------------
+
+    def list_backups(self, hive_id: str) -> list[dict[str, Any]]:
+        kg = self.federation.get_graph(hive_id)
+        if not kg:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        return kg.list_backups()
+
+    def get_backup(self, hive_id: str, version: str) -> dict | None:
+        kg = self.federation.get_graph(hive_id)
+        if not kg:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        return kg.get_backup_data(version)
+
+    def rollback(self, hive_id: str, version: str) -> str:
+        kg = self.federation.get_graph(hive_id)
+        if not kg:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        return kg.restore(version)
+
+    # ------------------------------------------------------------------
+    # Export
+    # ------------------------------------------------------------------
+
+    def export_hive(self, hive_id: str, fmt: str = "jsonld",
+                    output_dir: str | None = None) -> Any:
+        kg = self.federation.get_graph(hive_id)
+        if not kg:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        if fmt == "jsonld":
+            return export_jsonld(kg, graph_id=hive_id)
+        elif fmt == "obsidian":
+            return export_obsidian(kg, graph_id=hive_id, output_dir=output_dir)
+        raise ValueError(f"Unknown export format: {fmt}")
 
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()

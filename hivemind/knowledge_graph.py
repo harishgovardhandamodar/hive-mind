@@ -1,5 +1,7 @@
 import json
 import os
+import shutil
+import time
 from typing import Any
 
 import networkx as nx
@@ -193,9 +195,24 @@ class KnowledgeGraph:
                 related.add(self.graph.nodes[n].get("label", ""))
         return list(related)
 
+    # ------------------------------------------------------------------
+    # Persistence with backups
+    # ------------------------------------------------------------------
+
+    def _backup_dir(self) -> str:
+        bdir = os.path.join(os.path.dirname(self.path), "backups")
+        os.makedirs(bdir, exist_ok=True)
+        return bdir
+
     def save(self) -> None:
         data = nx.node_link_data(self.graph, edges="links")
         data["graph_id"] = self.graph_id
+        os.makedirs(os.path.dirname(self.path), exist_ok=True)
+        # Backup current file if it exists
+        if os.path.exists(self.path):
+            ts = time.strftime("%Y%m%d_%H%M%S")
+            backup = os.path.join(self._backup_dir(), f"{ts}.json")
+            shutil.copy2(self.path, backup)
         with open(self.path, "w") as f:
             json.dump(data, f, indent=2)
 
@@ -205,6 +222,48 @@ class KnowledgeGraph:
                 data = json.load(f)
             self.graph = nx.node_link_graph(data, multigraph=True, directed=True, edges="links")
             self.graph_id = data.get("graph_id", self.graph_id)
+
+    def list_backups(self) -> list[dict[str, Any]]:
+        bdir = self._backup_dir()
+        backups = []
+        for fn in sorted(os.listdir(bdir), reverse=True):
+            if fn.endswith(".json"):
+                fpath = os.path.join(bdir, fn)
+                size = os.path.getsize(fpath)
+                ts = fn.replace(".json", "")
+                try:
+                    with open(fpath) as f:
+                        data = json.load(f)
+                    papers = sum(1 for n in data.get("nodes", []) if n.get("type") == "paper")
+                    concepts = sum(1 for n in data.get("nodes", []) if n.get("type") == "concept")
+                except Exception:
+                    papers = concepts = 0
+                backups.append({
+                    "version": ts,
+                    "timestamp": ts,
+                    "size": size,
+                    "papers": papers,
+                    "concepts": concepts,
+                })
+        return backups
+
+    def get_backup_data(self, version: str) -> dict | None:
+        fpath = os.path.join(self._backup_dir(), f"{version}.json")
+        if os.path.exists(fpath):
+            with open(fpath) as f:
+                return json.load(f)
+        return None
+
+    def restore(self, version: str) -> str:
+        data = self.get_backup_data(version)
+        if not data:
+            raise ValueError(f"Backup '{version}' not found")
+        # Backup current before restoring
+        self.save()
+        self.graph = nx.node_link_graph(data, multigraph=True, directed=True, edges="links")
+        self.graph_id = data.get("graph_id", self.graph_id)
+        self.save()
+        return f"Restored hive '{self.graph_id}' to version {version}"
 
     def stats(self) -> dict[str, int]:
         papers = sum(

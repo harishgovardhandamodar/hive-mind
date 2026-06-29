@@ -137,6 +137,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #tooltip .tt-detail { color: var(--text-secondary); font-size: 11px; }
 
 .hive-card .cross { color: var(--accent-yellow); }
+.hive-action-btn { background:none; border:1px solid var(--border); border-radius:4px; padding:2px 6px; cursor:pointer; font-size:12px; line-height:1; color:var(--text-secondary); transition:all .15s; }
+.hive-action-btn:hover { border-color:var(--accent); color:var(--accent); }
 
 /* Legend */
 #legend { position: absolute; bottom: 16px; left: 16px; background: var(--bg-legend); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 11px; }
@@ -581,8 +583,15 @@ function loadHives() {
           <span>🔗 <span class="num">${h.relations}</span></span>
           ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
         </div>
+        <div style="display:flex;gap:4px;margin-top:4px;">
+          <button class="hive-action-btn" data-action="history" data-hive="${h.id}" title="Backup history">📋</button>
+          <button class="hive-action-btn" data-action="export" data-hive="${h.id}" title="Export as JSON-LD">📦</button>
+        </div>
       `;
-      card.addEventListener('click', () => loadHiveGraph(h.id));
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.hive-action-btn')) return;
+        loadHiveGraph(h.id);
+      });
       list.appendChild(card);
     });
     document.getElementById('status-bar').textContent =
@@ -807,6 +816,69 @@ document.getElementById('ingest-bulk-add-btn').addEventListener('click', async (
   div.innerHTML = html || '<span class="warn">No new concepts added.</span>';
   if (added) showToast(`Added ${added} concept(s)`, 'ok');
   if (skipped) showToast(`Skipped ${skipped} existing concept(s)`, 'warn');
+  loadHives();
+  if (state.selectedHive) loadHiveGraph(state.selectedHive);
+});
+
+// ---- SSE live sync ----
+(function() {
+  const evtSrc = new EventSource('/api/events');
+  evtSrc.addEventListener('hive-update', () => {
+    // Refresh when data changes
+    api('/api/meta-graph').then(mg => { state.metaGraph = mg; });
+    api('/api/hives').then(hives => { state.hives = hives; loadHives(); });
+    if (state.selectedHive) loadHiveGraph(state.selectedHive);
+  });
+  evtSrc.onerror = () => console.warn('SSE connection lost, will retry...');
+})();
+
+// ---- Hive action buttons: history & export ----
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.hive-action-btn');
+  if (!btn) return;
+  e.stopPropagation();
+  const hive = btn.dataset.hive;
+  const action = btn.dataset.action;
+  if (action === 'history') {
+    const res = await api(`/api/history?hive=${encodeURIComponent(hive)}`);
+    let html = `<div style="padding:8px 12px;font-size:12px;"><strong>Backups for ${hive}:</strong>`;
+    if (!res.length) {
+      html += '<div class="warn">No backups yet.</div>';
+    } else {
+      html += '<table style="width:100%;margin-top:6px;border-collapse:collapse;">';
+      html += '<tr style="border-bottom:1px solid var(--border)"><th style="text-align:left;padding:4px">Version</th><th style="text-align:right;padding:4px">Papers</th><th style="text-align:right;padding:4px">Concepts</th><th></th></tr>';
+      res.slice(0, 10).forEach(b => {
+        html += `<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px">${b.timestamp}</td><td style="text-align:right;padding:4px">${b.papers}</td><td style="text-align:right;padding:4px">${b.concepts}</td>`;
+        html += `<td style="padding:4px"><button class="rollback-btn" data-hive="${hive}" data-version="${b.timestamp}" style="background:none;border:1px solid var(--border);border-radius:4px;padding:2px 8px;cursor:pointer;color:var(--accent-yellow);font-size:10px;">Rollback</button></td></tr>`;
+      });
+      html += '</table>';
+    }
+    html += '</div>';
+    const panel = document.getElementById('query-panel');
+    document.getElementById('query-explanation').innerHTML = html;
+    panel.classList.add('visible');
+  } else if (action === 'export') {
+    const res = await api(`/api/export?hive=${encodeURIComponent(hive)}&format=jsonld`);
+    const blob = new Blob([JSON.stringify(res, null, 2)], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = `${hive}.jsonld`; a.click();
+    URL.revokeObjectURL(url);
+    showToast(`Exported ${hive} as JSON-LD`, 'ok');
+  }
+});
+
+// Rollback handler
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.rollback-btn');
+  if (!btn) return;
+  e.stopPropagation();
+  const hive = btn.dataset.hive;
+  const version = btn.dataset.version;
+  if (!confirm(`Rollback hive "${hive}" to version ${version}?`)) return;
+  const res = await api(`/api/rollback?hive=${encodeURIComponent(hive)}&version=${encodeURIComponent(version)}`);
+  showToast(res.message || 'Rollback done', 'ok');
+  document.getElementById('query-panel').classList.remove('visible');
   loadHives();
   if (state.selectedHive) loadHiveGraph(state.selectedHive);
 });

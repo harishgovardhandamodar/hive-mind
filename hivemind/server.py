@@ -1,9 +1,11 @@
 import json
 import os
 import sys
+import time
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from threading import Lock
 from typing import Any
-from urllib.parse import urlparse, unquote
+from urllib.parse import urlparse, unquote, parse_qs
 
 from .config import load as load_config
 from .concept_ingester import ConceptIngester, extract_keywords
@@ -11,6 +13,30 @@ from .hive_mind import HiveMind
 
 _hm: HiveMind | None = None
 _WEB_DIR = os.path.join(os.path.dirname(__file__), "web")
+
+# SSE event bus
+_sse_clients: list[BaseHTTPRequestHandler] = []
+_sse_lock = Lock()
+_LAST_EVENT_ID = 0
+
+
+def broadcast_event(event: str, data: Any) -> None:
+    global _LAST_EVENT_ID
+    with _sse_lock:
+        _LAST_EVENT_ID += 1
+        payload = f"id: {_LAST_EVENT_ID}\nevent: {event}\ndata: {json.dumps(data)}\n\n"
+        dead = []
+        for client in _sse_clients:
+            try:
+                client.wfile.write(payload.encode("utf-8"))
+                client.wfile.flush()
+            except Exception:
+                dead.append(client)
+        for client in dead:
+            try:
+                _sse_clients.remove(client)
+            except ValueError:
+                pass
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -48,6 +74,11 @@ class Handler(BaseHTTPRequestHandler):
                 results = [result]
             else:
                 return self._json(400, {"error": "provide 'keyword' or 'text'"})
+            # Broadcast SSE event
+            added = [r for r in results if r.get("status") == "added"]
+            if added:
+                broadcast_event("hive-update", {"hive": hive or "", "action": "ingest",
+                                                "concepts": len(added)})
             self._json(200, {"results": results})
         elif path == "/api/arxiv-import":
             try:
@@ -64,6 +95,9 @@ class Handler(BaseHTTPRequestHandler):
             if not ids:
                 return self._json(400, {"error": "provide 'ids' array"})
             result = ingester.import_from_arxiv(ids, hive, max_concepts, resolve=not no_resolve)
+            broadcast_event("hive-update", {"hive": result.get("hive", hive), "action": "arxiv-import",
+                                            "papers": len(result.get("papers_added", [])),
+                                            "concepts": len(result.get("concepts_added", []))})
             self._json(200, result)
         else:
             self._json(404, {"error": "not found"})
@@ -147,6 +181,44 @@ class Handler(BaseHTTPRequestHandler):
             q = unquote(query.split("=", 1)[1]) if "=" in query else ""
             results = _hm.unified_search(q) if _hm and q else []
             self._json(200, results[:50])
+        elif path == "/api/events":
+            self._sse_connect()
+        elif path == "/api/history":
+            params = parse_qs(parsed.query)
+            hives = params.get("hive", [])
+            if not hives or not _hm:
+                self._json(400, {"error": "provide ?hive=..."})
+                return
+            try:
+                backups = _hm.list_backups(hives[0])
+                self._json(200, backups)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+        elif path == "/api/rollback":
+            params = parse_qs(parsed.query)
+            hives = params.get("hive", [])
+            versions = params.get("version", [])
+            if not hives or not versions or not _hm:
+                self._json(400, {"error": "provide ?hive=...&version=..."})
+                return
+            try:
+                msg = _hm.rollback(hives[0], versions[0])
+                broadcast_event("hive-update", {"hive": hives[0], "action": "rollback", "version": versions[0]})
+                self._json(200, {"message": msg})
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+        elif path == "/api/export":
+            params = parse_qs(parsed.query)
+            hives = params.get("hive", [])
+            fmt = params.get("format", ["jsonld"])[0]
+            if not hives or not _hm:
+                self._json(400, {"error": "provide ?hive=..."})
+                return
+            try:
+                result = _hm.export_hive(hives[0], fmt)
+                self._json(200, result)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
         else:
             self._serve_static(path)
 
@@ -174,6 +246,16 @@ class Handler(BaseHTTPRequestHandler):
             self.wfile.write(content.encode("utf-8"))
         except FileNotFoundError:
             self._json(404, {"error": "not found"})
+
+    def _sse_connect(self) -> None:
+        self.send_response(200)
+        self.send_header("Content-Type", "text/event-stream")
+        self.send_header("Cache-Control", "no-cache")
+        self.send_header("Connection", "keep-alive")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        with _sse_lock:
+            _sse_clients.append(self)
 
     def _json(self, status: int, data: Any) -> None:
         self.send_response(status)
