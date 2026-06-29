@@ -344,6 +344,10 @@ let state = {
 // ---- API ----
 async function api(path) {
   const r = await fetch(path);
+  if (!r.ok) {
+    const body = await r.json().catch(() => ({}));
+    throw new Error(body.error || `HTTP ${r.status}: ${r.statusText}`);
+  }
   return r.json();
 }
 
@@ -473,6 +477,8 @@ function renderUnifiedGraph() {
 
       renderD3Graph(allNodes, allEdges, true);
       document.getElementById('loading').style.display = 'none';
+    }).catch(err => {
+      document.getElementById('loading').textContent = 'Error: ' + err.message;
     });
 }
 
@@ -597,6 +603,8 @@ function loadHives() {
     });
     document.getElementById('status-bar').textContent =
       `${hives.length} hives · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
+  }).catch(err => {
+    document.getElementById('status-bar').textContent = 'Error loading hives: ' + err.message;
   });
 }
 
@@ -619,6 +627,8 @@ function loadHiveGraph(hiveId) {
       `${data.nodes.length} nodes, ${data.edges.length} edges`;
     document.getElementById('loading').style.display = 'none';
     renderD3Graph(data.nodes, data.edges);
+  }).catch(err => {
+    document.getElementById('loading').textContent = 'Error: ' + err.message;
   });
 }
 
@@ -643,6 +653,9 @@ document.getElementById('query-btn').addEventListener('click', () => {
     } else {
       showToast('Query returned no results', 'warn');
     }
+  }).catch(err => {
+    document.getElementById('loading').style.display = 'none';
+    showToast('Query failed: ' + err.message, 'err');
   });
 });
 
@@ -678,6 +691,8 @@ document.querySelectorAll('#view-toggle button').forEach(btn => {
       api('/api/meta-graph').then(mg => {
         state.metaGraph = mg;
         render();
+      }).catch(err => {
+        document.getElementById('loading').textContent = 'Error: ' + err.message;
       });
     } else if (state.view === 'unified') {
       if (state.selectedHive) loadHiveGraph(state.selectedHive);
@@ -826,8 +841,8 @@ document.getElementById('ingest-bulk-add-btn').addEventListener('click', async (
   const evtSrc = new EventSource('/api/events');
   evtSrc.addEventListener('hive-update', () => {
     // Refresh when data changes
-    api('/api/meta-graph').then(mg => { state.metaGraph = mg; });
-    api('/api/hives').then(hives => { state.hives = hives; loadHives(); });
+    api('/api/meta-graph').then(mg => { state.metaGraph = mg; }).catch(() => {});
+    api('/api/hives').then(hives => { state.hives = hives; loadHives(); }).catch(() => {});
     if (state.selectedHive) loadHiveGraph(state.selectedHive);
   });
   evtSrc.onerror = () => console.warn('SSE connection lost, will retry...');
@@ -898,6 +913,8 @@ Promise.all([
   state.hives = hives;
   renderMetaGraph();
   loadHives();
+}).catch(err => {
+  document.getElementById('loading').textContent = 'Error: ' + err.message;
 });
 
 // ---- Theme toggle ----
