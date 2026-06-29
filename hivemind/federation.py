@@ -14,8 +14,9 @@ class Federation:
     """Manages multiple KnowledgeGraphs, providing cross-graph linking
     and unified queries across all graphs in the federation."""
 
-    def __init__(self, meta_graph_path: str):
+    def __init__(self, meta_graph_path: str, max_backups: int = 20):
         self.meta_graph_path = meta_graph_path
+        self.max_backups = max_backups
         self.graphs: dict[str, KnowledgeGraph] = {}
         self.meta_graph: nx.MultiDiGraph = nx.MultiDiGraph()
         self._load_meta()
@@ -31,12 +32,12 @@ class Federation:
         self._sync_meta_node(graph)
 
     def create_graph(self, graph_id: str, storage_path: str) -> KnowledgeGraph:
-        kg = KnowledgeGraph(storage_path, graph_id=graph_id)
+        kg = KnowledgeGraph(storage_path, graph_id=graph_id, max_backups=self.max_backups)
         self.register_graph(kg)
         return kg
 
     def load_graph(self, storage_path: str, graph_id: str = "") -> KnowledgeGraph:
-        kg = KnowledgeGraph(storage_path, graph_id=graph_id)
+        kg = KnowledgeGraph(storage_path, graph_id=graph_id, max_backups=self.max_backups)
         self.register_graph(kg)
         return kg
 

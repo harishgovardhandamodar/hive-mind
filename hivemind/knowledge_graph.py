@@ -1,10 +1,13 @@
 import json
+import logging
 import os
 import shutil
 import time
 from typing import Any
 
 import networkx as nx
+
+logger = logging.getLogger(__name__)
 
 VALID_RELATIONS = {
     "cites", "introduces", "uses", "improves", "extends",
@@ -14,9 +17,11 @@ VALID_RELATIONS = {
 
 
 class KnowledgeGraph:
-    def __init__(self, storage_path: str, graph_id: str = ""):
+    def __init__(self, storage_path: str, graph_id: str = "",
+                 max_backups: int = 20):
         self.path = storage_path
         self.graph_id = graph_id
+        self.max_backups = max_backups
         os.makedirs(os.path.dirname(storage_path), exist_ok=True)
         self.graph: nx.MultiDiGraph = nx.MultiDiGraph()
         self.load()
@@ -95,16 +100,16 @@ class KnowledgeGraph:
         tgt = f"concept:{target_name}"
         if not (self.graph.has_node(src) and self.graph.has_node(tgt)):
             return
-        for pred in list(self.graph.predecessors(src)):
-            for _, _, data in self.graph.edges(pred, src, data=True):
-                self.graph.add_edge(
-                    pred, tgt, relation=data.get("relation", "related_to")
-                )
-        for succ in list(self.graph.successors(src)):
-            for _, _, data in self.graph.edges(src, succ, data=True):
-                self.graph.add_edge(
-                    tgt, succ, relation=data.get("relation", "related_to")
-                )
+        # Move incoming edges
+        for pred, _, d in list(self.graph.in_edges(src, data=True)):
+            self.graph.add_edge(
+                pred, tgt, relation=d.get("relation", "related_to")
+            )
+        # Move outgoing edges
+        for _, succ, d in list(self.graph.out_edges(src, data=True)):
+            self.graph.add_edge(
+                tgt, succ, relation=d.get("relation", "related_to")
+            )
         self.graph.remove_node(src)
 
     def find_similar_concept(self, name: str,
@@ -213,8 +218,19 @@ class KnowledgeGraph:
             ts = time.strftime("%Y%m%d_%H%M%S")
             backup = os.path.join(self._backup_dir(), f"{ts}.json")
             shutil.copy2(self.path, backup)
+            self._prune_backups()
         with open(self.path, "w") as f:
             json.dump(data, f, indent=2)
+
+    def _prune_backups(self) -> None:
+        bdir = self._backup_dir()
+        backups = sorted(
+            [f for f in os.listdir(bdir) if f.endswith(".json")],
+            reverse=True,
+        )
+        for old in backups[self.max_backups:]:
+            os.remove(os.path.join(bdir, old))
+            logger.debug("Pruned old backup: %s", old)
 
     def load(self) -> None:
         if os.path.exists(self.path):

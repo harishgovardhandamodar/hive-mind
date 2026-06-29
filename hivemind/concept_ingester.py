@@ -391,6 +391,10 @@ class ConceptIngester:
             pass  # embedding is best-effort
 
         kg.save()
+
+        # Cross-hive linking (auto-connect similar concepts in other hives)
+        cross_links = self._link_across_hives(node_id, name, target_hive)
+
         return {
             "status": "added",
             "message": f"Concept '{name}' added to hive '{target_hive}'",
@@ -399,6 +403,7 @@ class ConceptIngester:
             "similar": similar[:3] if similar else [],
             "added": {"id": node_id, "label": name, "definition": definition},
             "paper_links": paper_links,
+            "cross_links": cross_links,
         }
 
     def ingest_batch(self, items: list[dict[str, Any]],
@@ -504,6 +509,51 @@ class ConceptIngester:
             "papers_added": papers_added,
             "concepts_added": list(set(concepts_added)),
         }
+
+    def _link_across_hives(self, node_id: str, name: str,
+                            source_hive: str,
+                            threshold: float = 0.65) -> list[dict[str, Any]]:
+        links = []
+        for gid, kg in self.fed.graphs.items():
+            if gid == source_hive:
+                continue
+            # Try vector search first
+            vs = VectorStore(kg)
+            if vs.has_vectors():
+                results = vs.similar_to_text(name, top_k=3, threshold=threshold * 0.6)
+            else:
+                results = []
+            # Fallback: fuzzy/token overlap
+            if not results:
+                for n, data in kg.graph.nodes(data=True):
+                    if data.get("type") != "concept":
+                        continue
+                    label = data.get("label", "")
+                    fuzz_score = _fuzz(name, label.lower())
+                    token_score = _token_overlap(name, label.lower())
+                    if max(fuzz_score, token_score) >= threshold:
+                        results.append({
+                            "node_id": n,
+                            "label": label,
+                            "similarity": max(fuzz_score, token_score),
+                        })
+            for match in results:
+                target_label = match.get("label", match.get("node_id", ""))
+                # Ensure we pass a plain concept name, not a prefixed node_id
+                if target_label.startswith("concept:"):
+                    target_label = target_label[len("concept:"):]
+                self.fed.connect_concepts(
+                    source_hive, name,
+                    gid, target_label,
+                    "related_to",
+                )
+                links.append({
+                    "hive": gid,
+                    "node_id": match.get("node_id"),
+                    "label": match.get("label"),
+                    "similarity": round(match.get("similarity", 1.0), 3),
+                })
+        return links
 
     def list_all_concepts(self) -> list[dict[str, Any]]:
         concepts = []

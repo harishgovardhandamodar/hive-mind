@@ -1,10 +1,13 @@
 import json
+import logging
 import math
 import os
 import re
 import time
 from collections import Counter
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 # Optional sentence-transformers backend
 _TRANSFORMER = None  # cached model instance
@@ -88,7 +91,7 @@ class VectorStore:
         count = 0
         for i, (nid, text) in enumerate(pairs):
             if progress and i > 0 and i % 50 == 0:
-                print(f"  embedded {i}/{len(pairs)}")
+                logger.info("embedded %s/%s", i, len(pairs))
             self.vectors[nid] = self.embed(text)
             count += 1
         self._dims = len(self.vectors[pairs[0][0]]) if pairs else 0

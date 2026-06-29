@@ -1,7 +1,10 @@
 import json
+import logging
 import os
 import secrets
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 ROLES = ("read", "write", "admin")
 
@@ -42,8 +45,8 @@ class AccessControl:
                 }
             }
             self._save()
-            print(f"[auth] Created default admin key: {default_key}")
-            print(f"[auth] Store this key — it will not be shown again.")
+            logger.warning("Default admin key created: %s", default_key)
+            logger.warning("Store this key safely — it will not be shown again.")
 
     def _save(self) -> None:
         os.makedirs(os.path.dirname(self.path), exist_ok=True)

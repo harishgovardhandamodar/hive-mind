@@ -1,11 +1,14 @@
 import json
+import logging
 import os
 import sys
 import time
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from threading import Lock
 from typing import Any
 from urllib.parse import urlparse, unquote, parse_qs
+
+logger = logging.getLogger(__name__)
 
 from .config import load as load_config
 from .concept_ingester import ConceptIngester, extract_keywords
@@ -346,7 +349,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps(data).encode("utf-8"))
 
     def log_message(self, fmt: str, *args: Any) -> None:
-        pass
+        logger.info(fmt, *args)
 
 
 def serve(host: str = "127.0.0.1", port: int = 9090,
@@ -355,11 +358,11 @@ def serve(host: str = "127.0.0.1", port: int = 9090,
     config = config or load_config()
     _hm = HiveMind(config)
 
-    server = HTTPServer((host, port), Handler)
-    print(f"HiveMind Dashboard → http://{host}:{port}")
-    print("Press Ctrl+C to stop")
+    server = ThreadingHTTPServer((host, port), Handler)
+    logger.info("HiveMind Dashboard → http://%s:%s", host, port)
+    logger.info("Press Ctrl+C to stop")
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\nShutting down ...")
+        logger.info("Shutting down ...")
         server.shutdown()

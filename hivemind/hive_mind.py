@@ -18,7 +18,10 @@ class HiveMind:
 
     def __init__(self, config: dict | None = None):
         self.config = config or load_config()
-        self.federation = Federation(self.config["meta_graph_path"])
+        self.federation = Federation(
+            self.config["meta_graph_path"],
+            max_backups=self.config.get("max_backups", 20),
+        )
         self.auth = AccessControl(self.config)
         self._discover_hives()
 
@@ -37,7 +40,10 @@ class HiveMind:
             if os.path.isfile(graph_file):
                 gid = entry
                 if not self.federation.get_graph(gid):
-                    kg = KnowledgeGraph(graph_file, graph_id=gid)
+                    kg = KnowledgeGraph(
+                        graph_file, graph_id=gid,
+                        max_backups=self.config.get("max_backups", 20),
+                    )
                     self.federation.register_graph(kg)
 
     def create_hive(self, name: str) -> str:

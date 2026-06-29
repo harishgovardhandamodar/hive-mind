@@ -1,4 +1,5 @@
 import argparse
+import logging
 import sys
 
 import json
@@ -9,6 +10,7 @@ from .hive_mind import HiveMind
 
 
 def main() -> None:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     parser = argparse.ArgumentParser(
         description="hivemind – federated knowledge graphs",
         formatter_class=argparse.RawDescriptionHelpFormatter,
