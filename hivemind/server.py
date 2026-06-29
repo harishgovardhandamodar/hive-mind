@@ -45,6 +45,24 @@ class Handler(BaseHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", 0))
         return self.rfile.read(length).decode("utf-8") if length else ""
 
+    def _bearer(self) -> str | None:
+        auth = self.headers.get("Authorization", "")
+        if auth.startswith("Bearer "):
+            return auth[7:]
+        return None
+
+    def _check_auth(self, hive: str, role: str = "write") -> bool:
+        if not _hm:
+            return False
+        key = self._bearer()
+        info = _hm.auth_check(key, hive, role) if key else None
+        if info:
+            return True
+        # No auth configured? Allow silently (backwards compat).
+        if not _hm.auth.list_keys():
+            return True
+        return False
+
     def do_POST(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
@@ -56,9 +74,11 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(400, {"error": "invalid JSON"})
             if not _hm:
                 return self._json(503, {"error": "server not ready"})
+            hive = body.get("hive")
+            if hive and not self._check_auth(hive, "write"):
+                return self._json(403, {"error": "forbidden: no write access to this hive"})
             ingester = ConceptIngester(_hm)
             keyword = body.get("keyword", "")
-            hive = body.get("hive")
             definition = body.get("definition", "")
             force = body.get("force", False)
             dry_run = body.get("dry_run", False)
@@ -90,6 +110,8 @@ class Handler(BaseHTTPRequestHandler):
             ingester = ConceptIngester(_hm)
             ids = body.get("ids", [])
             hive = body.get("hive")
+            if hive and not self._check_auth(hive, "write"):
+                return self._json(403, {"error": "forbidden: no write access to this hive"})
             max_concepts = body.get("max_concepts", 10)
             no_resolve = body.get("no_resolve", False)
             if not ids:
@@ -219,6 +241,64 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(200, result)
             except ValueError as e:
                 self._json(404, {"error": str(e)})
+        elif path == "/api/embed":
+            params = parse_qs(parsed.query)
+            hives = params.get("hive", [])
+            query_text = params.get("query", [None])[0]
+            if not hives or not _hm:
+                self._json(400, {"error": "provide ?hive=..."})
+                return
+            try:
+                if query_text:
+                    results = _hm.vector_similar(hives[0], query_text)
+                    self._json(200, {"results": results, "hive": hives[0]})
+                else:
+                    result = _hm.embed_hive(hives[0])
+                    broadcast_event("hive-update", {"hive": hives[0], "action": "embed",
+                                                    "nodes": result["embedded"]})
+                    self._json(200, result)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+        elif path == "/api/auth/keys":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            self._json(200, _hm.auth_list_keys())
+        elif path == "/api/auth/create-key":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            name = body.get("name", "unnamed")
+            result = _hm.auth_create_key(name)
+            self._json(200, result)
+        elif path == "/api/auth/revoke":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            key_id = body.get("key_id", "")
+            if _hm.auth_revoke_key(key_id):
+                self._json(200, {"status": "ok", "message": f"Revoked key '{key_id}'"})
+            else:
+                self._json(404, {"error": f"Key '{key_id}' not found"})
+        elif path == "/api/auth/grant":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            key_id = body.get("key_id", "")
+            hive = body.get("hive", "")
+            role = body.get("role", "read")
+            if _hm.auth_grant(key_id, hive, role):
+                self._json(200, {"status": "ok"})
+            else:
+                self._json(404, {"error": f"Key '{key_id}' not found"})
         else:
             self._serve_static(path)
 

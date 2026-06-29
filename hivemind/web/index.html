@@ -584,6 +584,7 @@ function loadHives() {
           ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
         </div>
         <div style="display:flex;gap:4px;margin-top:4px;">
+          <button class="hive-action-btn" data-action="embed" data-hive="${h.id}" title="Generate vector embeddings">🧠</button>
           <button class="hive-action-btn" data-action="history" data-hive="${h.id}" title="Backup history">📋</button>
           <button class="hive-action-btn" data-action="export" data-hive="${h.id}" title="Export as JSON-LD">📦</button>
         </div>
@@ -865,8 +866,12 @@ document.addEventListener('click', async (e) => {
     a.href = url; a.download = `${hive}.jsonld`; a.click();
     URL.revokeObjectURL(url);
     showToast(`Exported ${hive} as JSON-LD`, 'ok');
+  } else if (action === 'embed') {
+    showToast(`Generating embeddings for ${hive}...`, 'ok');
+    const res = await api(`/api/embed?hive=${encodeURIComponent(hive)}`);
+    showToast(`Embedded ${res.embedded || 0} nodes in ${hive} (${res.stats ? res.stats.backends : '?'})`, 'ok');
   }
-});
+  });
 
 // Rollback handler
 document.addEventListener('click', async (e) => {

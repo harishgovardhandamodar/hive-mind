@@ -4,7 +4,9 @@ from typing import Any
 
 import networkx as nx
 
+from .auth import AccessControl
 from .config import load as load_config
+from .embeddings import VectorStore
 from .exporter import export_jsonld, export_obsidian
 from .federation import Federation
 from .knowledge_graph import KnowledgeGraph
@@ -17,6 +19,7 @@ class HiveMind:
     def __init__(self, config: dict | None = None):
         self.config = config or load_config()
         self.federation = Federation(self.config["meta_graph_path"])
+        self.auth = AccessControl(self.config)
         self._discover_hives()
 
     # ------------------------------------------------------------------
@@ -138,6 +141,63 @@ class HiveMind:
         elif fmt == "obsidian":
             return export_obsidian(kg, graph_id=hive_id, output_dir=output_dir)
         raise ValueError(f"Unknown export format: {fmt}")
+
+    # ------------------------------------------------------------------
+    # Access control
+    # ------------------------------------------------------------------
+
+    def auth_create_key(self, name: str) -> dict[str, Any]:
+        return self.auth.create_key(name)
+
+    def auth_list_keys(self) -> list[dict[str, Any]]:
+        return self.auth.list_keys()
+
+    def auth_revoke_key(self, key_id: str) -> bool:
+        return self.auth.revoke_key(key_id)
+
+    def auth_grant(self, key_id: str, hive: str, role: str = "read") -> bool:
+        return self.auth.grant(key_id, hive, role)
+
+    def auth_revoke_access(self, key_id: str, hive: str) -> bool:
+        return self.auth.revoke(key_id, hive)
+
+    def auth_authenticate(self, key: str) -> dict[str, Any] | None:
+        return self.auth.authenticate(key)
+
+    def auth_check(self, bearer: str | None,
+                   hive: str, role: str = "read") -> dict[str, Any] | None:
+        if not bearer:
+            return None
+        key_info = self.auth.authenticate(bearer)
+        if not key_info:
+            return None
+        if self.auth.check_access(key_info, hive, role):
+            return key_info
+        return None
+
+    # ------------------------------------------------------------------
+    # Embeddings
+    # ------------------------------------------------------------------
+
+    def get_vector_store(self, hive_id: str) -> VectorStore | None:
+        kg = self.federation.get_graph(hive_id)
+        if not kg:
+            return None
+        return VectorStore(kg)
+
+    def embed_hive(self, hive_id: str) -> dict[str, Any]:
+        vs = self.get_vector_store(hive_id)
+        if not vs:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        count = vs.compute_all()
+        return {"hive": hive_id, "embedded": count, "stats": vs.stats()}
+
+    def vector_similar(self, hive_id: str, text: str,
+                       top_k: int = 10) -> list[dict[str, Any]]:
+        vs = self.get_vector_store(hive_id)
+        if not vs or not vs.has_vectors():
+            return []
+        return vs.similar_to_text(text, top_k=top_k)
 
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()

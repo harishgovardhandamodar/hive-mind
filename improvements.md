@@ -17,10 +17,10 @@
 
 ## Long-term
 
-- **Vector embeddings**: store concept embeddings (e.g. via `sentence-transformers`) in each hive to enable semantic concept matching and better `find_similar()`
+- ~~**Vector embeddings**: store concept embeddings (e.g. via `sentence-transformers`) in each hive to enable semantic concept matching and better `find_similar()`~~ ✅
 - ~~**Multi-hop query reasoning**: extend `query_relation()` to follow paths across 3+ hives via meta-graph traversal, not just source↔target pairs~~ ✅
 - ~~**WebSocket live sync**: push hive updates to the dashboard in real time without page reload~~ ✅
-- **Access control**: multi-user with read/write permissions per hive (useful for collaborative knowledge graph curation)
+- ~~**Access control**: multi-user with read/write permissions per hive (useful for collaborative knowledge graph curation)~~ ✅
 - ~~**Export formats**: serialize subgraphs as JSON-LD, RDF/Turtle, or Obsidian-compatible markdown~~ ✅
 
 ## Quick wins

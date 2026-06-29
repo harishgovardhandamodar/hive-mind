@@ -8,6 +8,8 @@ from typing import Any
 
 import requests
 
+from .embeddings import VectorStore
+
 STOPWORDS = {
     "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
     "of", "with", "by", "from", "as", "is", "was", "are", "were", "be",
@@ -194,8 +196,33 @@ class ConceptIngester:
         self.hm = hive_mind
         self.fed = hive_mind.federation
 
-    def find_similar(self, keyword: str, threshold: float = 0.5) -> list[dict[str, Any]]:
+    def find_similar(self, keyword: str, threshold: float = 0.5,
+                     use_vectors: bool = True) -> list[dict[str, Any]]:
         kl = keyword.lower()
+
+        # Try vector embedding search first (per-hive)
+        if use_vectors:
+            vec_matches = []
+            for gid, kg in self.fed.graphs.items():
+                vs = VectorStore(kg)
+                if vs.has_vectors():
+                    results = vs.similar_to_text(keyword, top_k=5, threshold=threshold * 0.6)
+                    for r in results:
+                        vec_matches.append({
+                            "score": round(r["similarity"] * 2, 3),  # scale to match fuzz scale
+                            "fuzz": 0,
+                            "token_overlap": 0,
+                            "graph_id": gid,
+                            "node_id": r["node_id"],
+                            "label": r["label"],
+                            "definition": dict(kg.graph.nodes(data=True)).get(r["node_id"], {}).get("definition", ""),
+                            "vector_score": r["similarity"],
+                        })
+            if vec_matches:
+                vec_matches.sort(key=lambda x: -x["score"])
+                return vec_matches[:10]
+
+        # Fallback: fuzzy + token overlap
         matches = []
         for gid, kg in self.fed.graphs.items():
             for node, data in kg.graph.nodes(data=True):
@@ -352,6 +379,16 @@ class ConceptIngester:
         paper_links = []
         if resolve:
             paper_links = self.resolve_concept(node_id, name, kg)
+
+        # Auto-embed the new concept
+        try:
+            vs = VectorStore(kg)
+            if not vs.has_vectors():
+                vs.compute_all()
+            else:
+                vs.embed_node(node_id)
+        except Exception:
+            pass  # embedding is best-effort
 
         kg.save()
         return {

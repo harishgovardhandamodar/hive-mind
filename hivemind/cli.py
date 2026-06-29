@@ -23,8 +23,13 @@ def main() -> None:
             "  hivemind history my-hive\n"
             "  hivemind diff my-hive 20250628_120000\n"
             "  hivemind rollback my-hive 20250628_120000\n"
+            "  hivemind embed my-hive\n"
+            "  hivemind embed my-hive --query 'graph neural network'\n"
             "  hivemind export my-hive --format jsonld\n"
             "  hivemind export my-hive --format obsidian --output ./obsidian-vault\n"
+            "  hivemind auth create-key alice\n"
+            "  hivemind auth grant <key-id> my-hive --role write\n"
+            "  hivemind auth list\n"
             "  hivemind serve\n"
             "  hivemind stats\n"
         ),
@@ -115,6 +120,23 @@ def main() -> None:
                          help="Export format (default: jsonld)")
     p_export.add_argument("--output", "-o", default="",
                          help="Output directory (for obsidian format)")
+
+    p_embed = sub.add_parser("embed", help="Generate vector embeddings for a hive")
+    p_embed.add_argument("name", help="Hive name")
+    p_embed.add_argument("--query", "-q", help="Search similar concepts by text (requires existing embeddings)")
+
+    p_auth = sub.add_parser("auth", help="Manage API keys and permissions")
+    p_auth_sub = p_auth.add_subparsers(dest="auth_command")
+    p_auth_create = p_auth_sub.add_parser("create-key", help="Create a new API key")
+    p_auth_create.add_argument("name", help="Human-readable name for the key")
+    p_auth_list = p_auth_sub.add_parser("list", help="List all API keys")
+    p_auth_revoke = p_auth_sub.add_parser("revoke", help="Revoke an API key")
+    p_auth_revoke.add_argument("key_id", help="Key ID to revoke")
+    p_auth_grant = p_auth_sub.add_parser("grant", help="Grant hive access to a key")
+    p_auth_grant.add_argument("key_id", help="Key ID")
+    p_auth_grant.add_argument("hive", help="Hive name")
+    p_auth_grant.add_argument("--role", "-r", default="read", choices=["read", "write", "admin"],
+                              help="Access role (default: read)")
 
     sub.add_parser("stats", help="Show federation statistics")
 
@@ -326,6 +348,62 @@ def main() -> None:
         except ValueError as e:
             print(e)
             sys.exit(1)
+
+    elif args.command == "embed":
+        try:
+            if args.query:
+                results = hm.vector_similar(args.name, args.query)
+                if not results:
+                    print(f"No vectors found for hive '{args.name}'. Run 'hivemind embed {args.name}' first.")
+                else:
+                    print(f"Top matches for '{args.query}' in hive '{args.name}':")
+                    print(f"{'Node':<36} {'Type':<12} {'Similarity':>10}")
+                    print("-" * 60)
+                    for r in results:
+                        print(f"{r['node_id']:<36} {r['type']:<12} {r['similarity']:>10.4f}")
+            else:
+                vs = hm.get_vector_store(args.name)
+                if vs and vs.has_vectors():
+                    print(f"Re-embedding '{args.name}' (existing {vs.stats()['nodes']} vectors)...")
+                result = hm.embed_hive(args.name)
+                print(f"Embedded {result['embedded']} nodes in hive '{result['hive']}'")
+                print(f"  Backend: {result['stats']['backends']}")
+                print(f"  Dims:    {result['stats']['dims']}")
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
+
+    elif args.command == "auth":
+        if args.auth_command == "create-key":
+            result = hm.auth_create_key(args.name)
+            print(f"Created key '{result['name']}':")
+            print(f"  ID:  {result['id']}")
+            print(f"  Key: {result['key']}")
+            print("  Store this key safely — it will not be shown again.")
+        elif args.auth_command == "list":
+            keys = hm.auth_list_keys()
+            if not keys:
+                print("No API keys.")
+            else:
+                print(f"{'ID':<20} {'Name':<24} {'Hives':<30}")
+                print("-" * 76)
+                for k in keys:
+                    hives = ", ".join(f"{h}({r})" for h, r in k.get("hives", {}).items())
+                    print(f"{k['id']:<20} {k['name']:<24} {hives:<30}")
+        elif args.auth_command == "revoke":
+            if hm.auth_revoke_key(args.key_id):
+                print(f"Revoked key '{args.key_id}'")
+            else:
+                print(f"Key '{args.key_id}' not found")
+                sys.exit(1)
+        elif args.auth_command == "grant":
+            if hm.auth_grant(args.key_id, args.hive, args.role):
+                print(f"Granted '{args.role}' access to hive '{args.hive}' for key '{args.key_id}'")
+            else:
+                print(f"Key '{args.key_id}' not found")
+                sys.exit(1)
+        else:
+            print("Usage: hivemind auth <create-key|list|revoke|grant> ...")
 
     elif args.command == "stats":
         s = hm.stats()

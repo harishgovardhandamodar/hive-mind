@@ -3,3 +3,9 @@ __pycache__/
 
 # Ignore knowledge graph backups
 hives/*/data/graph/backups/
+
+# Ignore generated embedding files
+hives/*/data/graph/embeddings.json
+
+# Ignore auth permissions
+permissions.json
