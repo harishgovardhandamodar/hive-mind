@@ -156,6 +156,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .vis-toggle { width: 16px; height: 16px; cursor: pointer; accent-color: var(--accent); float: right; margin-top: 2px; }
 .hive-card.hidden { opacity: 0.45; }
 
+#config-btn { background:none; border:none; cursor:pointer; font-size:14px; padding:0 0 0 8px; color:var(--text-secondary); vertical-align:middle; line-height:1; }
+#config-btn:hover { color:var(--accent); }
+#config-panel { display:none; border-bottom:1px solid var(--border); background:var(--bg-card); }
+#config-panel.open { display:block; }
+#config-panel .config-header { padding:8px 16px; font-size:11px; font-weight:600; color:var(--text-secondary); border-bottom:1px solid var(--border); }
+#config-list { padding:4px 8px; max-height:200px; overflow-y:auto; }
+.config-row { display:flex; align-items:center; gap:8px; padding:4px 8px; font-size:12px; border-radius:4px; }
+.config-row:hover { background:var(--bg-card-hover); }
+.config-row label { flex:1; cursor:pointer; color:var(--text); }
+.config-row input[type=checkbox] { accent-color:var(--accent); cursor:pointer; }
+
 .theme-btn {
   background: none; border: 1px solid var(--border); border-radius: 6px;
   width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
@@ -255,13 +266,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 </head>
 <body>
 <div id="app">
-  <div id="sidebar">
-    <h1>🐝 HiveMind
-      <small>federated knowledge graphs</small>
-    </h1>
-    <div id="hive-list"></div>
-    <div id="status-bar"></div>
-  </div>
+    <div id="sidebar">
+      <h1>🐝 HiveMind
+        <small>federated knowledge graphs</small>
+        <button id="config-btn" title="Configure hive visibility">⚙️</button>
+      </h1>
+      <div id="config-panel">
+        <div class="config-header">Hive Visibility</div>
+        <div id="config-list"></div>
+      </div>
+      <div id="hive-list"></div>
+      <div id="status-bar"></div>
+    </div>
   <div id="main">
     <div id="toolbar">
       <div class="title" id="view-title">Meta-Graph</div>
@@ -737,6 +753,40 @@ document.querySelectorAll('#view-toggle button').forEach(btn => {
     }
   });
 });
+
+// ---- Config panel ----
+document.getElementById('config-btn').addEventListener('click', () => {
+  const panel = document.getElementById('config-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) populateConfig();
+});
+
+function populateConfig() {
+  const list = document.getElementById('config-list');
+  list.innerHTML = '';
+  state.hives.forEach(h => {
+    const row = document.createElement('div');
+    row.className = 'config-row';
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = h.visible !== false;
+    cb.addEventListener('change', async () => {
+      await fetch(`/api/hive/${h.id}/visibility`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({visible: cb.checked}),
+      });
+      const card = document.querySelector(`.hive-card[data-hive-id="${h.id}"]`);
+      if (card) card.classList.toggle('hidden', !cb.checked);
+      refreshGraphs();
+    });
+    const label = document.createElement('label');
+    label.textContent = h.id;
+    row.appendChild(cb);
+    row.appendChild(label);
+    list.appendChild(row);
+  });
+}
 
 // ---- Toast ----
 function showToast(msg, type) {
