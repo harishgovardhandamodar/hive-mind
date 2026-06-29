@@ -1,0 +1,8 @@
+root: ./
+
+structure:
+  readme: ./docs/README.md
+  summary: ./docs/SUMMARY.md
+
+redirects:
+  getting-started: ./docs/getting-started/installation.md
