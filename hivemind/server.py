@@ -248,13 +248,14 @@ class Handler(BaseHTTPRequestHandler):
             params = parse_qs(parsed.query)
             hives = params.get("hive", [])
             query_text = params.get("query", [None])[0]
+            metric = params.get("metric", ["cosine"])[0]
             if not hives or not _hm:
                 self._json(400, {"error": "provide ?hive=..."})
                 return
             try:
                 if query_text:
-                    results = _hm.vector_similar(hives[0], query_text)
-                    self._json(200, {"results": results, "hive": hives[0]})
+                    results = _hm.vector_similar(hives[0], query_text, metric=metric)
+                    self._json(200, {"results": results, "hive": hives[0], "metric": metric})
                 else:
                     result = _hm.embed_hive(hives[0])
                     broadcast_event("hive-update", {"hive": hives[0], "action": "embed",

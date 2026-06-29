@@ -197,7 +197,8 @@ class ConceptIngester:
         self.fed = hive_mind.federation
 
     def find_similar(self, keyword: str, threshold: float = 0.5,
-                     use_vectors: bool = True) -> list[dict[str, Any]]:
+                     use_vectors: bool = True,
+                     metric: str = "cosine") -> list[dict[str, Any]]:
         kl = keyword.lower()
 
         # Try vector embedding search first (per-hive)
@@ -206,7 +207,7 @@ class ConceptIngester:
             for gid, kg in self.fed.graphs.items():
                 vs = VectorStore(kg)
                 if vs.has_vectors():
-                    results = vs.similar_to_text(keyword, top_k=5, threshold=threshold * 0.6)
+                    results = vs.similar_to_text(keyword, top_k=5, threshold=threshold * 0.6, metric=metric)
                     for r in results:
                         vec_matches.append({
                             "score": round(r["similarity"] * 2, 3),  # scale to match fuzz scale
@@ -315,12 +316,13 @@ class ConceptIngester:
                relation: str = "related_to",
                connect_to: list[str] | None = None,
                dry_run: bool = False,
-               resolve: bool = True) -> dict[str, Any]:
+               resolve: bool = True,
+               metric: str = "cosine") -> dict[str, Any]:
         name = keyword.strip()
         if not name:
             return {"status": "error", "message": "Empty keyword"}
 
-        similar = self.find_similar(name, threshold=0.7)
+        similar = self.find_similar(name, threshold=0.7, metric=metric)
         if similar and not force:
             return {
                 "status": "skipped",
@@ -342,7 +344,7 @@ class ConceptIngester:
         if not kg:
             return {"status": "error", "message": f"Hive '{target_hive}' not found"}
 
-        similar_in_target = self.find_similar(name, threshold=0.7)
+        similar_in_target = self.find_similar(name, threshold=0.7, metric=metric)
         similar_in_target = [m for m in similar_in_target if m["graph_id"] == target_hive]
         if similar_in_target and not force:
             return {
@@ -393,7 +395,8 @@ class ConceptIngester:
         kg.save()
 
         # Cross-hive linking (auto-connect similar concepts in other hives)
-        cross_links = self._link_across_hives(node_id, name, target_hive)
+        cross_links = self._link_across_hives(node_id, name, target_hive,
+                                               metric=metric)
 
         return {
             "status": "added",
@@ -408,24 +411,27 @@ class ConceptIngester:
 
     def ingest_batch(self, items: list[dict[str, Any]],
                      default_hive: str | None = None,
-                     force: bool = False) -> list[dict[str, Any]]:
+                     force: bool = False,
+                     metric: str = "cosine") -> list[dict[str, Any]]:
         results = []
         for item in items:
             keyword = item.get("keyword", item.get("name", ""))
             definition = item.get("definition", item.get("def", ""))
             hive = item.get("hive", default_hive)
             connect_to = item.get("connect_to")
-            result = self.ingest(keyword, definition, hive, force, connect_to=connect_to)
+            result = self.ingest(keyword, definition, hive, force, connect_to=connect_to,
+                                 metric=metric)
             results.append(result)
         return results
 
     def ingest_from_text(self, text: str, hive: str | None = None,
                          force: bool = False,
-                         min_score: float = 0.3) -> list[dict[str, Any]]:
+                         min_score: float = 0.3,
+                         metric: str = "cosine") -> list[dict[str, Any]]:
         keywords = extract_keywords(text)
         results = []
         for kw in keywords[:20]:
-            result = self.ingest(kw, "", hive, force)
+            result = self.ingest(kw, "", hive, force, metric=metric)
             results.append(result)
         return results
 
@@ -512,7 +518,8 @@ class ConceptIngester:
 
     def _link_across_hives(self, node_id: str, name: str,
                             source_hive: str,
-                            threshold: float = 0.65) -> list[dict[str, Any]]:
+                            threshold: float = 0.65,
+                            metric: str = "cosine") -> list[dict[str, Any]]:
         links = []
         for gid, kg in self.fed.graphs.items():
             if gid == source_hive:
@@ -520,7 +527,7 @@ class ConceptIngester:
             # Try vector search first
             vs = VectorStore(kg)
             if vs.has_vectors():
-                results = vs.similar_to_text(name, top_k=3, threshold=threshold * 0.6)
+                results = vs.similar_to_text(name, top_k=3, threshold=threshold * 0.6, metric=metric)
             else:
                 results = []
             # Fallback: fuzzy/token overlap

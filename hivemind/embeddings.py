@@ -111,16 +111,25 @@ class VectorStore:
     # Similarity search
     # ------------------------------------------------------------------
 
+    SIMILARITY_METRICS = {
+        "cosine": lambda a, b: VectorStore._cosine(a, b),
+        "euclidean": lambda a, b: 1.0 / (1.0 + VectorStore._euclidean(a, b)),
+        "manhattan": lambda a, b: 1.0 / (1.0 + VectorStore._manhattan(a, b)),
+        "dot": lambda a, b: VectorStore._dot_sim(a, b),
+    }
+
     def similar_to(self, node_id: str, top_k: int = 10,
-                   threshold: float = 0.0) -> list[dict[str, Any]]:
+                   threshold: float = 0.0,
+                   metric: str = "cosine") -> list[dict[str, Any]]:
         query = self.vectors.get(node_id)
+        sim_fn = self.SIMILARITY_METRICS.get(metric, self.SIMILARITY_METRICS["cosine"])
         if query is None or not self.vectors:
             return []
         results = []
         for nid, vec in self.vectors.items():
             if nid == node_id:
                 continue
-            sim = self._cosine(query, vec)
+            sim = sim_fn(query, vec)
             if sim >= threshold:
                 d = dict(self.kg.graph.nodes(data=True)).get(nid, {})
                 results.append({
@@ -128,18 +137,21 @@ class VectorStore:
                     "label": d.get("label", nid),
                     "type": d.get("type", ""),
                     "similarity": round(sim, 4),
+                    "metric": metric,
                 })
         results.sort(key=lambda x: -x["similarity"])
         return results[:top_k]
 
     def similar_to_text(self, text: str, top_k: int = 10,
-                        threshold: float = 0.0) -> list[dict[str, Any]]:
+                        threshold: float = 0.0,
+                        metric: str = "cosine") -> list[dict[str, Any]]:
         if not self.vectors:
             return []
+        sim_fn = self.SIMILARITY_METRICS.get(metric, self.SIMILARITY_METRICS["cosine"])
         qv = self.embed(text)
         results = []
         for nid, vec in self.vectors.items():
-            sim = self._cosine(qv, vec)
+            sim = sim_fn(qv, vec)
             if sim >= threshold:
                 d = dict(self.kg.graph.nodes(data=True)).get(nid, {})
                 results.append({
@@ -147,6 +159,7 @@ class VectorStore:
                     "label": d.get("label", nid),
                     "type": d.get("type", ""),
                     "similarity": round(sim, 4),
+                    "metric": metric,
                 })
         results.sort(key=lambda x: -x["similarity"])
         return results[:top_k]
@@ -202,6 +215,20 @@ class VectorStore:
             return 0.0
         return dot / (na * nb)
 
+    @staticmethod
+    def _euclidean(a: list[float], b: list[float]) -> float:
+        return math.sqrt(sum((ax - bx) ** 2 for ax, bx in zip(a, b)))
+
+    @staticmethod
+    def _manhattan(a: list[float], b: list[float]) -> float:
+        return sum(abs(ax - bx) for ax, bx in zip(a, b))
+
+    @staticmethod
+    def _dot_sim(a: list[float], b: list[float]) -> float:
+        dot = sum(ax * bx for ax, bx in zip(a, b))
+        # Normalize to [0, 1] via sigmoid-like clamp for unit vectors
+        return max(0.0, min(1.0, (dot + 1.0) / 2.0)) if dot >= -1 else 0.0
+
     def has_vectors(self) -> bool:
         return len(self.vectors) > 0
 
@@ -211,4 +238,5 @@ class VectorStore:
             "backends": "sentence-transformers" if _HAS_SENTENCE else "char-tfidf",
             "nodes": len(self.vectors),
             "dims": self._dims,
+            "metrics": sorted(self.SIMILARITY_METRICS),
         }

@@ -150,6 +150,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 
 #loading { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: var(--text-secondary); font-size: 14px; }
 
+#metric-select { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; color: var(--text-secondary); font-size: 11px; outline: none; cursor: pointer; }
+#metric-select:hover { border-color: var(--accent); }
+
 .theme-btn {
   background: none; border: 1px solid var(--border); border-radius: 6px;
   width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
@@ -264,6 +267,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
         <button class="active" data-view="meta">Meta</button>
         <button data-view="unified">Unified</button>
       </div>
+      <select id="metric-select">
+        <option value="cosine">cosine</option>
+        <option value="euclidean">euclidean</option>
+        <option value="manhattan">manhattan</option>
+        <option value="dot">dot</option>
+      </select>
       <button class="theme-btn" id="theme-toggle" title="Toggle theme">&#9788;</button>
       <button id="ingest-btn" style="background:var(--accent-yellow);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">+ Concept</button>
       <div id="search-box">
@@ -882,8 +891,9 @@ document.addEventListener('click', async (e) => {
     URL.revokeObjectURL(url);
     showToast(`Exported ${hive} as JSON-LD`, 'ok');
   } else if (action === 'embed') {
+    const metric = document.getElementById('metric-select').value;
     showToast(`Generating embeddings for ${hive}...`, 'ok');
-    const res = await api(`/api/embed?hive=${encodeURIComponent(hive)}`);
+    const res = await api(`/api/embed?hive=${encodeURIComponent(hive)}&metric=${encodeURIComponent(metric)}`);
     showToast(`Embedded ${res.embedded || 0} nodes in ${hive} (${res.stats ? res.stats.backends : '?'})`, 'ok');
   }
   });

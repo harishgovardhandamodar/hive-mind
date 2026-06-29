@@ -199,11 +199,12 @@ class HiveMind:
         return {"hive": hive_id, "embedded": count, "stats": vs.stats()}
 
     def vector_similar(self, hive_id: str, text: str,
-                       top_k: int = 10) -> list[dict[str, Any]]:
+                       top_k: int = 10,
+                       metric: str = "cosine") -> list[dict[str, Any]]:
         vs = self.get_vector_store(hive_id)
         if not vs or not vs.has_vectors():
             return []
-        return vs.similar_to_text(text, top_k=top_k)
+        return vs.similar_to_text(text, top_k=top_k, metric=metric)
 
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()
