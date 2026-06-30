@@ -581,6 +581,93 @@ class Federation:
                 })
         return {"nodes": nodes, "edges": edges}
 
+    # ------------------------------------------------------------------
+    # Hive comparison
+    # ------------------------------------------------------------------
+
+    def compare_hives(self, hive_ids: list[str]) -> dict[str, Any]:
+        for hid in hive_ids:
+            if hid not in self.graphs:
+                raise ValueError(f"Hive '{hid}' not found")
+
+        # Build query text from hive names for relation chaining
+        display_names = [hid.replace("-", " ").lower() for hid in hive_ids]
+        query_text = " and ".join(display_names) + " how are these related"
+        relation_result = self.query_relation(query_text)
+
+        # Find overlapping concepts by matching normalized labels
+        concept_map: dict[str, list[dict[str, Any]]] = {}
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for node, data in kg.graph.nodes(data=True):
+                if data.get("type") == "concept":
+                    label = data.get("label", node).lower().strip()
+                    concept_map.setdefault(label, []).append({
+                        "hive_id": hid,
+                        "node_id": node,
+                        "label": data.get("label", node),
+                        "definition": (data.get("definition", "") or "")[:200],
+                    })
+
+        overlaps = sorted(
+            [{"concept": label, "occurrences": entries}
+             for label, entries in concept_map.items() if len(entries) >= 2],
+            key=lambda x: -len(x["occurrences"]),
+        )
+
+        # Collect combined graph data
+        combined_nodes: list[dict[str, Any]] = []
+        combined_edges: list[dict[str, Any]] = []
+        seen_nodes: set[str] = set()
+        seen_edges: set[tuple[str, str]] = set()
+
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for n, d in kg.graph.nodes(data=True):
+                uid = f"{hid}:{n}"
+                if uid not in seen_nodes:
+                    seen_nodes.add(uid)
+                    combined_nodes.append({
+                        "id": uid,
+                        "label": d.get("label", n)[:60],
+                        "type": d.get("type", "unknown"),
+                        "graphId": hid,
+                        "originalId": n,
+                    })
+            for u, v, d in kg.graph.edges(data=True):
+                suid = f"{hid}:{u}"
+                tuid = f"{d.get('target_graph', hid)}:{v}"
+                key = (suid, tuid)
+                if key not in seen_edges:
+                    seen_edges.add(key)
+                    combined_edges.append({
+                        "source": suid,
+                        "target": tuid,
+                        "relation": d.get("relation", "related_to"),
+                        "cross_graph": d.get("cross_graph", False),
+                    })
+
+        # Build explanation
+        chain_display = " → ".join(f"**{h}**" for h in relation_result.get("chain", hive_ids))
+        explanation = f"### {chain_display}\n"
+        if overlaps:
+            explanation += f"\n**Overlapping concepts:** {len(overlaps)} found\n"
+            for o in overlaps[:10]:
+                hives_str = ", ".join(e["hive_id"] for e in o["occurrences"])
+                explanation += f"- _{o['concept']}_ (in {hives_str})\n"
+        if relation_result.get("explanation"):
+            explanation += "\n" + relation_result["explanation"]
+
+        return {
+            "hives": list(hive_ids),
+            "chain": relation_result.get("chain", hive_ids),
+            "overlaps": overlaps[:30],
+            "overlap_count": len(overlaps),
+            "nodes": combined_nodes,
+            "edges": combined_edges,
+            "explanation": explanation,
+        }
+
     def set_hive_visibility(self, gid: str, visible: bool) -> None:
         if self.meta_graph.has_node(gid):
             self.meta_graph.nodes[gid]["visible"] = visible

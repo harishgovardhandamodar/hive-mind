@@ -156,6 +156,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .add-to-coll-btn { background:none;border:1px solid var(--border);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:10px;color:var(--accent); }
 .add-to-coll-btn:hover { border-color:var(--accent);background:var(--bg-card-active); }
 
+.compare-overlap { padding:4px 0; }
+.compare-overlap-item { padding:6px 8px; font-size:11px; border-radius:4px; margin-bottom:2px; }
+.compare-overlap-item:hover { background:var(--bg-card-hover); }
+.compare-overlap-item .concept-name { font-weight:600; color:var(--text-title); }
+.compare-overlap-item .concept-hives { color:var(--text-secondary); font-size:10px; margin-top:2px; }
+.compare-overlap-item .concept-hives span { display:inline-block; margin-right:4px; }
+
 /* Legend */
 #legend { position: absolute; bottom: 16px; left: 16px; background: var(--bg-legend); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 11px; }
 #legend .row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; color: var(--text-secondary); }
@@ -318,6 +325,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       </select>
       <button class="theme-btn" id="theme-toggle" title="Toggle theme">&#9788;</button>
       <button id="ingest-btn" style="background:var(--accent-yellow);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">+ Concept</button>
+      <button id="compare-btn" style="background:var(--accent);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Compare</button>
       <div id="search-box">
         <input id="query-input" placeholder="Ask a question..." title="e.g. How is Photonic computing related to AI acceleration?" />
         <button id="query-btn">Ask</button>
@@ -389,6 +397,7 @@ const COLORS = d3.scaleOrdinal(d3.schemeCategory10);
 let state = {
   view: 'meta',
   selectedHive: null,
+  selectedHives: new Set(),
   metaGraph: { nodes: [], edges: [] },
   hives: [],
 };
@@ -670,15 +679,21 @@ function loadHives() {
     hives.filter(h => h.visible !== false).forEach(h => {
       const card = document.createElement('div');
       card.className = 'hive-card' + (state.selectedHive === h.id ? ' active' : '');
+      const checked = state.selectedHives.has(h.id) ? 'checked' : '';
       card.innerHTML = `
-        <div class="name">${h.id}</div>
-        <div class="stats">
-          <span>📄 <span class="num">${h.papers}</span></span>
-          <span>🧠 <span class="num">${h.concepts}</span></span>
-          <span>🔗 <span class="num">${h.relations}</span></span>
-          ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" class="hive-select" data-hive="${h.id}" ${checked} style="accent-color:var(--accent);cursor:pointer;" title="Select for comparison">
+          <div style="flex:1;">
+            <div class="name">${h.id}</div>
+            <div class="stats">
+              <span>📄 <span class="num">${h.papers}</span></span>
+              <span>🧠 <span class="num">${h.concepts}</span></span>
+              <span>🔗 <span class="num">${h.relations}</span></span>
+              ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
+            </div>
+          </div>
         </div>
-        <div style="display:flex;gap:4px;margin-top:4px;">
+        <div style="display:flex;gap:4px;margin-top:4px;margin-left:24px;">
           <button class="hive-action-btn" data-action="embed" data-hive="${h.id}" title="Generate vector embeddings">🧠</button>
           <button class="hive-action-btn" data-action="history" data-hive="${h.id}" title="Backup history">📋</button>
           <button class="hive-action-btn" data-action="export" data-hive="${h.id}" title="Export as JSON-LD">📦</button>
@@ -687,10 +702,23 @@ function loadHives() {
       `;
       card.addEventListener('click', (e) => {
         if (e.target.closest('.hive-action-btn')) return;
+        if (e.target.closest('.hive-select')) return;
         loadHiveGraph(h.id);
+      });
+      const cb = card.querySelector('.hive-select');
+      cb.addEventListener('change', () => {
+        if (cb.checked) state.selectedHives.add(h.id);
+        else state.selectedHives.delete(h.id);
+        document.getElementById('compare-btn').style.display = state.selectedHives.size >= 2 ? '' : 'none';
       });
       list.appendChild(card);
     });
+    // Prune selectedHives of removed hives
+    const activeIds = new Set(hives.map(h => h.id));
+    for (const hid of state.selectedHives) {
+      if (!activeIds.has(hid)) state.selectedHives.delete(hid);
+    }
+    document.getElementById('compare-btn').style.display = state.selectedHives.size >= 2 ? '' : 'none';
     const visibleCount = hives.filter(h => h.visible !== false).length;
     document.getElementById('status-bar').textContent =
       `${visibleCount}/${hives.length} hives · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
@@ -856,6 +884,62 @@ function loadHiveGraph(hiveId) {
     document.getElementById('loading').textContent = 'Error: ' + err.message;
   });
 }
+
+// ---- Compare ----
+document.getElementById('compare-btn').addEventListener('click', async () => {
+  const hives = Array.from(state.selectedHives);
+  if (hives.length < 2) return;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').textContent = 'Comparing hives...';
+  try {
+    const result = await api(`/api/compare?hives=${hives.map(encodeURIComponent).join(',')}`);
+    document.getElementById('loading').style.display = 'none';
+    const panel = document.getElementById('query-panel');
+    const expl = document.getElementById('query-explanation');
+    let html = '<div style="padding:8px 12px;font-size:12px;">';
+
+    // Chain
+    html += `<div style="margin-bottom:8px;"><strong>Comparison chain:</strong> ${result.chain.map(h => `<span style="color:var(--accent);font-weight:600;">${h}</span>`).join(' → ')}</div>`;
+
+    // Overlaps
+    if (result.overlaps && result.overlaps.length) {
+      html += `<div style="margin-bottom:8px;">
+        <strong>Overlapping concepts (${result.overlap_count}):</strong>
+        <div class="compare-overlap">`;
+      result.overlaps.slice(0, 20).forEach(o => {
+        const hivesStr = o.occurrences.map(e => `<span style="color:${COLORS(e.hive_id)}">${e.hive_id}</span>`).join(', ');
+        html += `<div class="compare-overlap-item">
+          <div class="concept-name">${o.concept}</div>
+          <div class="concept-hives">in ${hivesStr}</div>
+        </div>`;
+      });
+      if (result.overlap_count > 20) html += `<div style="color:var(--text-secondary);font-style:italic;padding:4px 8px;">...and ${result.overlap_count - 20} more</div>`;
+      html += '</div></div>';
+    } else {
+      html += '<div style="margin-bottom:8px;color:var(--text-secondary);font-style:italic;">No overlapping concepts found between these hives.</div>';
+    }
+
+    // Relations
+    if (result.explanation) {
+      html += `<div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;">${result.explanation}</div>`;
+    }
+
+    html += '</div>';
+    expl.innerHTML = html;
+    panel.classList.add('visible');
+
+    // Render the combined graph
+    if (result.nodes && result.nodes.length) {
+      document.getElementById('view-title').textContent = `Compare: ${hives.join(' vs ')}`;
+      document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
+      renderD3Graph(result.nodes, result.edges, true);
+      showToast(`Compare: ${result.nodes.length} nodes, ${result.overlap_count} overlapping concepts`, 'ok');
+    }
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    showToast('Compare failed: ' + err.message, 'err');
+  }
+});
 
 // ---- Query ----
 document.getElementById('query-btn').addEventListener('click', () => {

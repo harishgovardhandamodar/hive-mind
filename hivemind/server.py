@@ -307,6 +307,23 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(400, {"error": "provide ?text=..."})
             keywords = extract_keywords(text)
             self._json(200, {"keywords": keywords[:30]})
+        elif path == "/api/compare":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            params = parse_qs(parsed.query)
+            hives_raw = params.get("hives", [None])[0]
+            if not hives_raw:
+                self._json(400, {"error": "provide ?hives=hive1,hive2,..."})
+                return
+            hive_ids = [unquote(h.strip()) for h in hives_raw.split(",") if h.strip()]
+            if len(hive_ids) < 2:
+                self._json(400, {"error": "provide at least 2 hive IDs"})
+                return
+            try:
+                result = _hm.compare_hives(hive_ids)
+                self._json(200, result)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
         elif path == "/api/collections":
             self._json(200, _hm.list_collections() if _hm else [])
         elif path == "/api/collection":

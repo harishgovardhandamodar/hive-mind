@@ -213,6 +213,9 @@ class HiveMind:
     # Collections
     # ------------------------------------------------------------------
 
+    def compare_hives(self, hive_ids: list[str]) -> dict[str, Any]:
+        return self.federation.compare_hives(hive_ids)
+
     def create_collection(self, name: str, description: str = "") -> dict[str, Any]:
         return self.federation.create_collection(name, description)
 
