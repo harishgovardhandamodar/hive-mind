@@ -97,6 +97,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #toolbar .title { font-size: 13px; font-weight: 600; color: var(--text-title); }
 #toolbar .subtitle { font-size: 11px; color: var(--text-secondary); }
 #search-box { margin-left: auto; display: flex; gap: 6px; }
+#unified-search-box { display: flex; gap: 6px; }
+#unified-search-box input { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; color: var(--text-title); font-size: 12px; width: 180px; outline: none; }
+#unified-search-box input:focus { border-color: var(--accent); }
+#unified-search-box button { background: var(--paper-color); border: none; border-radius: 6px; padding: 4px 12px; color: #fff; font-size: 12px; cursor: pointer; }
 #search-box input { background: var(--bg-input); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; color: var(--text-title); font-size: 12px; width: 200px; outline: none; }
 #search-box input:focus { border-color: var(--accent); }
 #search-box button { background: var(--accent-green); border: none; border-radius: 6px; padding: 4px 12px; color: #fff; font-size: 12px; cursor: pointer; }
@@ -130,6 +134,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #search-results .result .graph { color: var(--accent); font-size: 10px; }
 #search-results .result .type { color: var(--accent-yellow); font-size: 10px; margin-left: 8px; }
 #search-results .result .label { color: var(--text-title); margin-top: 2px; }
+#search-results .result .score { color: var(--accent-yellow); font-size: 10px; margin-left: 6px; font-variant-numeric: tabular-nums; }
+
+#sidebar-toggle { display: none; background: var(--btn-bg); border: 1px solid var(--border); border-radius: 6px; padding: 4px 10px; color: var(--text-secondary); font-size: 12px; cursor: pointer; }
+
+@media (max-width: 768px) {
+  #sidebar { position: absolute; z-index: 100; height: 100%; transform: translateX(-100%); transition: transform 0.2s ease; width: min(280px, 85vw); min-width: 0; box-shadow: 4px 0 24px rgba(0,0,0,0.35); }
+  #sidebar.open { transform: translateX(0); }
+  #sidebar-toggle { display: inline-block; }
+  #toolbar { flex-wrap: wrap; gap: 8px; padding: 8px 10px; }
+  #toolbar .subtitle { display: none; }
+  #search-box, #unified-search-box { margin-left: 0; width: 100%; order: 10; }
+  #search-box input, #unified-search-box input { width: 100%; min-height: 36px; font-size: 14px; }
+  #search-box button, #unified-search-box button { min-height: 36px; padding: 6px 14px; }
+  #search-results { width: 100%; max-width: none; }
+  .hive-card { padding: 14px 16px; }
+  #ingest-btn, #import-btn, #visualize-btn, #compare-btn, #link-concepts-btn { min-height: 36px; }
+}
 
 /* Tooltip */
 #tooltip { position: absolute; background: var(--bg-tooltip); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 12px; pointer-events: none; display: none; z-index: 100; max-width: 300px; }
@@ -336,7 +357,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       <button id="visualize-btn" style="background:var(--paper-color);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Visualize</button>
       <button id="compare-btn" style="background:var(--accent);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Compare</button>
       <button id="import-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">Import Hive</button>
+      <button id="link-concepts-btn" style="background:var(--accent-purple, #bc8cff);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;" title="Find similar concepts across hives">Link Concepts</button>
       <input type="file" id="import-file-input" accept=".json" style="display:none;">
+      <button id="sidebar-toggle" title="Toggle sidebar">☰</button>
+      <div id="unified-search-box">
+        <input id="unified-search-input" placeholder="Search all hives..." />
+        <button id="unified-search-btn">Search</button>
+      </div>
       <div id="search-box">
         <input id="query-input" placeholder="Ask a question..." title="e.g. How is Photonic computing related to AI acceleration?" />
         <button id="query-btn">Ask</button>
@@ -411,7 +438,31 @@ let state = {
   selectedHives: new Set(),
   metaGraph: { nodes: [], edges: [] },
   hives: [],
+  layoutHiveId: null,
 };
+
+let layoutSaveTimer = null;
+
+function scheduleLayoutSave(nodes) {
+  clearTimeout(layoutSaveTimer);
+  layoutSaveTimer = setTimeout(() => saveGraphLayout(nodes), 500);
+}
+
+function saveGraphLayout(nodes) {
+  if (!state.layoutHiveId) return;
+  const positions = {};
+  nodes.forEach(n => {
+    const nodeId = n.id;
+    if (nodeId && n.x != null && n.y != null) {
+      positions[nodeId] = { x: n.x, y: n.y };
+    }
+  });
+  fetch('/api/layout', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({ hive: state.layoutHiveId, positions }),
+  }).catch(() => {});
+}
 
 // ---- API ----
 async function api(path) {
@@ -598,7 +649,7 @@ function renderUnifiedGraph() {
     });
 }
 
-function renderD3Graph(nodes, edges, unified = false) {
+function renderD3Graph(nodes, edges, unified = false, hiveId = null) {
   const container = document.getElementById('graph-container');
   const width = container.clientWidth;
   const height = container.clientHeight;
@@ -607,6 +658,16 @@ function renderD3Graph(nodes, edges, unified = false) {
   svg.attr('width', width).attr('height', height).attr('viewBox', [0, 0, width, height]);
 
   if (!nodes.length) return;
+
+  state.layoutHiveId = hiveId;
+  nodes.forEach(n => {
+    if (n.layout_x != null && n.layout_y != null) {
+      n.fx = n.layout_x;
+      n.fy = n.layout_y;
+      n.x = n.layout_x;
+      n.y = n.layout_y;
+    }
+  });
 
   // SVG glow filter for shared nodes
   const defs = svg.append('defs');
@@ -644,7 +705,12 @@ function renderD3Graph(nodes, edges, unified = false) {
     .call(d3.drag()
       .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
       .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
-      .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+      .on('end', (e, d) => {
+        if (!e.active) simulation.alphaTarget(0);
+        d.fx = d.x;
+        d.fy = d.y;
+        if (state.layoutHiveId) scheduleLayoutSave(nodes);
+      })
     );
 
   const baseRadius = { paper: 7, concept: 9, graph_ref: 12 };
@@ -1114,7 +1180,7 @@ function loadHiveGraph(hiveId) {
     document.getElementById('view-subtitle').textContent =
       `${data.nodes.length} nodes, ${data.edges.length} edges`;
     document.getElementById('loading').style.display = 'none';
-    renderD3Graph(data.nodes, data.edges);
+    renderD3Graph(data.nodes, data.edges, false, hiveId);
   }).catch(err => {
     document.getElementById('loading').textContent = 'Error: ' + err.message;
   });
@@ -1329,6 +1395,91 @@ document.getElementById('query-btn').addEventListener('click', () => {
 
 document.getElementById('query-input').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') document.getElementById('query-btn').click();
+});
+
+document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+async function runUnifiedSearch() {
+  const q = document.getElementById('unified-search-input').value.trim();
+  if (!q) return;
+  const res = await api(`/api/search?q=${encodeURIComponent(q)}`);
+  const results = Array.isArray(res) ? res : (res.results || []);
+  const panel = document.getElementById('search-results');
+  panel.classList.add('visible');
+  let html = `<div class="header">Search: "${q}" (${results.length} results)</div>`;
+  if (!results.length) {
+    html += '<div class="result" style="cursor:default;color:var(--text-secondary)">No matches.</div>';
+  } else {
+    results.forEach(r => {
+      const score = r.score != null ? `<span class="score">${Number(r.score).toFixed(2)}</span>` : '';
+      html += `<div class="result" data-hive="${r.graph_id}">
+        <span class="graph">${r.graph_id}</span><span class="type">${r.type}</span>${score}
+        <div class="label">${r.label}</div>
+      </div>`;
+    });
+  }
+  panel.innerHTML = html;
+  panel.querySelectorAll('.result[data-hive]').forEach(el => {
+    el.addEventListener('click', () => {
+      loadHiveGraph(el.dataset.hive);
+      document.getElementById('sidebar').classList.remove('open');
+    });
+  });
+}
+
+document.getElementById('unified-search-btn')?.addEventListener('click', () => {
+  runUnifiedSearch().catch(err => showToast('Search failed: ' + err.message, 'err'));
+});
+document.getElementById('unified-search-input')?.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('unified-search-btn').click();
+});
+
+document.getElementById('link-concepts-btn')?.addEventListener('click', async () => {
+  showToast('Scanning for cross-hive concept matches...', 'ok');
+  try {
+    const res = await fetch('/api/link-concepts', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ threshold: 0.85, dry_run: true, limit: 50 }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Request failed');
+    const panel = document.getElementById('search-results');
+    panel.classList.add('visible');
+    const candidates = data.candidates || [];
+    let html = `<div class="header">Cross-hive matches (${candidates.length})</div>`;
+    if (!candidates.length) {
+      html += '<div class="result" style="cursor:default;color:var(--text-secondary)">No similar concepts found across hives.</div>';
+    } else {
+      candidates.forEach(c => {
+        html += `<div class="result" style="cursor:default">
+          <span class="score">${Number(c.score).toFixed(2)}</span>
+          <div class="label">${c.graph_a}: ${c.concept_a} ↔ ${c.graph_b}: ${c.concept_b}</div>
+        </div>`;
+      });
+      html += `<div style="padding:12px 16px;border-top:1px solid var(--border);">
+        <button id="apply-link-concepts" style="background:var(--accent-green);border:none;border-radius:6px;padding:6px 14px;color:#fff;font-size:12px;cursor:pointer;width:100%;">
+          Apply ${candidates.length} cross-edge(s)
+        </button></div>`;
+    }
+    panel.innerHTML = html;
+    document.getElementById('apply-link-concepts')?.addEventListener('click', async () => {
+      const applyRes = await fetch('/api/link-concepts', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ threshold: 0.85, apply: true, limit: 50 }),
+      });
+      const applyData = await applyRes.json();
+      if (!applyRes.ok) throw new Error(applyData.error || 'Apply failed');
+      showToast(`Linked ${applyData.linked_count} concept pair(s)`, 'ok');
+      refreshGraphs();
+      if (state.selectedHive) loadHiveGraph(state.selectedHive);
+    });
+  } catch (err) {
+    showToast('Link scan failed: ' + err.message, 'err');
+  }
 });
 
 document.getElementById('query-close').addEventListener('click', () => {

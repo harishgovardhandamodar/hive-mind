@@ -117,6 +117,15 @@ class TestSearch:
         assert scores.get("Graph Neural Network", 0) > 0
         assert scores.get("Recurrent Neural Network", 0) > 0
 
+    def test_search_cache_reused(self, fed, kg):
+        kg.add_concept("Cached Concept")
+        fed.register_graph(kg)
+        fed.unified_search("cached")
+        cache = fed._search_cache
+        assert cache is not None
+        fed.unified_search("cached")
+        assert fed._search_cache is cache
+
 
 class TestStats:
     def test_stats_empty(self, fed):

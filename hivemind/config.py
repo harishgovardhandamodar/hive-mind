@@ -4,6 +4,7 @@ import yaml
 DEFAULT_CONFIG = {
     "hives_dir": "hives",
     "meta_graph_path": "data/meta_graph.json",
+    "max_backups": 20,
     "server": {
         "host": "127.0.0.1",
         "port": 9090,

@@ -289,5 +289,24 @@ class HiveMind:
     def remove_hive_from_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
         return self.federation.remove_hive_from_collection(cid, hive_id)
 
+    def find_concept_link_candidates(self, threshold: float = 0.85,
+                                     limit: int = 100) -> list[dict[str, Any]]:
+        return self.federation.find_concept_link_candidates(threshold, limit)
+
+    def auto_link_concepts(self, threshold: float = 0.85,
+                           dry_run: bool = False,
+                           limit: int = 100,
+                           relation: str = "related_to") -> dict[str, Any]:
+        return self.federation.auto_link_concepts(
+            threshold, dry_run=dry_run, limit=limit, relation=relation,
+        )
+
+    def save_hive_layout(self, hive_id: str,
+                         positions: dict[str, dict[str, float]]) -> None:
+        kg = self.federation.get_graph(hive_id)
+        if not kg:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        kg.save_layout(positions)
+
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()

@@ -219,6 +219,14 @@
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-computing_1"
+    },
+    {
+      "label": "high-energy-physics",
+      "path": "/home/fox/hive-data/hives/high-energy-physics/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "Harish",
+      "id": "high-energy-physics"
     }
   ],
   "links": [

@@ -179,6 +179,19 @@ def main() -> None:
     p_coll_remove.add_argument("id", help="Collection ID")
     p_coll_remove.add_argument("hive_id", help="Hive ID")
 
+    p_link_concepts = sub.add_parser("link-concepts",
+                                     help="Find and link similar concepts across hives")
+    p_link_concepts.add_argument("--threshold", "-t", type=float, default=0.85,
+                                 help="Similarity threshold (default: 0.85)")
+    p_link_concepts.add_argument("--dry-run", action="store_true",
+                                 help="Show candidates without creating cross-edges")
+    p_link_concepts.add_argument("--apply", action="store_true",
+                                 help="Create cross-edges for matching concepts")
+    p_link_concepts.add_argument("--limit", type=int, default=100,
+                                 help="Max candidate pairs (default: 100)")
+    p_link_concepts.add_argument("--relation", "-r", default="related_to",
+                                 help="Relation type for new cross-edges")
+
     p_peers = sub.add_parser("peers", help="Manage peer HiveMind instances")
     p_peers_sub = p_peers.add_subparsers(dest="peers_command")
     p_peers_info = p_peers_sub.add_parser("info", help="Show local instance info for pairing")
@@ -554,6 +567,27 @@ def main() -> None:
                 sys.exit(1)
         else:
             print("Usage: hivemind collections <create|list|get|delete|add|remove> ...")
+
+    elif args.command == "link-concepts":
+        if not args.apply and not args.dry_run:
+            args.dry_run = True
+        result = hm.auto_link_concepts(
+            threshold=args.threshold,
+            dry_run=not args.apply,
+            limit=args.limit,
+            relation=args.relation,
+        )
+        candidates = result["candidates"]
+        if not candidates:
+            print("No cross-hive concept matches found.")
+            return
+        mode = "Would link" if result["dry_run"] else "Linked"
+        print(f"{mode} {len(candidates)} concept pair(s) (threshold={args.threshold}):")
+        for c in candidates:
+            print(f"  [{c['score']:.2f}] {c['graph_a']}:{c['concept_a']} ↔ "
+                  f"{c['graph_b']}:{c['concept_b']}")
+        if result["dry_run"]:
+            print("\nRun with --apply to create cross-edges.")
 
     elif args.command == "peers":
         if args.peers_command == "info":
