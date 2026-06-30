@@ -46,13 +46,15 @@ class HiveMind:
                     )
                     self.federation.register_graph(kg)
 
-    def create_hive(self, name: str) -> str:
+    def create_hive(self, name: str, owner: str = "") -> str:
+        if not owner:
+            owner = self.config.get("default_owner", "")
         hives_dir = self.config["hives_dir"]
         hive_path = os.path.join(hives_dir, name)
         graph_dir = os.path.join(hive_path, "data", "graph")
         os.makedirs(graph_dir, exist_ok=True)
         graph_file = os.path.join(graph_dir, "knowledge_graph.json")
-        kg = self.federation.create_graph(name, graph_file)
+        kg = self.federation.create_graph(name, graph_file, owner=owner)
         kg.save()
         return hive_path
 
@@ -137,7 +139,7 @@ class HiveMind:
         return kg.restore(version)
 
     # ------------------------------------------------------------------
-    # Export
+    # Export / Import (sharing)
     # ------------------------------------------------------------------
 
     def export_hive(self, hive_id: str, fmt: str = "jsonld",
@@ -150,6 +152,59 @@ class HiveMind:
         elif fmt == "obsidian":
             return export_obsidian(kg, graph_id=hive_id, output_dir=output_dir)
         raise ValueError(f"Unknown export format: {fmt}")
+
+    def export_hive_data(self, hive_id: str) -> dict[str, Any]:
+        return self.federation.export_hive_data(hive_id)
+
+    def import_hive_data(self, data: dict[str, Any],
+                         target_name: str | None = None,
+                         merge_similar: bool = True) -> dict[str, Any]:
+        return self.federation.import_hive_data(data, target_name, merge_similar)
+
+    # ------------------------------------------------------------------
+    # Peer-to-peer
+    # ------------------------------------------------------------------
+
+    def add_peer(self, url: str, name: str = "",
+                 peer_fingerprint: str = "") -> dict[str, Any]:
+        return self.federation.add_peer(url, name, peer_fingerprint)
+
+    def list_peers(self) -> list[dict[str, Any]]:
+        return self.federation.list_peers()
+
+    def remove_peer(self, pid: str) -> None:
+        self.federation.remove_peer(pid)
+
+    def pull_peer_hives(self, peer_id: str,
+                        hive_id: str | None = None) -> list[dict[str, Any]]:
+        return self.federation.pull_peer_hives(peer_id, hive_id)
+
+    def set_public_url(self, url: str) -> None:
+        self.federation.set_public_url(url)
+
+    def instance_info(self) -> dict[str, Any]:
+        return self.federation.instance_info()
+
+    def set_instance_name(self, name: str) -> None:
+        self.federation.set_instance_name(name)
+
+    def create_invite(self, ttl: int = 600) -> dict[str, Any]:
+        return self.federation.create_invite(ttl)
+
+    def pair_with_peer(self, url: str,
+                       token: str | None = None) -> dict[str, Any]:
+        return self.federation.pair_with_peer(url, token)
+
+    def accept_pair(self, peer_url: str, peer_name: str,
+                    instance_id: str,
+                    peer_fingerprint: str = "",
+                    token: str | None = None) -> dict[str, Any] | None:
+        existing = self.federation.find_peer_by_url(peer_url)
+        if existing:
+            return existing
+        if token and not self.federation.verify_invite(token):
+            raise ValueError("Invalid or expired pairing token")
+        return self.federation.add_peer(peer_url, peer_name, peer_fingerprint)
 
     # ------------------------------------------------------------------
     # Access control
@@ -208,6 +263,31 @@ class HiveMind:
         if not vs or not vs.has_vectors():
             return []
         return vs.similar_to_text(text, top_k=top_k, metric=metric)
+
+    # ------------------------------------------------------------------
+    # Collections
+    # ------------------------------------------------------------------
+
+    def compare_hives(self, hive_ids: list[str]) -> dict[str, Any]:
+        return self.federation.compare_hives(hive_ids)
+
+    def create_collection(self, name: str, description: str = "") -> dict[str, Any]:
+        return self.federation.create_collection(name, description)
+
+    def list_collections(self) -> list[dict[str, Any]]:
+        return self.federation.list_collections()
+
+    def get_collection(self, cid: str) -> dict[str, Any]:
+        return self.federation.get_collection(cid)
+
+    def delete_collection(self, cid: str) -> None:
+        return self.federation.delete_collection(cid)
+
+    def add_hive_to_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        return self.federation.add_hive_to_collection(cid, hive_id)
+
+    def remove_hive_from_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        return self.federation.remove_hive_from_collection(cid, hive_id)
 
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()

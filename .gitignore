@@ -9,3 +9,4 @@ hives/*/data/graph/embeddings.json
 
 # Ignore auth permissions
 permissions.json
+hives/*

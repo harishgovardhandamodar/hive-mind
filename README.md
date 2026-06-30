@@ -46,13 +46,23 @@ python -m hivemind serve
 | `ingest <keyword>` | Add a concept |
 | `arxiv-import <ids...>` | Import papers by arXiv ID |
 | `export <name>` | Export as JSON-LD or Obsidian |
+| `export-data <id>` | Export hive as portable JSON |
+| `import-hive <file>` | Import a hive from JSON export |
 | `embed <name>` | Generate vector embeddings |
 | `history <name>` | Backup versions |
 | `diff <name> <version>` | Diff against a backup |
 | `rollback <name> <version>` | Restore a backup |
 | `auth create-key <name>` | Create an API key |
 | `auth grant <id> <hive>` | Grant hive access |
-| `serve` | Start the dashboard |
+| `peers info` | Show instance identity for pairing |
+| `peers invite` | Generate one-time pairing token |
+| `peers pair <url>` | Bidirectional pairing (add `--token` for secure pairing) |
+| `peers add <url>` | Manually register a peer |
+| `peers list` | List known peers |
+| `peers remove <id>` | Remove a peer |
+| `peers sync <id>` | Pull all hives from a peer |
+| `peers pull <id> <hive>` | Pull a specific hive from a peer |
+| `serve` | Start the dashboard (use `--cert`/`--key` for TLS) |
 | `stats` | Federation statistics |
 
 ---
@@ -85,6 +95,9 @@ python -m hivemind serve
 | `/api/ingest` | `{keyword, hive, ...}` | Add concept |
 | `/api/arxiv-import` | `{ids: [...], hive}` | Import papers |
 | `/api/auth/create-key` | `{name}` | Create API key |
+| `/api/peers/pair` | `{url, token?}` | Pair with remote instance |
+| `/api/peering/invite` | `{}` | Generate pairing invite token |
+| `/api/peering/pair` | `{peer_url, token?}` | Accept pairing request |
 
 ---
 
@@ -103,7 +116,7 @@ CLI → HiveMind → Federation → KnowledgeGraph
 - **VectorStore** — `sentence-transformers` embeddings for semantic search (384-dim)
 - **AccessControl** — API key authentication with per-hive read/write/admin roles
 - **ConceptIngester** — Keyword extraction, arXiv import, concept-to-paper resolution
-- **Server** — Built-in HTTP server with D3.js dashboard and SSE live sync
+- **Server** — Built-in HTTP server with D3.js dashboard, SSE live sync, and peer-to-peer peering endpoints
 
 ---
 

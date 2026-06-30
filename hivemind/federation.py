@@ -1,9 +1,15 @@
+import hashlib
+import hmac
 import json
 import math
 import os
 import re
+import time
+import uuid
 from collections import Counter
 from typing import Any
+from urllib.parse import urljoin
+from urllib.request import urlopen, Request
 
 import networkx as nx
 
@@ -19,21 +25,27 @@ class Federation:
         self.max_backups = max_backups
         self.graphs: dict[str, KnowledgeGraph] = {}
         self.meta_graph: nx.MultiDiGraph = nx.MultiDiGraph()
+        self.collections: dict[str, dict[str, Any]] = {}
+        self._peers: dict[str, dict[str, Any]] = {}
         self._load_meta()
+        self._load_collections()
+        self._load_peers()
 
     # ------------------------------------------------------------------
     # Graph lifecycle
     # ------------------------------------------------------------------
 
-    def register_graph(self, graph: KnowledgeGraph) -> None:
+    def register_graph(self, graph: KnowledgeGraph,
+                       owner: str = "") -> None:
         gid = graph.graph_id or os.path.splitext(os.path.basename(graph.path))[0]
         graph.graph_id = gid
         self.graphs[gid] = graph
-        self._sync_meta_node(graph)
+        self._sync_meta_node(graph, owner)
 
-    def create_graph(self, graph_id: str, storage_path: str) -> KnowledgeGraph:
+    def create_graph(self, graph_id: str, storage_path: str,
+                     owner: str = "") -> KnowledgeGraph:
         kg = KnowledgeGraph(storage_path, graph_id=graph_id, max_backups=self.max_backups)
-        self.register_graph(kg)
+        self.register_graph(kg, owner)
         return kg
 
     def load_graph(self, storage_path: str, graph_id: str = "") -> KnowledgeGraph:
@@ -54,7 +66,9 @@ class Federation:
         result = []
         for gid, kg in self.graphs.items():
             s = kg.stats()
-            visible = self.meta_graph.nodes[gid].get("visible", True) if self.meta_graph.has_node(gid) else True
+            meta = self.meta_graph.nodes[gid] if self.meta_graph.has_node(gid) else {}
+            visible = meta.get("visible", True)
+            owner = meta.get("owner", "")
             result.append({
                 "id": gid,
                 "path": kg.path,
@@ -64,6 +78,7 @@ class Federation:
                 "relations": s["relations"],
                 "cross_edges": s["cross_edges"],
                 "visible": visible,
+                "owner": owner,
             })
         return result
 
@@ -210,8 +225,12 @@ class Federation:
         hive_names = {gid: gid.replace("-", " ") for gid in self.graphs}
         mentioned = []
         for gid, display in sorted(hive_names.items(), key=lambda x: -len(x[1])):
-            if display in q or gid in q:
+            if display in q or gid.lower() in q:
                 mentioned.append(gid)
+            else:
+                base = re.split(r'[\(\[]', gid, maxsplit=1)[0].strip().lower()
+                if base and base != gid.lower() and base in q:
+                    mentioned.append(gid)
 
         # deduplicate but preserve order
         seen_mention: set[str] = set()
@@ -404,7 +423,8 @@ class Federation:
     # Meta-graph persistence
     # ------------------------------------------------------------------
 
-    def _sync_meta_node(self, kg: KnowledgeGraph) -> None:
+    def _sync_meta_node(self, kg: KnowledgeGraph,
+                        owner: str = "") -> None:
         gid = kg.graph_id
         if not self.meta_graph.has_node(gid):
             self.meta_graph.add_node(
@@ -413,10 +433,13 @@ class Federation:
                 path=kg.path,
                 type="knowledge_graph",
                 visible=True,
+                owner=owner,
             )
         else:
             if "visible" not in self.meta_graph.nodes[gid]:
                 self.meta_graph.nodes[gid]["visible"] = True
+            if owner and not self.meta_graph.nodes[gid].get("owner"):
+                self.meta_graph.nodes[gid]["owner"] = owner
         # Restore cross-graph refs from the KG into meta-graph
         for ref in kg.get_all_graph_refs():
             tgt = ref["target_graph_id"]
@@ -441,6 +464,110 @@ class Federation:
         with open(self.meta_graph_path, "w") as f:
             json.dump(data, f, indent=2)
 
+    # ------------------------------------------------------------------
+    # Collection management
+    # ------------------------------------------------------------------
+
+    @property
+    def _collections_path(self) -> str:
+        return os.path.join(os.path.dirname(self.meta_graph_path), "collections.json")
+
+    def _load_collections(self) -> None:
+        path = self._collections_path
+        if os.path.exists(path):
+            with open(path) as f:
+                data = json.load(f)
+            self.collections = data.get("collections", {})
+
+    def _save_collections(self) -> None:
+        path = self._collections_path
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump({"collections": self.collections}, f, indent=2)
+
+    def create_collection(self, name: str, description: str = "") -> dict[str, Any]:
+        cid = name.lower().replace(" ", "-")
+        if cid in self.collections:
+            raise ValueError(f"Collection '{cid}' already exists")
+        ts = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+        collection = {
+            "id": cid,
+            "name": name,
+            "description": description,
+            "hive_ids": [],
+            "created_at": ts,
+            "updated_at": ts,
+        }
+        self.collections[cid] = collection
+        self._save_collections()
+        return dict(collection)
+
+    def list_collections(self) -> list[dict[str, Any]]:
+        result = []
+        for cid, c in self.collections.items():
+            result.append({
+                "id": cid,
+                "name": c.get("name", cid),
+                "description": c.get("description", ""),
+                "hive_count": len(c.get("hive_ids", [])),
+                "created_at": c.get("created_at", ""),
+                "updated_at": c.get("updated_at", ""),
+            })
+        result.sort(key=lambda x: x["name"].lower())
+        return result
+
+    def get_collection(self, cid: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        hives = []
+        for hid in c.get("hive_ids", []):
+            kg = self.graphs.get(hid)
+            if kg:
+                s = kg.stats()
+                hives.append({
+                    "id": hid,
+                    "papers": s["papers"],
+                    "concepts": s["concepts"],
+                    "relations": s["relations"],
+                })
+        return {
+            "id": c["id"],
+            "name": c.get("name", cid),
+            "description": c.get("description", ""),
+            "hives": hives,
+            "created_at": c.get("created_at", ""),
+            "updated_at": c.get("updated_at", ""),
+        }
+
+    def delete_collection(self, cid: str) -> None:
+        if cid not in self.collections:
+            raise ValueError(f"Collection '{cid}' not found")
+        del self.collections[cid]
+        self._save_collections()
+
+    def add_hive_to_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        if hive_id not in self.graphs:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        if hive_id not in c["hive_ids"]:
+            c["hive_ids"].append(hive_id)
+            c["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+            self._save_collections()
+        return self.get_collection(cid)
+
+    def remove_hive_from_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        if hive_id in c["hive_ids"]:
+            c["hive_ids"].remove(hive_id)
+            c["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+            self._save_collections()
+        return self.get_collection(cid)
+
     def meta_graph_data(self, include_hidden: bool = False) -> dict[str, Any]:
         visible_nodes = set()
         for n, d in self.meta_graph.nodes(data=True):
@@ -452,15 +579,16 @@ class Federation:
             if n not in visible_nodes:
                 continue
             s = self.graphs[n].stats() if n in self.graphs else {}
-            nodes.append({
-                "id": n,
-                "label": d.get("label", n),
-                "type": "knowledge_graph",
-                "visible": d.get("visible", True),
-                "papers": s.get("papers", 0),
-                "concepts": s.get("concepts", 0),
-                "relations": s.get("relations", 0),
-            })
+        nodes.append({
+            "id": n,
+            "label": d.get("label", n),
+            "type": "knowledge_graph",
+            "visible": d.get("visible", True),
+            "papers": s.get("papers", 0),
+            "concepts": s.get("concepts", 0),
+            "relations": s.get("relations", 0),
+            "owner": d.get("owner", ""),
+        })
         for u, v, d in self.meta_graph.edges(data=True):
             if u in visible_nodes and v in visible_nodes:
                 edges.append({
@@ -469,6 +597,516 @@ class Federation:
                     "relation": d.get("relation", "references"),
                 })
         return {"nodes": nodes, "edges": edges}
+
+    # ------------------------------------------------------------------
+    # Hive comparison
+    # ------------------------------------------------------------------
+
+    def compare_hives(self, hive_ids: list[str]) -> dict[str, Any]:
+        for hid in hive_ids:
+            if hid not in self.graphs:
+                raise ValueError(f"Hive '{hid}' not found")
+
+        # Build query text from hive names for relation chaining
+        display_names = [hid.replace("-", " ").lower() for hid in hive_ids]
+        query_text = " and ".join(display_names) + " how are these related"
+        relation_result = self.query_relation(query_text)
+
+        # Find overlapping concepts by matching normalized labels
+        concept_map: dict[str, list[dict[str, Any]]] = {}
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for node, data in kg.graph.nodes(data=True):
+                if data.get("type") == "concept":
+                    label = data.get("label", node).lower().strip()
+                    concept_map.setdefault(label, []).append({
+                        "hive_id": hid,
+                        "node_id": node,
+                        "label": data.get("label", node),
+                        "definition": (data.get("definition", "") or "")[:200],
+                    })
+
+        overlaps = sorted(
+            [{"concept": label, "occurrences": entries}
+             for label, entries in concept_map.items() if len(entries) >= 2],
+            key=lambda x: -len(x["occurrences"]),
+        )
+
+        # Build merge mapping: per-hive uid of shared concept -> single merged id
+        merge_map: dict[str, str] = {}
+        merged_node_data: dict[str, dict[str, Any]] = {}
+        for o in overlaps:
+            label = o["concept"]
+            merged_id = f"_shared:{label}"
+            occurrences = o["occurrences"]
+            merged_node_data[merged_id] = {
+                "id": merged_id,
+                "label": occurrences[0]["label"],
+                "type": "concept",
+                "graphId": "shared",
+                "hiveIds": [e["hive_id"] for e in occurrences],
+                "shared": True,
+            }
+            for entry in occurrences:
+                merge_map[f"{entry['hive_id']}:{entry['node_id']}"] = merged_id
+
+        # Collect combined graph data with merged shared nodes
+        combined_nodes: list[dict[str, Any]] = []
+        combined_edges: list[dict[str, Any]] = []
+        added_merged: set[str] = set()
+        all_node_ids: set[str] = set()
+
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for n, d in kg.graph.nodes(data=True):
+                uid = f"{hid}:{n}"
+                if uid in merge_map:
+                    merged_id = merge_map[uid]
+                    if merged_id not in added_merged:
+                        added_merged.add(merged_id)
+                        combined_nodes.append(merged_node_data[merged_id])
+                        all_node_ids.add(merged_id)
+                else:
+                    combined_nodes.append({
+                        "id": uid,
+                        "label": d.get("label", n)[:60],
+                        "type": d.get("type", "unknown"),
+                        "graphId": hid,
+                        "originalId": n,
+                        "shared": False,
+                    })
+                    all_node_ids.add(uid)
+
+        seen_edges: set[tuple[str, str]] = set()
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for u, v, d in kg.graph.edges(data=True):
+                suid = f"{hid}:{u}"
+                tuid = f"{d.get('target_graph', hid)}:{v}"
+                src = merge_map.get(suid, suid)
+                tgt = merge_map.get(tuid, tuid)
+                key = (src, tgt)
+                if key not in seen_edges and src in all_node_ids and tgt in all_node_ids:
+                    seen_edges.add(key)
+                    combined_edges.append({
+                        "source": src,
+                        "target": tgt,
+                        "relation": d.get("relation", "related_to"),
+                        "cross_graph": d.get("cross_graph", False),
+                    })
+
+        # Build overlap-only sub-graph from merged nodes
+        overlap_nodes = [n for n in combined_nodes if n["shared"]]
+        overlap_node_ids = {n["id"] for n in overlap_nodes}
+        overlap_edges = [e for e in combined_edges
+                         if e["source"] in overlap_node_ids and e["target"] in overlap_node_ids]
+
+        # Build explanation
+        chain_display = " → ".join(f"**{h}**" for h in relation_result.get("chain", hive_ids))
+        explanation = f"### {chain_display}\n"
+        if overlaps:
+            explanation += f"\n**Overlapping concepts:** {len(overlaps)} found\n"
+            for o in overlaps[:10]:
+                hives_str = ", ".join(e["hive_id"] for e in o["occurrences"])
+                explanation += f"- _{o['concept']}_ (in {hives_str})\n"
+        if relation_result.get("explanation"):
+            explanation += "\n" + relation_result["explanation"]
+
+        return {
+            "hives": list(hive_ids),
+            "chain": relation_result.get("chain", hive_ids),
+            "overlaps": overlaps[:30],
+            "overlap_count": len(overlaps),
+            "nodes": combined_nodes,
+            "edges": combined_edges,
+            "overlap_nodes": overlap_nodes,
+            "overlap_edges": overlap_edges,
+            "explanation": explanation,
+        }
+
+    # ------------------------------------------------------------------
+    # Hive sharing (export/import)
+    # ------------------------------------------------------------------
+
+    def export_hive_data(self, hive_id: str) -> dict[str, Any]:
+        """Export a hive's graph data as a portable JSON blob for sharing."""
+        kg = self.graphs.get(hive_id)
+        if not kg:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        graph_data = nx.node_link_data(kg.graph, edges="links")
+        return {
+            "hivemind_export": True,
+            "version": 1,
+            "source_hive": hive_id,
+            "exported_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            "graph": graph_data,
+        }
+
+    def import_hive_data(self, data: dict[str, Any],
+                         target_name: str | None = None,
+                         merge_similar: bool = True) -> dict[str, Any]:
+        """Import a hive from exported data, with optional similarity merging."""
+        if not data.get("hivemind_export"):
+            raise ValueError("Invalid export format: missing hivemind_export marker")
+        source_hive = data.get("source_hive", "unknown")
+
+        # Determine the local hive name
+        local_name = target_name or source_hive
+        if local_name in self.graphs:
+            base, idx = local_name, 1
+            while f"{base}_{idx}" in self.graphs:
+                idx += 1
+            local_name = f"{base}_{idx}"
+
+        # Reconstruct the KnowledgeGraph from the exported node-link data
+        graph_data = data.get("graph", {})
+        kg = KnowledgeGraph.__new__(KnowledgeGraph)
+        kg.graph_id = local_name
+        kg.graph = nx.node_link_graph(graph_data, multigraph=True, directed=True, edges="links")
+        kg.path = ""
+        kg.max_backups = self.max_backups
+
+        # Update graph_id on all nodes to the new local name
+        for _, d in kg.graph.nodes(data=True):
+            d["graph_id"] = local_name
+        # Relabel cross-graph edge target_graph references from source hive to local
+        for _, _, d in kg.graph.edges(data=True):
+            if d.get("target_graph") == source_hive:
+                d["target_graph"] = local_name
+
+        # Set storage path and save
+        meta_dir = os.path.dirname(self.meta_graph_path)
+        hives_dir = os.path.join(os.path.dirname(meta_dir), "hives")
+        safe_name = local_name.replace(" ", "_").replace("/", "_")
+        storage_path = os.path.join(hives_dir, safe_name, "data", "graph", "knowledge_graph.json")
+        kg.path = storage_path
+        kg.save()
+
+        self.register_graph(kg)
+
+        report: dict[str, Any] = {
+            "hive_id": local_name,
+            "source_hive": source_hive,
+            "nodes": kg.graph.number_of_nodes(),
+            "edges": kg.graph.number_of_edges(),
+            "merged": [],
+            "new_concepts": [],
+        }
+
+        # Similarity merge: find matching concepts across existing hives
+        if merge_similar:
+            concepts: list[tuple[str, str, str]] = []  # (node_id, label, definition)
+            for n, d in kg.graph.nodes(data=True):
+                if d.get("type") == "concept":
+                    concepts.append((n, d.get("label", ""), d.get("definition", "")))
+
+            # Search each existing hive for similar concepts
+            for nid, label, defn in concepts:
+                if not label:
+                    continue
+                best_match: tuple[str, str, str] | None = None  # (hive_id, matched_label, matched_node_id)
+                best_score = 0.0
+                words = set(label.lower().split())
+                for gid, other_kg in self.graphs.items():
+                    if gid == local_name:
+                        continue
+                    found = other_kg.find_similar_concept(label, threshold=0.0)
+                    # find_similar_concept returns the label of the best match; we need the node_id too
+                    # Let's do the search inline instead
+                    for on, od in other_kg.graph.nodes(data=True):
+                        if od.get("type") != "concept":
+                            continue
+                        other_label = od.get("label", "")
+                        other_words = set(other_label.lower().split())
+                        if not words or not other_words:
+                            continue
+                        score = len(words & other_words) / len(words | other_words)
+                        if score > best_score:
+                            best_score = score
+                            best_match = (gid, other_label, on)
+
+                if best_match and best_score >= 0.5:
+                    gid, matched_label, matched_node_id = best_match
+                    kg.add_cross_edge(nid, gid, matched_node_id, "related_to")
+                    kg.save()
+                    report["merged"].append({
+                        "imported_concept": label,
+                        "matched_concept": matched_label,
+                        "matched_hive": gid,
+                        "similarity": round(best_score, 3),
+                    })
+                else:
+                    report["new_concepts"].append(label)
+
+        return report
+
+    # ------------------------------------------------------------------
+    # Peer-to-peer sharing
+    # ------------------------------------------------------------------
+
+    @property
+    def _peers_path(self) -> str:
+        return os.path.join(os.path.dirname(self.meta_graph_path), "peers.json")
+
+    def _load_peers(self) -> None:
+        path = self._peers_path
+        self._peers: dict[str, dict[str, Any]] = {}
+        self._instance_id: str = ""
+        self._instance_name: str = ""
+        self._public_url: str = ""
+        self._instance_secret: str = ""
+        if os.path.exists(path):
+            with open(path) as f:
+                data = json.load(f)
+            self._peers = data.get("peers", {})
+            self._instance_id = data.get("instance_id", "")
+            self._instance_name = data.get("instance_name", "")
+            self._public_url = data.get("public_url", "")
+            self._instance_secret = data.get("instance_secret", "")
+        if not self._instance_id:
+            self._instance_id = str(uuid.uuid4())
+        if not self._instance_secret:
+            self._instance_secret = hashlib.sha256(os.urandom(64)).hexdigest()
+            self._save_peers()
+
+    def _save_peers(self) -> None:
+        path = self._peers_path
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump({
+                "instance_id": self._instance_id,
+                "instance_name": self._instance_name,
+                "public_url": self._public_url,
+                "instance_secret": self._instance_secret,
+                "peers": self._peers,
+            }, f, indent=2)
+
+    def _fingerprint(self) -> str:
+        h = hashlib.sha256(self._instance_secret.encode()).hexdigest()
+        return ":".join(h[i:i+4] for i in range(0, 20, 4))
+
+    def set_public_url(self, url: str) -> None:
+        self._public_url = url.rstrip("/")
+        self._save_peers()
+
+    def set_instance_name(self, name: str) -> None:
+        self._instance_name = name.strip()
+        self._save_peers()
+
+    def instance_info(self) -> dict[str, Any]:
+        info: dict[str, Any] = {
+            "instance_id": self._instance_id,
+            "instance_name": self._instance_name,
+            "fingerprint": self._fingerprint(),
+            "name": self._instance_name or (self._public_url.split("//")[-1] if self._public_url else "local"),
+            "version": 1,
+            "hive_count": len(self.graphs),
+            "hives": [{"id": h["id"], "papers": h["papers"],
+                       "concepts": h["concepts"], "relations": h["relations"]}
+                      for h in self.list_graphs()],
+            "peer_count": len(self._peers),
+            "tls": self._public_url.startswith("https") if self._public_url else False,
+        }
+        if self._public_url:
+            info["url"] = self._public_url
+        return info
+
+    def create_invite(self, ttl: int = 600) -> dict[str, Any]:
+        """Generate a signed one-time pairing token."""
+        token = str(uuid.uuid4())
+        expiry = int(time.time()) + ttl
+        payload = f"{token}:{expiry}"
+        sig = hmac.new(self._instance_secret.encode(), payload.encode(),
+                       hashlib.sha256).hexdigest()[:12]
+        invite_token = f"{token}:{expiry}:{sig}"
+        return {
+            "token": invite_token,
+            "expires_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(expiry)),
+            "url": self._public_url or "",
+        }
+
+    def verify_invite(self, invite_token: str) -> bool:
+        """Verify a signed pairing token."""
+        try:
+            parts = invite_token.split(":")
+            if len(parts) < 3:
+                return False
+            token, expiry_str, sig = parts[0], parts[1], ":".join(parts[2:])
+            expiry = int(expiry_str)
+            if int(time.time()) > expiry:
+                return False
+            payload = f"{token}:{expiry}"
+            expected = hmac.new(self._instance_secret.encode(), payload.encode(),
+                                hashlib.sha256).hexdigest()[:12]
+            if not hmac.compare_digest(expected, sig):
+                return False
+            # Mark token as used (store in a set)
+            if not hasattr(self, "_used_tokens"):
+                self._used_tokens = set()
+            if token in self._used_tokens:
+                return False
+            self._used_tokens.add(token)
+            return True
+        except (ValueError, IndexError):
+            return False
+
+    def add_peer(self, url: str, name: str = "",
+                 peer_fingerprint: str = "") -> dict[str, Any]:
+        url = url.rstrip("/")
+        if url == self._public_url:
+            raise ValueError("Cannot add self as a peer")
+        pid = str(uuid.uuid4())[:8]
+        entry: dict[str, Any] = {
+            "id": pid,
+            "name": name or url,
+            "url": url,
+            "added_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        }
+        if peer_fingerprint:
+            entry["fingerprint"] = peer_fingerprint
+        self._peers[pid] = entry
+        self._save_peers()
+        return dict(self._peers[pid])
+
+    def find_peer_by_url(self, url: str) -> dict[str, Any] | None:
+        url = url.rstrip("/")
+        for p in self._peers.values():
+            if p["url"] == url:
+                return p
+        return None
+
+    def pair_with_peer(self, url: str, token: str | None = None) -> dict[str, Any]:
+        """Bidirectional pairing: fetch remote info, register as peer,
+        then register self on the remote."""
+        url = url.rstrip("/")
+        info_url = urljoin(url, "/api/peering/info")
+        pair_url = urljoin(url, "/api/peering/pair")
+
+        # Fetch remote instance info and fingerprint
+        try:
+            req = Request(info_url, headers={"User-Agent": "HiveMind/1.0"})
+            with urlopen(req, timeout=15) as resp:
+                remote_info = json.loads(resp.read().decode())
+        except Exception as e:
+            raise ValueError(f"Failed to reach peer at {url}: {e}")
+
+        remote_id = remote_info.get("instance_id", "")
+        if remote_id == self._instance_id:
+            raise ValueError("Cannot pair with self")
+
+        remote_name = remote_info.get("name", url)
+        remote_fingerprint = remote_info.get("fingerprint", "")
+        remote_tls = remote_info.get("tls", False)
+
+        if not remote_tls and not token:
+            raise ValueError(
+                "Remote instance is not using TLS. "
+                "Use a pairing token for secure pairing: "
+                "run 'hivemind peers invite' on the remote and provide the token."
+            )
+
+        # Check if already paired
+        existing = self.find_peer_by_url(url)
+        if existing:
+            return {"status": "already_paired", "peer": existing}
+
+        # Register the remote as a local peer
+        peer = self.add_peer(url, remote_name, remote_fingerprint)
+
+        # Register self on the remote (bidirectional), passing token if we have one
+        self_name = self._public_url.split("//")[-1] if self._public_url else "local"
+        pair_body: dict[str, Any] = {
+            "peer_url": self._public_url or "",
+            "peer_name": self_name,
+            "instance_id": self._instance_id,
+            "fingerprint": self._fingerprint(),
+        }
+        if token:
+            pair_body["token"] = token
+
+        pair_payload = json.dumps(pair_body).encode()
+        try:
+            pair_req = Request(pair_url, data=pair_payload,
+                               headers={
+                                   "User-Agent": "HiveMind/1.0",
+                                   "Content-Type": "application/json",
+                               })
+            with urlopen(pair_req, timeout=15) as resp:
+                pair_result = json.loads(resp.read().decode())
+            remote_added = pair_result.get("status") == "ok"
+            remote_error = pair_result.get("error", "")
+        except Exception as e:
+            remote_added = False
+            remote_error = str(e)
+
+        return {
+            "status": "paired",
+            "peer": peer,
+            "remote": {
+                "instance_id": remote_id,
+                "name": remote_name,
+                "url": url,
+                "hives": remote_info.get("hive_count", 0),
+                "fingerprint": remote_fingerprint,
+                "tls": remote_tls,
+            },
+            "remote_registered": remote_added,
+            "remote_error": remote_error if not remote_added else "",
+        }
+
+    def list_peers(self) -> list[dict[str, Any]]:
+        return sorted(self._peers.values(), key=lambda p: p["name"].lower())
+
+    def remove_peer(self, pid: str) -> None:
+        if pid not in self._peers:
+            raise ValueError(f"Peer '{pid}' not found")
+        del self._peers[pid]
+        self._save_peers()
+
+    def pull_peer_hives(self, peer_id: str,
+                        hive_id: str | None = None) -> list[dict[str, Any]]:
+        """Fetch all hives (or a specific one) from a peer and import locally."""
+        peer = self._peers.get(peer_id)
+        if not peer:
+            raise ValueError(f"Peer '{peer_id}' not found")
+        base = peer["url"]
+
+        reports: list[dict[str, Any]] = []
+
+        if hive_id:
+            remote_hives = [{"id": hive_id}]
+        else:
+            try:
+                req = Request(urljoin(base, "/api/peering/hives"),
+                              headers={"User-Agent": "HiveMind/1.0"})
+                with urlopen(req, timeout=30) as resp:
+                    remote_hives = json.loads(resp.read().decode())
+            except Exception as e:
+                raise ValueError(f"Failed to fetch hive list from {base}: {e}")
+
+        for rh in remote_hives:
+            hid = rh["id"]
+            try:
+                req = Request(urljoin(base, f"/api/peering/hive/{hid}"),
+                              headers={"User-Agent": "HiveMind/1.0"})
+                with urlopen(req, timeout=60) as resp:
+                    export_data = json.loads(resp.read().decode())
+            except Exception as e:
+                reports.append({"hive_id": hid, "status": "error",
+                                "error": str(e)})
+                continue
+
+            try:
+                report = self.import_hive_data(export_data,
+                                               target_name=None,
+                                               merge_similar=True)
+                report["status"] = "ok"
+                reports.append(report)
+            except ValueError as e:
+                reports.append({"hive_id": hid, "status": "error",
+                                "error": str(e)})
+
+        return reports
 
     def set_hive_visibility(self, gid: str, visible: bool) -> None:
         if self.meta_graph.has_node(gid):

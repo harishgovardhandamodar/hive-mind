@@ -122,7 +122,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .link-label { font-size: 8px; fill: var(--text-secondary); }
 
 /* Search results overlay */
-#search-results { position: absolute; top: 0; right: 0; width: 360px; max-height: 100%; overflow-y: auto; background: var(--bg-results); border-left: 1px solid var(--border); display: none; }
+#search-results { position: absolute; top: 0; right: 0; width: 380px; max-height: 100%; overflow-y: auto; background: var(--bg-results); border-left: 1px solid var(--border); display: none; z-index: 60; }
 #search-results.visible { display: block; }
 #search-results .header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: var(--text-title); }
 #search-results .result { padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 12px; cursor: pointer; color: var(--text); }
@@ -139,6 +139,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .hive-card .cross { color: var(--accent-yellow); }
 .hive-action-btn { background:none; border:1px solid var(--border); border-radius:4px; padding:2px 6px; cursor:pointer; font-size:12px; line-height:1; color:var(--text-secondary); transition:all .15s; }
 .hive-action-btn:hover { border-color:var(--accent); color:var(--accent); }
+
+.sidebar-tab.active { color: var(--accent) !important; border-bottom-color: var(--accent) !important; }
+.collection-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; cursor: pointer; transition: all .15s; }
+.collection-card:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+.collection-card .name { font-size: 14px; font-weight: 600; color: var(--text-title); }
+.collection-card .desc { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.collection-card .stats { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+.collection-card .stats .num { color: var(--accent); }
+.collection-detail-hives { padding: 4px 0; }
+.collection-detail-hive { display:flex;align-items:center;gap:8px;padding:6px 8px;font-size:12px;border-radius:4px; }
+.collection-detail-hive:hover { background:var(--bg-card-hover); }
+.collection-detail-hive .name { flex:1; }
+.collection-detail-hive .remove-btn { background:none;border:1px solid var(--border);border-radius:4px;padding:1px 6px;cursor:pointer;font-size:10px;color:var(--graphref-color); }
+.collection-detail-hive .remove-btn:hover { border-color:var(--graphref-color); }
+.add-to-coll-btn { background:none;border:1px solid var(--border);border-radius:4px;padding:2px 8px;cursor:pointer;font-size:10px;color:var(--accent); }
+.add-to-coll-btn:hover { border-color:var(--accent);background:var(--bg-card-active); }
+
+.compare-overlap { padding:4px 0; }
+.compare-overlap-item { padding:6px 8px; font-size:11px; border-radius:4px; margin-bottom:2px; }
+.compare-overlap-item:hover { background:var(--bg-card-hover); }
+.compare-overlap-item .concept-name { font-weight:600; color:var(--text-title); }
+.compare-overlap-item .concept-hives { color:var(--text-secondary); font-size:10px; margin-top:2px; }
+.compare-overlap-item .concept-hives span { display:inline-block; margin-right:4px; }
 
 /* Legend */
 #legend { position: absolute; bottom: 16px; left: 16px; background: var(--bg-legend); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; font-size: 11px; }
@@ -274,7 +297,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
         <div class="config-header">Hive Visibility</div>
         <div id="config-list"></div>
       </div>
+      <div id="sidebar-tabs" style="display:flex;border-bottom:1px solid var(--border);">
+        <button class="sidebar-tab active" data-tab="hives" style="flex:1;background:none;border:none;padding:8px;color:var(--text-secondary);font-size:11px;cursor:pointer;border-bottom:2px solid transparent;">Hives</button>
+        <button class="sidebar-tab" data-tab="collections" style="flex:1;background:none;border:none;padding:8px;color:var(--text-secondary);font-size:11px;cursor:pointer;border-bottom:2px solid transparent;">Collections</button>
+        <button class="sidebar-tab" data-tab="peers" style="flex:1;background:none;border:none;padding:8px;color:var(--text-secondary);font-size:11px;cursor:pointer;border-bottom:2px solid transparent;">Peers</button>
+      </div>
+      <div id="hive-header" style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px 4px;">
+        <span style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px;">Hives</span>
+        <button id="new-hive-btn" style="background:var(--accent-green);border:none;border-radius:4px;padding:2px 8px;color:#fff;font-size:10px;cursor:pointer;">+ New</button>
+      </div>
+      <div id="owner-filter" style="display:flex;align-items:center;gap:4px;padding:2px 12px 6px;font-size:10px;color:var(--text-secondary);">
+        <span>Owner:</span>
+        <select id="owner-filter-select" style="flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:4px;color:var(--text-title);font-size:10px;padding:2px 4px;">
+          <option value="">All</option>
+        </select>
+      </div>
       <div id="hive-list"></div>
+      <div id="collection-list" style="display:none;flex:1;overflow-y:auto;padding:8px;"></div>
+      <div id="peer-list" style="display:none;flex:1;overflow-y:auto;padding:8px;"></div>
       <div id="status-bar"></div>
     </div>
   <div id="main">
@@ -293,6 +333,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       </select>
       <button class="theme-btn" id="theme-toggle" title="Toggle theme">&#9788;</button>
       <button id="ingest-btn" style="background:var(--accent-yellow);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">+ Concept</button>
+      <button id="visualize-btn" style="background:var(--paper-color);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Visualize</button>
+      <button id="compare-btn" style="background:var(--accent);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Compare</button>
+      <button id="import-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">Import Hive</button>
+      <input type="file" id="import-file-input" accept=".json" style="display:none;">
       <div id="search-box">
         <input id="query-input" placeholder="Ask a question..." title="e.g. How is Photonic computing related to AI acceleration?" />
         <button id="query-btn">Ask</button>
@@ -364,6 +408,7 @@ const COLORS = d3.scaleOrdinal(d3.schemeCategory10);
 let state = {
   view: 'meta',
   selectedHive: null,
+  selectedHives: new Set(),
   metaGraph: { nodes: [], edges: [] },
   hives: [],
 };
@@ -377,6 +422,45 @@ async function api(path) {
   }
   return r.json();
 }
+
+// ---- New Hive ----
+document.getElementById('new-hive-btn')?.addEventListener('click', async () => {
+  const name = prompt('New hive name:');
+  if (!name || !name.trim()) return;
+  const owner = prompt('Owner (for color-coding, optional):');
+  try {
+    const r = await fetch('/api/hives', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({name: name.trim(), owner: owner || ''}),
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Failed to create hive');
+    showToast(`Created hive "${name.trim()}"${data.owner ? ' by ' + data.owner : ''}`, 'ok');
+    loadHives();
+    refreshGraphs();
+  } catch (err) {
+    showToast('Error: ' + err.message, 'err');
+  }
+});
+
+// ---- Sidebar tabs ----
+document.querySelectorAll('.sidebar-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.sidebar-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const view = tab.dataset.tab;
+    const isHives = view === 'hives';
+    document.getElementById('hive-list').style.display = isHives ? '' : 'none';
+    document.getElementById('hive-header').style.display = isHives ? '' : 'none';
+    document.getElementById('owner-filter').style.display = isHives ? '' : 'none';
+    document.getElementById('collection-list').style.display = view === 'collections' ? '' : 'none';
+    document.getElementById('peer-list').style.display = view === 'peers' ? '' : 'none';
+    if (isHives) loadHives();
+    if (view === 'collections') loadCollections();
+    if (view === 'peers') loadPeers();
+  });
+});
 
 // ---- Render ----
 function render() {
@@ -483,7 +567,7 @@ function renderUnifiedGraph() {
     document.getElementById('loading').textContent = 'No visible hives. Toggle visibility in the sidebar.';
     return;
   }
-  Promise.all(visibleHives.map(h => api(`/api/hive/${h.id}`)))
+  Promise.all(visibleHives.map(h => api(`/api/hive/${encodeURIComponent(h.id)}`)))
     .then(hiveData => {
       const allNodes = [];
       const allEdges = [];
@@ -524,6 +608,14 @@ function renderD3Graph(nodes, edges, unified = false) {
 
   if (!nodes.length) return;
 
+  // SVG glow filter for shared nodes
+  const defs = svg.append('defs');
+  const filter = defs.append('filter').attr('id', 'glow');
+  filter.append('feGaussianBlur').attr('stdDeviation', '3').attr('result', 'blur');
+  const merge = filter.append('feMerge');
+  merge.append('feMergeNode').attr('in', 'blur');
+  merge.append('feMergeNode').attr('in', 'SourceGraphic');
+
   const g = svg.append('g');
   const zoom = d3.zoom().scaleExtent([0.1, 8]).on('zoom', (e) => g.attr('transform', e.transform));
   svg.call(zoom);
@@ -555,12 +647,15 @@ function renderD3Graph(nodes, edges, unified = false) {
       .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
     );
 
-  const radiusMap = { paper: 8, concept: 10, graph_ref: 14 };
+  const baseRadius = { paper: 7, concept: 9, graph_ref: 12 };
   const computedStyle = getComputedStyle(document.documentElement);
   function cssVar(name) { return computedStyle.getPropertyValue(name).trim(); }
 
   node.append('circle')
-    .attr('r', d => radiusMap[d.type] || 8)
+    .attr('r', d => {
+      if (d.shared) return (baseRadius[d.type] || 7) + 5;
+      return baseRadius[d.type] || 7;
+    })
     .attr('fill', d => {
       if (d.graphId && unified) return COLORS(d.graphId);
       if (d.type === 'paper') return cssVar('--paper-color') || '#1f6feb';
@@ -568,6 +663,10 @@ function renderD3Graph(nodes, edges, unified = false) {
       if (d.type === 'graph_ref') return cssVar('--graphref-color') || '#da3633';
       return '#8b949e';
     })
+    .attr('stroke', d => d.shared ? '#ffd700' : cssVar('--node-stroke'))
+    .attr('stroke-width', d => d.shared ? 3 : 1.5)
+    .attr('filter', d => d.shared ? 'url(#glow)' : null)
+    .attr('style', d => d.shared ? 'transition: r .15s;' : null)
     .on('click', (e, d) => {
       e.stopPropagation();
       if (d.type === 'graph_ref') {
@@ -577,8 +676,8 @@ function renderD3Graph(nodes, edges, unified = false) {
     })
     .on('mouseover', (e, d) => {
       let html = `<strong>${d.label}</strong><br>type: ${d.type}`;
-      if (d.graphId) html += `<br>hive: ${d.graphId}`;
-      if (d.target_graph_id) html += `<br>→ ${d.target_graph_id}`;
+      if (d.graphId) html += `<br>hive: ${d.hiveIds ? d.hiveIds.join(', ') : d.graphId}`;
+      if (d.shared) html += `<br><span style="color:#ffd700;">★ Shared across hives</span>`;
       if (d.type === 'paper') {
         if (d.authors) html += `<br><em>${d.authors}</em>`;
         if (d.abstract) html += `<br><span style="font-size:10px;color:var(--text-secondary)">${d.abstract.slice(0, 200)}…</span>`;
@@ -593,7 +692,7 @@ function renderD3Graph(nodes, edges, unified = false) {
 
   node.append('text')
     .attr('text-anchor', 'middle')
-    .attr('dy', d => -(radiusMap[d.type] || 8) - 4)
+    .attr('dy', d => -(d.shared ? (baseRadius[d.type] || 7) + 7 : (baseRadius[d.type] || 7) + 4))
     .attr('class', 'label')
     .text(d => d.label.length > 20 ? d.label.slice(0, 18) + '…' : d.label);
 
@@ -604,24 +703,64 @@ function renderD3Graph(nodes, edges, unified = false) {
   });
 }
 
+// ---- Owner color palette ----
+const OWNER_COLORS = [
+  '#e06c75', '#61afef', '#98c379', '#d19a66', '#c678dd',
+  '#56b6c2', '#e5c07b', '#7ec8e3', '#c3e88d', '#f78c6c',
+  '#89ddff', '#b392f0', '#79c0ff', '#ff7b72', '#3fb950',
+  '#f0883e', '#d2a8ff', '#a5d6ff', '#ffa657', '#7ee787',
+];
+function ownerColor(owner) {
+  if (!owner) return '#555';
+  if (!ownerColor._map) ownerColor._map = {};
+  if (!ownerColor._map[owner]) {
+    const idx = Object.keys(ownerColor._map).length % OWNER_COLORS.length;
+    ownerColor._map[owner] = OWNER_COLORS[idx];
+  }
+  return ownerColor._map[owner];
+}
+
 // ---- Hive list ----
 function loadHives() {
   api('/api/hives').then(hives => {
     state.hives = hives;
+
+    // Populate owner filter
+    const owners = [...new Set(hives.map(h => h.owner).filter(Boolean))].sort();
+    const sel = document.getElementById('owner-filter-select');
+    const currentVal = sel.value;
+    sel.innerHTML = '<option value="">All owners</option>' +
+      owners.map(o => `<option value="${o}">${o}</option>`).join('');
+    sel.value = owners.includes(currentVal) ? currentVal : '';
+    const filterOwner = sel.value;
+
     const list = document.getElementById('hive-list');
     list.innerHTML = '';
-    hives.filter(h => h.visible !== false).forEach(h => {
+    hives.filter(h => h.visible !== false)
+      .filter(h => !filterOwner || h.owner === filterOwner)
+      .forEach(h => {
       const card = document.createElement('div');
       card.className = 'hive-card' + (state.selectedHive === h.id ? ' active' : '');
+      const checked = state.selectedHives.has(h.id) ? 'checked' : '';
+      const oColor = ownerColor(h.owner);
+      card.style.borderLeft = `3px solid ${oColor}`;
       card.innerHTML = `
-        <div class="name">${h.id}</div>
-        <div class="stats">
-          <span>📄 <span class="num">${h.papers}</span></span>
-          <span>🧠 <span class="num">${h.concepts}</span></span>
-          <span>🔗 <span class="num">${h.relations}</span></span>
-          ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="checkbox" class="hive-select" data-hive="${h.id}" ${checked} style="accent-color:var(--accent);cursor:pointer;" title="Select for comparison">
+          <div style="flex:1;min-width:0;">
+            <div class="name" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              ${h.id}
+              ${h.owner ? `<span style="font-size:9px;font-weight:500;background:${oColor};color:#fff;border-radius:3px;padding:0 5px;line-height:16px;white-space:nowrap;">${h.owner}</span>` : ''}
+            </div>
+            <div class="stats">
+              <span>📄 <span class="num">${h.papers}</span></span>
+              <span>🧠 <span class="num">${h.concepts}</span></span>
+              <span>🔗 <span class="num">${h.relations}</span></span>
+              ${h.graph_refs ? `<span class="cross">↗ <span class="num">${h.graph_refs}</span></span>` : ''}
+            </div>
+          </div>
         </div>
-        <div style="display:flex;gap:4px;margin-top:4px;">
+        <div style="display:flex;gap:4px;margin-top:4px;margin-left:24px;">
           <button class="hive-action-btn" data-action="embed" data-hive="${h.id}" title="Generate vector embeddings">🧠</button>
           <button class="hive-action-btn" data-action="history" data-hive="${h.id}" title="Backup history">📋</button>
           <button class="hive-action-btn" data-action="export" data-hive="${h.id}" title="Export as JSON-LD">📦</button>
@@ -630,16 +769,325 @@ function loadHives() {
       `;
       card.addEventListener('click', (e) => {
         if (e.target.closest('.hive-action-btn')) return;
+        if (e.target.closest('.hive-select')) return;
         loadHiveGraph(h.id);
+      });
+      const cb = card.querySelector('.hive-select');
+      cb.addEventListener('change', () => {
+        if (cb.checked) state.selectedHives.add(h.id);
+        else state.selectedHives.delete(h.id);
+        const n = state.selectedHives.size;
+        document.getElementById('visualize-btn').style.display = n >= 1 ? '' : 'none';
+        document.getElementById('compare-btn').style.display = n >= 2 ? '' : 'none';
       });
       list.appendChild(card);
     });
+    // Prune selectedHives of removed hives
+    const activeIds = new Set(hives.map(h => h.id));
+    for (const hid of state.selectedHives) {
+      if (!activeIds.has(hid)) state.selectedHives.delete(hid);
+    }
+    document.getElementById('visualize-btn').style.display = state.selectedHives.size >= 1 ? '' : 'none';
+    document.getElementById('compare-btn').style.display = state.selectedHives.size >= 2 ? '' : 'none';
     const visibleCount = hives.filter(h => h.visible !== false).length;
+    const filteredCount = list.childElementCount;
+    const countStr = filterOwner
+      ? `${filteredCount} of ${visibleCount} hives`
+      : `${visibleCount}/${hives.length} hives`;
     document.getElementById('status-bar').textContent =
-      `${visibleCount}/${hives.length} hives · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
+      `${countStr} · ${hives.reduce((a, h) => a + h.papers, 0)} papers · ${hives.reduce((a, h) => a + h.concepts, 0)} concepts`;
   }).catch(err => {
     document.getElementById('status-bar').textContent = 'Error loading hives: ' + err.message;
   });
+}
+
+// Re-filter when owner selector changes
+document.addEventListener('DOMContentLoaded', () => {
+  const sel = document.getElementById('owner-filter-select');
+  if (sel) sel.addEventListener('change', loadHives);
+});
+
+// ---- Collections ----
+async function loadCollections() {
+  try {
+    const cols = await api('/api/collections');
+    const list = document.getElementById('collection-list');
+    list.innerHTML = '';
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+    header.innerHTML = `<span style="font-size:12px;font-weight:600;color:var(--text-title);">${cols.length} Collection(s)</span>
+      <button id="new-coll-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 10px;color:#fff;font-size:11px;cursor:pointer;">+ New</button>`;
+    list.appendChild(header);
+
+    document.getElementById('new-coll-btn').addEventListener('click', () => {
+      const name = prompt('Collection name:');
+      if (name && name.trim()) {
+        fetch('/api/collections', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({name: name.trim()}),
+        }).then(r => r.json()).then(() => {
+          loadCollections();
+          showToast(`Created collection "${name.trim()}"`, 'ok');
+        }).catch(err => showToast('Failed: ' + err.message, 'err'));
+      }
+    });
+
+    cols.forEach(c => {
+      const card = document.createElement('div');
+      card.className = 'collection-card';
+      card.innerHTML = `
+        <div class="name">${c.name}</div>
+        ${c.description ? `<div class="desc">${c.description}</div>` : ''}
+        <div class="stats"><span class="num">${c.hive_count}</span> hive(s)</div>`;
+      card.addEventListener('click', () => showCollectionDetail(c.id));
+      list.appendChild(card);
+    });
+  } catch (err) {
+    document.getElementById('collection-list').innerHTML = `<div style="padding:8px;font-size:12px;color:var(--graphref-color);">Error: ${err.message}</div>`;
+  }
+}
+
+async function showCollectionDetail(cid) {
+  try {
+    const c = await api(`/api/collection/${encodeURIComponent(cid)}`);
+    const panel = document.getElementById('query-panel');
+    const expl = document.getElementById('query-explanation');
+    let html = `<div style="padding:8px 12px;font-size:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <strong style="font-size:14px;">${c.name}</strong>
+        <button id="coll-delete-btn" data-id="${c.id}" style="background:none;border:1px solid var(--graphref-color);border-radius:4px;padding:2px 8px;cursor:pointer;color:var(--graphref-color);font-size:10px;">Delete</button>
+      </div>`;
+    if (c.description) html += `<div style="color:var(--text-secondary);margin-bottom:8px;">${c.description}</div>`;
+    html += `<div style="color:var(--text-secondary);font-size:10px;margin-bottom:8px;">Created: ${c.created_at} &middot; Updated: ${c.updated_at}</div>`;
+    html += `<div style="font-weight:600;margin-bottom:4px;">Hives (${c.hives.length})</div>
+      <div class="collection-detail-hives">`;
+    if (!c.hives.length) {
+      html += '<div style="color:var(--text-secondary);font-style:italic;padding:4px 8px;">No hives in this collection.</div>';
+    } else {
+      c.hives.forEach(h => {
+        html += `<div class="collection-detail-hive">
+          <span class="name">${h.id}</span>
+          <span style="color:var(--text-secondary);font-size:10px;">${h.papers}p ${h.concepts}c</span>
+          <button class="remove-from-coll-btn" data-collection="${c.id}" data-hive="${h.id}" title="Remove from collection">&times;</button>
+        </div>`;
+      });
+    }
+    html += '</div>';
+    if (state.hives.length > c.hives.length) {
+      const available = state.hives.filter(h => !c.hives.some(ch => ch.id === h.id) && h.visible !== false);
+      if (available.length) {
+        html += `<div style="margin-top:8px;">
+          <select id="coll-add-select" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text-title);font-size:11px;outline:none;">
+            <option value="">— Add a hive —</option>
+            ${available.map(h => `<option value="${h.id}">${h.id}</option>`).join('')}
+          </select>
+        </div>`;
+      }
+    }
+    html += '</div>';
+    expl.innerHTML = html;
+    panel.classList.add('visible');
+
+    document.getElementById('coll-delete-btn')?.addEventListener('click', async () => {
+      if (!confirm(`Delete collection "${c.name}"?`)) return;
+      await fetch(`/api/collection/${encodeURIComponent(c.id)}`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({action: 'delete'}),
+      });
+      panel.classList.remove('visible');
+      loadCollections();
+      showToast(`Deleted collection "${c.name}"`, 'ok');
+    });
+
+    document.querySelectorAll('.remove-from-coll-btn').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const colId = btn.dataset.collection;
+        const hiveId = btn.dataset.hive;
+        await fetch(`/api/collection/${encodeURIComponent(colId)}/hives`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({action: 'remove', hive_id: hiveId}),
+        });
+        showCollectionDetail(colId);
+        showToast(`Removed ${hiveId} from collection`, 'ok');
+      });
+    });
+
+    const addSelect = document.getElementById('coll-add-select');
+    if (addSelect) {
+      addSelect.addEventListener('change', async () => {
+        const hiveId = addSelect.value;
+        if (!hiveId) return;
+        await fetch(`/api/collection/${encodeURIComponent(c.id)}/hives`, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({action: 'add', hive_id: hiveId}),
+        });
+        showCollectionDetail(c.id);
+        showToast(`Added ${hiveId} to collection`, 'ok');
+      });
+    }
+  } catch (err) {
+    showToast('Failed to load collection: ' + err.message, 'err');
+  }
+}
+
+// ---- Peers ----
+async function loadPeers() {
+  const el = document.getElementById('peer-list');
+  try {
+    const [info, peers] = await Promise.all([
+      api('/api/peering/info'),
+      api('/api/peers'),
+    ]);
+    el.innerHTML = '';
+
+    // Instance info card
+    const infoCard = document.createElement('div');
+    infoCard.style.cssText = 'background:var(--bg-card);border-radius:8px;padding:10px;margin-bottom:12px;border:1px solid var(--border);font-size:11px;';
+    const displayName = info.instance_name || info.name || '(unnamed)';
+    infoCard.innerHTML = `
+      <div style="font-size:12px;font-weight:600;color:var(--text-title);margin-bottom:4px;">This Instance</div>
+      <div style="color:var(--text-secondary);">
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px;">
+          <span style="font-weight:600;color:var(--text-title);font-size:13px;" id="instance-name-display">${displayName}</span>
+          <button id="edit-name-btn" style="background:none;border:none;cursor:pointer;font-size:11px;color:var(--accent);padding:0;" title="Edit name">✏️</button>
+        </div>
+        ID: <code style="font-size:10px;">${info.instance_id}</code><br>
+        ${info.fingerprint ? `FP: <code style="font-size:10px;">${info.fingerprint}</code><br>` : ''}
+        URL: ${info.url || '(not set)'}<br>
+        Hives: ${info.hive_count} · Peers: ${info.peer_count}
+      </div>
+      <div style="margin-top:6px;">
+        <button id="invite-btn" style="background:var(--accent-orange,#e68a00);border:none;border-radius:6px;padding:3px 8px;color:#fff;font-size:10px;cursor:pointer;">Generate Invite</button>
+      </div>
+    `;
+    document.getElementById('edit-name-btn')?.addEventListener('click', () => {
+      const newName = prompt('Instance name:', info.instance_name || '');
+      if (newName === null) return;
+      fetch('/api/peering/name', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name: newName.trim()}),
+      }).then(r => r.json()).then(() => {
+        showToast('Instance name updated', 'ok');
+        loadPeers();
+      }).catch(err => showToast('Failed: ' + err.message, 'err'));
+    });
+    el.appendChild(infoCard);
+
+    document.getElementById('invite-btn').addEventListener('click', () => {
+      fetch('/api/peering/invite', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: '{}'})
+        .then(r => r.json()).then(inv => {
+        showToast('Invite token generated (valid until ' + inv.expires_at + ')', 'ok');
+        prompt('Share this pairing token with the remote peer:', inv.token);
+      }).catch(err => showToast('Failed: ' + err.message, 'err'));
+    });
+
+    // Header with Add and Pair buttons
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;';
+    header.innerHTML = `<span style="font-size:12px;font-weight:600;color:var(--text-title);">${peers.length} Peer(s)</span>
+      <div style="display:flex;gap:4px;">
+        <button id="pair-peer-btn" style="background:var(--accent);border:none;border-radius:6px;padding:4px 10px;color:#fff;font-size:11px;cursor:pointer;">Pair</button>
+        <button id="add-peer-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 10px;color:#fff;font-size:11px;cursor:pointer;">+ Add</button>
+      </div>`;
+    el.appendChild(header);
+
+    document.getElementById('add-peer-btn').addEventListener('click', () => {
+      const url = prompt('Peer URL (e.g. http://192.168.1.100:9090):');
+      if (!url || !url.trim()) return;
+      const name = prompt('Friendly name (optional):');
+      fetch('/api/peers', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({url: url.trim(), name: name || ''}),
+      }).then(r => r.json()).then(p => {
+        showToast(`Added peer '${p.name}'`, 'ok');
+        loadPeers();
+      }).catch(err => showToast('Failed: ' + err.message, 'err'));
+    });
+
+    document.getElementById('pair-peer-btn').addEventListener('click', () => {
+      const url = prompt('Remote HiveMind URL to pair with (e.g. http://192.168.1.100:9090):');
+      if (!url || !url.trim()) return;
+      const token = prompt('Pairing token (optional, paste from remote "hivemind peers invite"):');
+      const body = {url: url.trim()};
+      if (token && token.trim()) body.token = token.trim();
+      fetch('/api/peers/pair', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(body),
+      }).then(r => r.json()).then(result => {
+        if (result.status === 'already_paired') {
+          showToast(`Already paired with ${result.peer.name}`, 'warn');
+        } else {
+          let msg = `Paired with ${result.remote.name} (${result.remote.hives} hives)`;
+          if (result.remote.tls) msg += ' 🔒';
+          if (result.remote.fingerprint) msg += ` fp:${result.remote.fingerprint.substr(0,8)}...`;
+          showToast(msg, 'ok');
+          if (!result.remote_registered && result.remote_error) {
+            showToast('Remote registration: ' + result.remote_error, 'warn');
+          }
+        }
+        loadPeers();
+      }).catch(err => showToast('Pairing failed: ' + err.message, 'err'));
+    });
+
+    peers.forEach(p => {
+      const card = document.createElement('div');
+      card.style.cssText = 'background:var(--bg-card);border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid var(--border);';
+      card.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--text-title);">${p.name}</div>
+            <div style="font-size:10px;color:var(--text-secondary);">${p.url}</div>
+            <div style="font-size:10px;color:var(--text-secondary);">added: ${p.added_at}</div>
+          </div>
+          <div style="display:flex;gap:4px;">
+            <button class="peer-sync" data-peer="${p.id}" style="background:var(--accent);border:none;border-radius:4px;padding:4px 8px;color:#fff;font-size:10px;cursor:pointer;">Sync</button>
+            <button class="peer-remove" data-peer="${p.id}" style="background:var(--graphref-color);border:none;border-radius:4px;padding:4px 8px;color:#fff;font-size:10px;cursor:pointer;">Remove</button>
+          </div>
+        </div>
+      `;
+      card.querySelector('.peer-sync').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const pid = e.target.dataset.peer;
+        try {
+          const res = await fetch(`/api/peers/${pid}/sync`, {method: 'POST'});
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Sync failed');
+          let msg = `Synced from peer: ${data.results.length} hive(s)`;
+          const ok = data.results.filter(r => r.status === 'ok');
+          if (ok.length) msg += `, ${ok.length} imported`;
+          showToast(msg, 'ok');
+          loadPeers();
+          loadHives();
+        } catch (err) {
+          showToast('Sync failed: ' + err.message, 'err');
+        }
+      });
+      card.querySelector('.peer-remove').addEventListener('click', async (e) => {
+        e.stopPropagation();
+        const pid = e.target.dataset.peer;
+        if (!confirm(`Remove peer '${p.name}'?`)) return;
+        try {
+          const res = await fetch(`/api/peers/${pid}`, {method: 'DELETE'});
+          if (!res.ok) throw new Error('Remove failed');
+          showToast(`Removed peer '${p.name}'`, 'ok');
+          loadPeers();
+        } catch (err) {
+          showToast('Remove failed: ' + err.message, 'err');
+        }
+      });
+      el.appendChild(card);
+    });
+  } catch (err) {
+    el.innerHTML = `<div style="padding:8px;font-size:12px;color:var(--graphref-color);">Error: ${err.message}</div>`;
+  }
 }
 
 async function refreshGraphs() {
@@ -662,7 +1110,7 @@ function loadHiveGraph(hiveId) {
     if (h.id === hiveId && cards[i]) cards[i].classList.add('active');
   });
 
-  api(`/api/hive/${hiveId}`).then(data => {
+    api(`/api/hive/${encodeURIComponent(hiveId)}`).then(data => {
     document.getElementById('view-subtitle').textContent =
       `${data.nodes.length} nodes, ${data.edges.length} edges`;
     document.getElementById('loading').style.display = 'none';
@@ -671,6 +1119,186 @@ function loadHiveGraph(hiveId) {
     document.getElementById('loading').textContent = 'Error: ' + err.message;
   });
 }
+
+// ---- Visualize selected hives together ----
+document.getElementById('visualize-btn').addEventListener('click', async () => {
+  const hives = Array.from(state.selectedHives);
+  if (!hives.length) return;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').textContent = 'Loading combined graph...';
+  try {
+    const hiveData = await Promise.all(hives.map(h => api(`/api/hive/${encodeURIComponent(h)}`)));
+    const allNodes = [];
+    const allEdges = [];
+    const nodeMap = new Map();
+    const labelCount = new Map();
+    // First pass: count labels across hives to detect overlaps
+    hiveData.forEach((hd) => {
+      hd.nodes.forEach(n => {
+        const key = (n.label || n.id).toLowerCase().trim();
+        labelCount.set(key, (labelCount.get(key) || 0) + 1);
+      });
+    });
+    hiveData.forEach((hd) => {
+      const prefix = hd.id;
+      hd.nodes.forEach(n => {
+        const uid = `${prefix}:${n.id}`;
+        if (!nodeMap.has(uid)) {
+          const shared = labelCount.get((n.label || n.id).toLowerCase().trim()) > 1;
+          nodeMap.set(uid, { ...n, uid, label: n.label, graphId: prefix, shared });
+          allNodes.push(nodeMap.get(uid));
+        }
+      });
+      hd.edges.forEach(e => {
+        const suid = `${prefix}:${e.source}`;
+        const tuid = `${e.target_graph || prefix}:${e.target}`;
+        if (nodeMap.has(suid) && nodeMap.has(tuid)) {
+          allEdges.push({ ...e, source: suid, target: tuid });
+        }
+      });
+    });
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('view-title').textContent = `Combined: ${hives.join(', ')}`;
+    const overlapCount = allNodes.filter(n => n.shared).length;
+    document.getElementById('view-subtitle').textContent = `${allNodes.length} nodes, ${allEdges.length} edges, ${overlapCount} shared nodes`;
+    renderD3Graph(allNodes, allEdges, true);
+    // Close any open query panel
+    document.getElementById('query-panel').classList.remove('visible');
+    showToast(`Showing ${allNodes.length} nodes across ${hives.length} hives`, 'ok');
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    showToast('Failed to load: ' + err.message, 'err');
+  }
+});
+
+// ---- Compare ----
+document.getElementById('compare-btn').addEventListener('click', async () => {
+  const hives = Array.from(state.selectedHives);
+  if (hives.length < 2) return;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').textContent = 'Comparing hives...';
+  try {
+    const result = await api(`/api/compare?hives=${hives.map(encodeURIComponent).join(',')}`);
+    document.getElementById('loading').style.display = 'none';
+
+    // Render the combined graph FIRST (so it's not covered by any panel)
+    if (result.nodes && result.nodes.length) {
+      document.getElementById('view-title').textContent = `Compare: ${hives.join(' vs ')}`;
+      document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
+      renderD3Graph(result.nodes, result.edges, true);
+      showToast(`Compare: ${result.nodes.length} nodes, ${result.overlap_count} overlapping concepts`, 'ok');
+    }
+
+    // Show compare info in the right-side search panel (doesn't block graph)
+    const panel = document.getElementById('search-results');
+    panel.innerHTML = '';
+
+    const header = document.createElement('div');
+    header.className = 'header';
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600;font-size:13px;color:var(--text-title);';
+    header.innerHTML = `Compare: ${hives.join(' vs ')}
+      <span style="display:flex;gap:4px;">
+        ${result.overlap_nodes && result.overlap_nodes.length ? `<button id="overlap-toggle-btn" style="background:var(--accent-yellow);border:none;border-radius:4px;padding:2px 8px;color:#fff;font-size:10px;cursor:pointer;">Show overlaps only</button>` : ''}
+        <span id="compare-close" style="cursor:pointer;color:var(--text-secondary);font-size:16px;padding:0 4px;">&times;</span>
+      </span>`;
+    panel.appendChild(header);
+
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:8px 12px;font-size:12px;';
+
+    // Chain
+    body.innerHTML += `<div style="margin-bottom:8px;font-size:11px;"><strong>Chain:</strong> ${result.chain.map(h => `<span style="color:var(--accent);font-weight:600;">${h}</span>`).join(' → ')}</div>`;
+
+    // Overlaps
+    if (result.overlaps && result.overlaps.length) {
+      body.innerHTML += `<div style="margin-bottom:8px;">
+        <strong>Overlapping concepts (${result.overlap_count}):</strong>
+        <div class="compare-overlap">`;
+      result.overlaps.slice(0, 30).forEach(o => {
+        const hivesStr = o.occurrences.map(e => `<span style="color:${COLORS(e.hive_id)}">${e.hive_id}</span>`).join(', ');
+        body.innerHTML += `<div class="compare-overlap-item">
+          <div class="concept-name">${o.concept}</div>
+          <div class="concept-hives">in ${hivesStr}</div>
+        </div>`;
+      });
+      body.innerHTML += '</div></div>';
+    } else {
+      body.innerHTML += '<div style="margin-bottom:8px;color:var(--text-secondary);font-style:italic;">No overlapping concepts found.</div>';
+    }
+
+    // Relations
+    if (result.explanation) {
+      body.innerHTML += `<div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;line-height:1.6;">${result.explanation}</div>`;
+    }
+
+    panel.appendChild(body);
+    panel.classList.add('visible');
+
+    // Overlap toggle
+    document.getElementById('overlap-toggle-btn')?.addEventListener('click', () => {
+      const btn = document.getElementById('overlap-toggle-btn');
+      const showingOverlapsOnly = btn.textContent === 'Show all nodes';
+      if (showingOverlapsOnly) {
+        renderD3Graph(result.nodes, result.edges, true);
+        btn.textContent = 'Show overlaps only';
+        document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
+      } else {
+        renderD3Graph(result.overlap_nodes, result.overlap_edges, true);
+        btn.textContent = 'Show all nodes';
+        document.getElementById('view-subtitle').textContent = `${result.overlap_nodes.length} overlap nodes, ${result.overlap_edges.length} edges`;
+      }
+    });
+
+    // Close
+    document.getElementById('compare-close')?.addEventListener('click', () => {
+      panel.classList.remove('visible');
+    });
+
+    // Also close existing query panel
+    document.getElementById('query-panel').classList.remove('visible');
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    showToast('Compare failed: ' + err.message, 'err');
+  }
+});
+
+// ---- Import Hive ----
+document.getElementById('import-btn').addEventListener('click', () => {
+  document.getElementById('import-file-input').click();
+});
+document.getElementById('import-file-input').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = async (evt) => {
+    try {
+      const data = JSON.parse(evt.target.result);
+      if (!data.hivemind_export) {
+        showToast('Not a valid HiveMind export file', 'err');
+        return;
+      }
+      const targetName = prompt('Import as hive name (or leave blank to use source name):');
+      const mergeSimilar = confirm('Merge similar concepts with existing hives? Click OK for yes, Cancel for no.');
+      const res = await fetch('/api/hives/import', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({data, target_name: targetName || null, merge_similar: mergeSimilar}),
+      });
+      const report = await res.json();
+      if (!res.ok) throw new Error(report.error || 'Import failed');
+      let msg = `Imported as hive '${report.hive_id}' (${report.nodes} nodes, ${report.edges} edges)`;
+      if (report.merged && report.merged.length) {
+        msg += `\nMerged ${report.merged.length} similar concepts`;
+      }
+      showToast(msg, 'ok');
+      loadHives();
+    } catch (err) {
+      showToast('Import failed: ' + err.message, 'err');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
 
 // ---- Query ----
 document.getElementById('query-btn').addEventListener('click', () => {
@@ -917,6 +1545,11 @@ document.getElementById('ingest-bulk-add-btn').addEventListener('click', async (
     api('/api/meta-graph').then(mg => { state.metaGraph = mg; }).catch(() => {});
     api('/api/hives').then(hives => { state.hives = hives; loadHives(); }).catch(() => {});
     if (state.selectedHive) loadHiveGraph(state.selectedHive);
+  });
+  evtSrc.addEventListener('collection-update', () => {
+    if (document.getElementById('collection-list').style.display !== 'none') {
+      loadCollections();
+    }
   });
   evtSrc.onerror = () => console.warn('SSE connection lost, will retry...');
 })();

@@ -29,6 +29,9 @@ def main() -> None:
             "  hivemind embed my-hive --query 'graph neural network'\n"
             "  hivemind export my-hive --format jsonld\n"
             "  hivemind export my-hive --format obsidian --output ./obsidian-vault\n"
+            "  hivemind export-data my-hive --output my-hive-export.json\n"
+            "  hivemind import-hive my-hive-export.json --name my-imported-hive\n"
+            "  hivemind import-hive my-hive-export.json --no-merge\n"
             "  hivemind auth create-key alice\n"
             "  hivemind auth grant <key-id> my-hive --role write\n"
             "  hivemind auth list\n"
@@ -40,6 +43,8 @@ def main() -> None:
 
     p_init = sub.add_parser("init", help="Create a new hive (knowledge graph)")
     p_init.add_argument("name", help="Hive name")
+    p_init.add_argument("--owner", "-o", default="",
+                        help="Owner tag for this hive (used for color-coding in dashboard)")
 
     sub.add_parser("list", help="List all hives")
 
@@ -80,6 +85,10 @@ def main() -> None:
                          help="Port (default 9090)")
     p_serve.add_argument("--host", type=str, default="127.0.0.1",
                          help="Host (default 127.0.0.1)")
+    p_serve.add_argument("--cert", type=str, default=None,
+                         help="Path to TLS certificate file (enables HTTPS)")
+    p_serve.add_argument("--key", type=str, default=None,
+                         help="Path to TLS private key file")
 
     p_ingest = sub.add_parser("ingest", help="Ingest new concepts/keywords into a hive")
     p_ingest.add_argument("keyword", nargs="?", help="Concept name to add")
@@ -123,6 +132,19 @@ def main() -> None:
     p_export.add_argument("--output", "-o", default="",
                          help="Output directory (for obsidian format)")
 
+    p_export_data = sub.add_parser("export-data",
+                                    help="Export a hive as portable JSON for sharing")
+    p_export_data.add_argument("name", help="Hive name")
+    p_export_data.add_argument("--output", "-o", default="",
+                               help="Output file (default: stdout)")
+
+    p_import_hive = sub.add_parser("import-hive",
+                                    help="Import a shared hive from exported JSON")
+    p_import_hive.add_argument("file", help="Path to exported JSON file")
+    p_import_hive.add_argument("--name", "-n", help="Target hive name (default: source name)")
+    p_import_hive.add_argument("--no-merge", action="store_true",
+                                help="Skip similarity-based concept merging")
+
     p_embed = sub.add_parser("embed", help="Generate vector embeddings for a hive")
     p_embed.add_argument("name", help="Hive name")
     p_embed.add_argument("--query", "-q", help="Search similar concepts by text (requires existing embeddings)")
@@ -140,6 +162,47 @@ def main() -> None:
     p_auth_grant.add_argument("--role", "-r", default="read", choices=["read", "write", "admin"],
                               help="Access role (default: read)")
 
+    p_coll = sub.add_parser("collections", help="Manage hive collections")
+    p_coll_sub = p_coll.add_subparsers(dest="coll_command")
+    p_coll_create = p_coll_sub.add_parser("create", help="Create a new collection")
+    p_coll_create.add_argument("name", help="Collection name")
+    p_coll_create.add_argument("--description", "-d", default="", help="Description")
+    p_coll_list = p_coll_sub.add_parser("list", help="List all collections")
+    p_coll_get = p_coll_sub.add_parser("get", help="Show collection details")
+    p_coll_get.add_argument("id", help="Collection ID")
+    p_coll_delete = p_coll_sub.add_parser("delete", help="Delete a collection")
+    p_coll_delete.add_argument("id", help="Collection ID")
+    p_coll_add = p_coll_sub.add_parser("add", help="Add a hive to a collection")
+    p_coll_add.add_argument("id", help="Collection ID")
+    p_coll_add.add_argument("hive_id", help="Hive ID")
+    p_coll_remove = p_coll_sub.add_parser("remove", help="Remove a hive from a collection")
+    p_coll_remove.add_argument("id", help="Collection ID")
+    p_coll_remove.add_argument("hive_id", help="Hive ID")
+
+    p_peers = sub.add_parser("peers", help="Manage peer HiveMind instances")
+    p_peers_sub = p_peers.add_subparsers(dest="peers_command")
+    p_peers_info = p_peers_sub.add_parser("info", help="Show local instance info for pairing")
+    p_peers_add = p_peers_sub.add_parser("add", help="Register a peer")
+    p_peers_add.add_argument("url", help="Peer URL (e.g. http://192.168.1.100:9090)")
+    p_peers_add.add_argument("--name", "-n", default="", help="Friendly name for the peer")
+    p_peers_name = p_peers_sub.add_parser("name", help="Set a friendly name for this instance")
+    p_peers_name.add_argument("name", help="Instance name (e.g. 'My Research Server')")
+    p_peers_pair = p_peers_sub.add_parser("pair", help="Bidirectional pairing with a remote instance")
+    p_peers_pair.add_argument("url", help="Remote HiveMind URL (e.g. http://192.168.1.100:9090)")
+    p_peers_pair.add_argument("--token", "-t", default=None,
+                              help="One-time pairing token from the remote's 'hivemind peers invite'")
+    p_peers_invite = p_peers_sub.add_parser("invite", help="Generate a one-time pairing invite token")
+    p_peers_invite.add_argument("--ttl", type=int, default=600,
+                                help="Token time-to-live in seconds (default: 600)")
+    p_peers_list = p_peers_sub.add_parser("list", help="List known peers")
+    p_peers_remove = p_peers_sub.add_parser("remove", help="Remove a peer")
+    p_peers_remove.add_argument("id", help="Peer ID")
+    p_peers_sync = p_peers_sub.add_parser("sync", help="Pull all hives from a peer")
+    p_peers_sync.add_argument("id", help="Peer ID")
+    p_peers_pull = p_peers_sub.add_parser("pull", help="Pull a specific hive from a peer")
+    p_peers_pull.add_argument("id", help="Peer ID")
+    p_peers_pull.add_argument("hive_id", help="Remote hive ID to pull")
+
     sub.add_parser("stats", help="Show federation statistics")
 
     args = parser.parse_args()
@@ -151,8 +214,9 @@ def main() -> None:
     hm = HiveMind(config)
 
     if args.command == "init":
-        path = hm.create_hive(args.name)
-        print(f"Created hive at {path}")
+        path = hm.create_hive(args.name, owner=args.owner)
+        owner_info = f" (owner: {args.owner})" if args.owner else ""
+        print(f"Created hive '{args.name}'{owner_info} at {path}")
 
     elif args.command == "list":
         hives = hm.list_hives()
@@ -195,7 +259,8 @@ def main() -> None:
 
     elif args.command == "serve":
         from .server import serve as run_server
-        run_server(host=args.host, port=args.port, config=config)
+        run_server(host=args.host, port=args.port, config=config,
+                   certfile=args.cert, keyfile=args.key)
 
     elif args.command == "arxiv-import":
         ingester = ConceptIngester(hm)
@@ -351,6 +416,39 @@ def main() -> None:
             print(e)
             sys.exit(1)
 
+    elif args.command == "export-data":
+        try:
+            data = hm.export_hive_data(args.name)
+            output = json.dumps(data, indent=2)
+            if args.output:
+                with open(args.output, "w") as f:
+                    f.write(output)
+                print(f"Exported hive '{args.name}' to {args.output}")
+            else:
+                print(output)
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
+
+    elif args.command == "import-hive":
+        try:
+            with open(args.file) as f:
+                data = json.load(f)
+            report = hm.import_hive_data(data, args.name, not args.no_merge)
+            print(f"Imported hive '{report['hive_id']}' from '{report['source_hive']}'")
+            print(f"  Nodes: {report['nodes']}, Edges: {report['edges']}")
+            if report["merged"]:
+                print(f"  Similarity merges ({len(report['merged'])}):")
+                for m in report["merged"]:
+                    print(f"    '{m['imported_concept']}' ↔ '{m['matched_concept']}' "
+                          f"in '{m['matched_hive']}' (sim={m['similarity']})")
+            if report["new_concepts"]:
+                print(f"  New concepts ({len(report['new_concepts'])}): "
+                      f"{', '.join(report['new_concepts'][:8])}")
+        except ValueError as e:
+            print(e)
+            sys.exit(1)
+
     elif args.command == "embed":
         try:
             if args.query:
@@ -406,6 +504,162 @@ def main() -> None:
                 sys.exit(1)
         else:
             print("Usage: hivemind auth <create-key|list|revoke|grant> ...")
+
+    elif args.command == "collections":
+        if args.coll_command == "create":
+            c = hm.create_collection(args.name, args.description)
+            print(f"Created collection '{c['name']}' (id: {c['id']})")
+        elif args.coll_command == "list":
+            cols = hm.list_collections()
+            if not cols:
+                print("No collections.")
+                return
+            print(f"{'ID':<24} {'Name':<24} {'Hives':>6} {'Created'}")
+            print("-" * 70)
+            for c in cols:
+                print(f"{c['id']:<24} {c['name']:<24} {c['hive_count']:>6} {c['created_at']}")
+        elif args.coll_command == "get":
+            try:
+                c = hm.get_collection(args.id)
+                print(f"Collection: {c['name']} ({c['id']})")
+                print(f"  Description: {c['description'] or '(none)'}")
+                print(f"  Created: {c['created_at']}")
+                print(f"  Updated: {c['updated_at']}")
+                print(f"  Hives ({len(c['hives'])}):")
+                for h in c['hives']:
+                    print(f"    - {h['id']} ({h['papers']} papers, {h['concepts']} concepts)")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.coll_command == "delete":
+            try:
+                hm.delete_collection(args.id)
+                print(f"Deleted collection '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.coll_command == "add":
+            try:
+                hm.add_hive_to_collection(args.id, args.hive_id)
+                print(f"Added hive '{args.hive_id}' to collection '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.coll_command == "remove":
+            try:
+                hm.remove_hive_from_collection(args.id, args.hive_id)
+                print(f"Removed hive '{args.hive_id}' from collection '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        else:
+            print("Usage: hivemind collections <create|list|get|delete|add|remove> ...")
+
+    elif args.command == "peers":
+        if args.peers_command == "info":
+            info = hm.instance_info()
+            print("HiveMind Instance Info")
+            print(f"  Instance ID: {info['instance_id']}")
+            print(f"  Name:        {info['name']}")
+            print(f"  URL:         {info.get('url', '(not set)')}")
+            print(f"  Hives:       {info['hive_count']}")
+            print(f"  Peers:       {info['peer_count']}")
+        elif args.peers_command == "name":
+            hm.set_instance_name(args.name)
+            print(f"Instance name set to '{args.name}'")
+        elif args.peers_command == "pair":
+            try:
+                result = hm.pair_with_peer(args.url, args.token)
+                if result["status"] == "already_paired":
+                    p = result["peer"]
+                    print(f"Already paired with '{p['name']}' (id: {p['id']})")
+                else:
+                    p = result["peer"]
+                    remote = result["remote"]
+                    print(f"Paired with '{remote['name']}'")
+                    print(f"  Peer ID:     {p['id']}")
+                    print(f"  Remote URL:  {remote['url']}")
+                    print(f"  Remote hives: {remote['hives']}")
+                    print(f"  Fingerprint: {remote.get('fingerprint', 'N/A')}")
+                    print(f"  TLS:         {remote.get('tls', False)}")
+                    print(f"  Remote registered us: {result['remote_registered']}")
+                    if result.get("remote_error"):
+                        print(f"  Note: {result['remote_error']}")
+            except ValueError as e:
+                print(f"Pairing failed: {e}")
+                sys.exit(1)
+            except Exception as e:
+                print(f"Pairing failed: {e}")
+                sys.exit(1)
+        elif args.peers_command == "invite":
+            invite = hm.create_invite(args.ttl)
+            print("HiveMind Pairing Invite")
+            print(f"  Token:       {invite['token']}")
+            print(f"  Expires at:  {invite['expires_at']}")
+            print(f"  URL:         {invite['url']}")
+            print()
+            print(f"Share the token with the remote so it can pair securely:")
+            print(f"  hivemind peers pair <URL> --token \"{invite['token']}\"")
+        elif args.peers_command == "add":
+            peer = hm.add_peer(args.url, args.name)
+            print(f"Added peer '{peer['name']}' (id: {peer['id']}, url: {peer['url']})")
+        elif args.peers_command == "list":
+            peers = hm.list_peers()
+            if not peers:
+                print("No peers registered.")
+            else:
+                print(f"{'ID':<10} {'Name':<24} {'URL':<40} {'Added'}")
+                print("-" * 80)
+                for p in peers:
+                    print(f"{p['id']:<10} {p['name']:<24} {p['url']:<40} {p['added_at']}")
+        elif args.peers_command == "remove":
+            try:
+                hm.remove_peer(args.id)
+                print(f"Removed peer '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.peers_command == "sync":
+            try:
+                reports = hm.pull_peer_hives(args.id)
+                print(f"Synced from peer '{args.id}':")
+                for r in reports:
+                    status = r.get("status", "?")
+                    if status == "ok":
+                        merged = len(r.get("merged", []))
+                        print(f"  ✓ {r['hive_id']}: {r['nodes']} nodes, {r['edges']} edges"
+                              f"{f', {merged} merges' if merged else ''}")
+                    else:
+                        print(f"  ✗ {r.get('hive_id', '?')}: {r.get('error', 'unknown error')}")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+            except Exception as e:
+                print(f"Sync failed: {e}")
+                sys.exit(1)
+        elif args.peers_command == "pull":
+            try:
+                if not args.hive_id:
+                    print("Provide a hive_id to pull")
+                    sys.exit(1)
+                reports = hm.pull_peer_hives(args.id, args.hive_id)
+                print(f"Pulled '{args.hive_id}' from peer '{args.id}':")
+                for r in reports:
+                    status = r.get("status", "?")
+                    if status == "ok":
+                        merged = len(r.get("merged", []))
+                        print(f"  ✓ {r['hive_id']}: {r['nodes']} nodes, {r['edges']} edges"
+                              f"{f', {merged} merges' if merged else ''}")
+                    else:
+                        print(f"  ✗ {r.get('hive_id', '?')}: {r.get('error', 'unknown error')}")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+            except Exception as e:
+                print(f"Pull failed: {e}")
+                sys.exit(1)
+        else:
+            print("Usage: hivemind peers <info|add|pair|invite|name|list|remove|sync|pull> ...")
 
     elif args.command == "stats":
         s = hm.stats()

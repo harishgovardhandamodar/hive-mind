@@ -2,8 +2,11 @@
 # Run with: docker compose up -d    (then open http://localhost:9090)
 # Or locally: python -m hivemind serve --host 0.0.0.0
 
-hives_dir: hives
+hives_dir: /home/fox/hive-data/hives
 meta_graph_path: data/meta_graph.json
 server:
   host: 127.0.0.1
   port: 9090
+
+# Default owner for new hives (optional, can be overridden per-hive)
+default_owner: ""

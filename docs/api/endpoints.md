@@ -138,3 +138,106 @@ Grant hive access to a key.
   "role": "write"
 }
 ```
+
+## Peering endpoints
+
+### GET `/api/peering/info`
+
+Returns this instance's identity and fingerprint for pairing. Used by remote instances during the pairing handshake.
+
+### GET `/api/peering/hives`
+
+Returns a list of this instance's hives (id, paper/concept/relation counts). Called by peers during sync.
+
+### GET `/api/peering/hive/<id>`
+
+Returns the full exported graph data for a hive. Called by peers during pull/sync.
+
+### POST `/api/peering/invite`
+
+Generate a one-time HMAC-signed pairing token. Optional body: `{"ttl": 600}` (seconds).
+
+**Response:**
+```json
+{
+  "token": "uuid:timestamp:hmac_sig",
+  "expires_at": "2025-11-15T12:00:00Z",
+  "url": "http://192.168.1.100:9090"
+}
+```
+
+### POST `/api/peering/pair`
+
+Called by a remote instance during bidirectional pairing. Accepts the remote as a peer. Verifies invite token if provided.
+
+**Body:**
+```json
+{
+  "peer_url": "http://192.168.1.101:9090",
+  "peer_name": "server-b",
+  "instance_id": "...",
+  "fingerprint": "abcd:1234:...",
+  "token": "optional-one-time-invite-token"
+}
+```
+
+## Peer management endpoints
+
+### GET `/api/peers`
+
+List all known peers.
+
+### POST `/api/peers`
+
+Add a peer manually (one-directional).
+
+**Body:**
+```json
+{
+  "url": "http://192.168.1.101:9090",
+  "name": "Server B"
+}
+```
+
+### POST `/api/peers/pair`
+
+Bidirectional pairing with a remote instance. Fetches the remote's info, registers it locally, then registers self on the remote.
+
+**Body:**
+```json
+{
+  "url": "http://192.168.1.101:9090",
+  "token": "optional-invite-token"
+}
+```
+
+### DELETE `/api/peers/<id>`
+
+Remove a peer.
+
+### POST `/api/peers/<id>/sync`
+
+Pull all hives from a peer. Returns import reports with node/edge counts and merge info.
+
+### POST `/api/peers/<id>/pull/<hive_id>`
+
+Pull a specific hive from a peer. Returns same import report format as sync.
+
+## Export/Import endpoints
+
+### GET `/api/hive/<id>/export-data`
+
+Export a hive as portable JSON (node-link format with `hivemind_export` metadata header).
+
+### POST `/api/hives/import`
+
+Import a hive from export data. Supports similarity-based concept merging.
+
+**Body:**
+```json
+{
+  "data": { "hivemind_export": true, "graph": {{...}} },
+  "target_name": "optional-new-name",
+  "merge_similar": true
+}
+```

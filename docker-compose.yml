@@ -4,6 +4,6 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./hives:/app/hives
+      - /home/fox/hive-data/hives:/home/fox/hive-data/hives
       - ./data:/app/data
     restart: unless-stopped
