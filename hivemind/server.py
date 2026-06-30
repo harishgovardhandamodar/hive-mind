@@ -252,6 +252,48 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(200, report)
             except ValueError as e:
                 self._json(400, {"error": str(e)})
+        elif path == "/api/link-concepts":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            threshold = float(body.get("threshold", 0.85))
+            dry_run = body.get("dry_run", True)
+            apply = body.get("apply", False)
+            limit = int(body.get("limit", 100))
+            relation = body.get("relation", "related_to")
+            result = _hm.auto_link_concepts(
+                threshold=threshold,
+                dry_run=not apply if apply else dry_run,
+                limit=limit,
+                relation=relation,
+            )
+            if apply and result["linked_count"]:
+                broadcast_event("hive-update", {
+                    "action": "link-concepts",
+                    "linked": result["linked_count"],
+                })
+            self._json(200, result)
+        elif path == "/api/layout":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            hive = body.get("hive", "")
+            positions = body.get("positions", {})
+            if not hive or not isinstance(positions, dict):
+                return self._json(400, {"error": "provide 'hive' and 'positions'"})
+            if hive and not self._check_auth(hive, "write"):
+                return self._json(403, {"error": "forbidden: no write access to this hive"})
+            try:
+                _hm.save_hive_layout(hive, positions)
+                self._json(200, {"status": "ok", "hive": hive, "nodes": len(positions)})
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
         elif path == "/api/peers":
             try:
                 body = json.loads(self._read_body())
@@ -399,6 +441,7 @@ class Handler(BaseHTTPRequestHandler):
             if not kg:
                 self._json(404, {"error": f"Hive '{hive_id}' not found"})
                 return
+            layout = kg.load_layout()
             nodes = []
             edges = []
             for n, d in kg.graph.nodes(data=True):
@@ -411,6 +454,10 @@ class Handler(BaseHTTPRequestHandler):
                               else 1 if d.get("type") == "concept"
                               else 2),
                 }
+                pos = layout.get(n)
+                if pos:
+                    node["layout_x"] = pos.get("x")
+                    node["layout_y"] = pos.get("y")
                 if d.get("type") == "paper":
                     node["arxiv_id"] = d.get("arxiv_id", "")
                     node["authors"] = (d.get("authors", "") or "")[:120]
@@ -494,7 +541,7 @@ class Handler(BaseHTTPRequestHandler):
             query = parsed.query
             q = unquote(query.split("=", 1)[1]) if "=" in query else ""
             results = _hm.unified_search(q) if _hm and q else []
-            self._json(200, results[:50])
+            self._json(200, {"total": len(results), "results": results[:50]})
         elif path == "/api/events":
             self._sse_connect()
         elif path == "/api/history":

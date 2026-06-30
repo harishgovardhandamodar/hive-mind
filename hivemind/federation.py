@@ -27,6 +27,8 @@ class Federation:
         self.meta_graph: nx.MultiDiGraph = nx.MultiDiGraph()
         self.collections: dict[str, dict[str, Any]] = {}
         self._peers: dict[str, dict[str, Any]] = {}
+        self._search_cache: dict[str, Any] | None = None
+        self._search_cache_key: tuple | None = None
         self._load_meta()
         self._load_collections()
         self._load_peers()
@@ -57,6 +59,7 @@ class Federation:
         self.graphs.pop(graph_id, None)
         if self.meta_graph.has_node(graph_id):
             self.meta_graph.remove_node(graph_id)
+        self._invalidate_search_cache()
         self._save_meta()
 
     def get_graph(self, graph_id: str) -> KnowledgeGraph | None:
@@ -111,6 +114,7 @@ class Federation:
             raise ValueError(f"Unknown source graph: {source_graph}")
         src_kg.add_cross_edge(source_node, target_graph, target_node, relation)
         src_kg.save()
+        self._invalidate_search_cache()
 
     def connect_concepts(self, source_graph: str, concept_a: str,
                          target_graph: str, concept_b: str,
@@ -121,8 +125,144 @@ class Federation:
                             target_graph, target_node, relation)
 
     # ------------------------------------------------------------------
+    # Cross-hive concept linking
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _label_similarity(label_a: str, label_b: str) -> float:
+        a = label_a.lower().strip()
+        b = label_b.lower().strip()
+        if not a or not b:
+            return 0.0
+        if a == b:
+            return 1.0
+        words_a = set(a.split())
+        words_b = set(b.split())
+        if not words_a or not words_b:
+            return 0.0
+        return len(words_a & words_b) / len(words_a | words_b)
+
+    def _has_cross_concept_link(self, graph_a: str, node_a: str,
+                                graph_b: str, node_b: str) -> bool:
+        kg = self.graphs.get(graph_a)
+        if not kg:
+            return False
+        target = f"{graph_b}:{node_b}"
+        for u, v, d in kg.graph.edges(data=True):
+            if d.get("cross_graph") and u == node_a and v == target:
+                return True
+        kg_b = self.graphs.get(graph_b)
+        if not kg_b:
+            return False
+        target_rev = f"{graph_a}:{node_a}"
+        for u, v, d in kg_b.graph.edges(data=True):
+            if d.get("cross_graph") and u == node_b and v == target_rev:
+                return True
+        return False
+
+    def find_concept_link_candidates(self, threshold: float = 0.85,
+                                     limit: int = 100) -> list[dict[str, Any]]:
+        """Find similar concepts across different hives above *threshold*."""
+        candidates: list[dict[str, Any]] = []
+        seen: set[tuple[str, str, str, str]] = set()
+        gids = list(self.graphs.keys())
+
+        for i, gid_a in enumerate(gids):
+            kg_a = self.graphs[gid_a]
+            concepts_a = [
+                (n, d.get("label", ""))
+                for n, d in kg_a.graph.nodes(data=True)
+                if d.get("type") == "concept" and d.get("label")
+            ]
+            for gid_b in gids[i + 1:]:
+                kg_b = self.graphs[gid_b]
+                for nb, db in kg_b.graph.nodes(data=True):
+                    if db.get("type") != "concept":
+                        continue
+                    label_b = db.get("label", "")
+                    if not label_b:
+                        continue
+                    for na, label_a in concepts_a:
+                        score = self._label_similarity(label_a, label_b)
+                        if score < threshold:
+                            continue
+                        key = (gid_a, na, gid_b, nb)
+                        rev = (gid_b, nb, gid_a, na)
+                        if key in seen or rev in seen:
+                            continue
+                        if self._has_cross_concept_link(gid_a, na, gid_b, nb):
+                            continue
+                        seen.add(key)
+                        candidates.append({
+                            "graph_a": gid_a,
+                            "concept_a": label_a,
+                            "node_a": na,
+                            "graph_b": gid_b,
+                            "concept_b": label_b,
+                            "node_b": nb,
+                            "score": round(score, 4),
+                            "already_linked": False,
+                        })
+
+        candidates.sort(key=lambda x: -x["score"])
+        return candidates[:limit]
+
+    def auto_link_concepts(self, threshold: float = 0.85,
+                           dry_run: bool = False,
+                           limit: int = 100,
+                           relation: str = "related_to") -> dict[str, Any]:
+        candidates = self.find_concept_link_candidates(threshold, limit)
+        linked: list[dict[str, Any]] = []
+        if not dry_run:
+            for c in candidates:
+                self.connect_concepts(
+                    c["graph_a"], c["concept_a"],
+                    c["graph_b"], c["concept_b"],
+                    relation=relation,
+                )
+                linked.append(c)
+        return {
+            "dry_run": dry_run,
+            "threshold": threshold,
+            "candidates": candidates,
+            "linked_count": len(linked) if not dry_run else 0,
+            "linked": linked,
+        }
+
+    # ------------------------------------------------------------------
     # Unified queries
     # ------------------------------------------------------------------
+
+    def _search_fingerprint(self) -> tuple:
+        return tuple(
+            (gid, kg.graph.number_of_nodes(), kg.graph.number_of_edges())
+            for gid, kg in sorted(self.graphs.items())
+        )
+
+    def _invalidate_search_cache(self) -> None:
+        self._search_cache = None
+        self._search_cache_key = None
+
+    def _build_search_cache(self) -> None:
+        docs: list[tuple[str, str, str, str, str, str]] = []
+        for gid, kg in self.graphs.items():
+            for node, data in kg.graph.nodes(data=True):
+                label = data.get("label", "")
+                defn = data.get("definition", "")
+                text = f"{label} {defn}".lower()
+                docs.append((gid, node, label, data.get("type", "unknown"), defn, text))
+
+        N = len(docs)
+        df: dict[str, int] = Counter()
+        doc_vectors: list[Counter] = []
+        for _, _, _, _, _, text in docs:
+            tokens = self._tokenize(text)
+            doc_vectors.append(Counter(tokens))
+            for t in set(tokens):
+                df[t] += 1
+
+        self._search_cache = {"docs": docs, "N": N, "df": df, "doc_vectors": doc_vectors}
+        self._search_cache_key = self._search_fingerprint()
 
     def unified_search(self, query: str) -> list[dict[str, Any]]:
         q = query.lower().strip()
@@ -134,24 +274,14 @@ class Federation:
         if not q_tokens:
             return []
 
-        # collect all documents (node text fields)
-        docs: list[tuple[str, str, str, str, str, str]] = []  # (gid, node_id, label, type, def, text)
-        for gid, kg in self.graphs.items():
-            for node, data in kg.graph.nodes(data=True):
-                label = data.get("label", "")
-                defn = data.get("definition", "")
-                text = f"{label} {defn}".lower()
-                docs.append((gid, node, label, data.get("type", "unknown"), defn, text))
+        if self._search_cache is None or self._search_cache_key != self._search_fingerprint():
+            self._build_search_cache()
 
-        # TF–IDF scoring
-        N = len(docs)
-        df: dict[str, int] = Counter()
-        doc_vectors: list[Counter] = []
-        for _, _, _, _, _, text in docs:
-            tokens = self._tokenize(text)
-            doc_vectors.append(Counter(tokens))
-            for t in set(tokens):
-                df[t] += 1
+        cache = self._search_cache
+        docs = cache["docs"]
+        N = cache["N"]
+        df = cache["df"]
+        doc_vectors = cache["doc_vectors"]
 
         # score each doc by query token TF–IDF
         scored: list[tuple[float, tuple[str, str, str, str, str]]] = []

@@ -193,3 +193,16 @@ class TestPersistence:
     def test_restore_invalid_version(self, kg):
         with pytest.raises(ValueError, match="not found"):
             kg.restore("nonexistent")
+
+    def test_batch_defers_save_until_exit(self, kg):
+        with kg.batch():
+            kg.add_concept("Batch Concept")
+            assert kg._dirty is True
+        assert kg.graph.has_node("concept:Batch Concept")
+        assert os.path.isfile(kg.path)
+
+    def test_layout_save_load(self, kg):
+        kg.save_layout({"concept:A": {"x": 10.5, "y": 20.0}})
+        layout = kg.load_layout()
+        assert layout["concept:A"]["x"] == 10.5
+        assert layout["concept:A"]["y"] == 20.0

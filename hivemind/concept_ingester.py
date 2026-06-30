@@ -4,6 +4,7 @@ import re
 import time
 import xml.etree.ElementTree as ET
 from collections import Counter
+from contextlib import nullcontext
 from typing import Any
 
 import requests
@@ -393,6 +394,7 @@ class ConceptIngester:
             pass  # embedding is best-effort
 
         kg.save()
+        self.fed._invalidate_search_cache()
 
         # Cross-hive linking (auto-connect similar concepts in other hives)
         cross_links = self._link_across_hives(node_id, name, target_hive,
@@ -430,9 +432,14 @@ class ConceptIngester:
                          metric: str = "cosine") -> list[dict[str, Any]]:
         keywords = extract_keywords(text)
         results = []
-        for kw in keywords[:20]:
-            result = self.ingest(kw, "", hive, force, metric=metric)
-            results.append(result)
+        kg = self.fed.get_graph(hive) if hive else None
+        ctx = kg.batch() if kg else nullcontext()
+        with ctx:
+            for kw in keywords[:20]:
+                result = self.ingest(kw, "", hive, force, metric=metric)
+                results.append(result)
+        if kg:
+            self.fed._invalidate_search_cache()
         return results
 
     def search_arxiv(self, query: str, hive_name: str | None = None,
@@ -470,41 +477,42 @@ class ConceptIngester:
             return {"status": "ok", "message": f"No arxiv results for '{query}'",
                     "hive": target_hive, "papers_added": [], "concepts_added": []}
 
-        for entry in entries:
-            arxiv_id = _parse_arxiv_id(entry)
-            if not arxiv_id or kg.has_paper(arxiv_id):
-                continue
+        with kg.batch():
+            for entry in entries:
+                arxiv_id = _parse_arxiv_id(entry)
+                if not arxiv_id or kg.has_paper(arxiv_id):
+                    continue
 
-            title = _get_text(entry, "a:title", NS)
-            abstract = _get_text(entry, "a:summary", NS)
-            authors = [a.findtext("a:name", "", NS)
-                       for a in entry.findall("a:author", NS)]
-            published = _get_text(entry, "a:published", NS)[:10]
-            categories = [c.get("term", "") for c in entry.findall("a:category", NS)]
+                title = _get_text(entry, "a:title", NS)
+                abstract = _get_text(entry, "a:summary", NS)
+                authors = [a.findtext("a:name", "", NS)
+                           for a in entry.findall("a:author", NS)]
+                published = _get_text(entry, "a:published", NS)[:10]
+                categories = [c.get("term", "") for c in entry.findall("a:category", NS)]
 
-            paper_data = {
-                "arxiv_id": arxiv_id,
-                "title": title,
-                "authors": authors,
-                "published": published,
-                "abstract": abstract,
-                "categories": categories,
-            }
-            paper_node = kg.add_paper(paper_data)
-            papers_added.append(arxiv_id)
+                paper_data = {
+                    "arxiv_id": arxiv_id,
+                    "title": title,
+                    "authors": authors,
+                    "published": published,
+                    "abstract": abstract,
+                    "categories": categories,
+                }
+                paper_node = kg.add_paper(paper_data)
+                papers_added.append(arxiv_id)
 
-            combined = f"{title} {abstract}"
-            keywords = extract_keywords(combined, max_phrases=max_concepts)
-            for kw in keywords[:max_concepts]:
-                concept_node = kg.add_concept(kw, "")
-                kg.add_edge(paper_node, concept_node, "introduces")
-                concepts_added.append(kw)
-                if resolve:
-                    self.resolve_concept(concept_node, kw, kg)
+                combined = f"{title} {abstract}"
+                keywords = extract_keywords(combined, max_phrases=max_concepts)
+                for kw in keywords[:max_concepts]:
+                    concept_node = kg.add_concept(kw, "")
+                    kg.add_edge(paper_node, concept_node, "introduces")
+                    concepts_added.append(kw)
+                    if resolve:
+                        self.resolve_concept(concept_node, kw, kg)
 
-            time.sleep(0.3)
+                time.sleep(0.3)
 
-        kg.save()
+        self.fed._invalidate_search_cache()
         return {
             "status": "ok",
             "message": f"Fetched {len(papers_added)} papers, {len(set(concepts_added))} concepts into '{target_hive}'",
@@ -548,44 +556,42 @@ class ConceptIngester:
             except Exception as e:
                 return {"status": "error", "message": f"Arxiv fetch failed: {e}"}
 
-            for entry in root.findall("a:entry", NS):
-                arxiv_id = _parse_arxiv_id(entry)
-                if not arxiv_id or kg.has_paper(arxiv_id):
-                    continue
+            with kg.batch():
+                for entry in root.findall("a:entry", NS):
+                    arxiv_id = _parse_arxiv_id(entry)
+                    if not arxiv_id or kg.has_paper(arxiv_id):
+                        continue
 
-                title = _get_text(entry, "a:title", NS)
-                abstract = _get_text(entry, "a:summary", NS)
-                authors = [a.findtext("a:name", "", NS)
-                           for a in entry.findall("a:author", NS)]
-                published = _get_text(entry, "a:published", NS)[:10]
-                categories = [c.get("term", "") for c in entry.findall("a:category", NS)]
+                    title = _get_text(entry, "a:title", NS)
+                    abstract = _get_text(entry, "a:summary", NS)
+                    authors = [a.findtext("a:name", "", NS)
+                               for a in entry.findall("a:author", NS)]
+                    published = _get_text(entry, "a:published", NS)[:10]
+                    categories = [c.get("term", "") for c in entry.findall("a:category", NS)]
 
-                paper_data = {
-                    "arxiv_id": arxiv_id,
-                    "title": title,
-                    "authors": authors,
-                    "published": published,
-                    "abstract": abstract,
-                    "categories": categories,
-                }
-                paper_node = kg.add_paper(paper_data)
-                papers_added.append(arxiv_id)
+                    paper_data = {
+                        "arxiv_id": arxiv_id,
+                        "title": title,
+                        "authors": authors,
+                        "published": published,
+                        "abstract": abstract,
+                        "categories": categories,
+                    }
+                    paper_node = kg.add_paper(paper_data)
+                    papers_added.append(arxiv_id)
 
-                # extract concepts from title + abstract
-                combined = f"{title} {abstract}"
-                keywords = extract_keywords(combined, max_phrases=max_concepts)
-                for kw in keywords[:max_concepts]:
-                    concept_node = kg.add_concept(kw, "")
-                    kg.add_edge(paper_node, concept_node, "introduces")
-                    concepts_added.append(kw)
-                    # auto-resolve against other papers
-                    if resolve:
-                        self.resolve_concept(concept_node, kw, kg)
+                    combined = f"{title} {abstract}"
+                    keywords = extract_keywords(combined, max_phrases=max_concepts)
+                    for kw in keywords[:max_concepts]:
+                        concept_node = kg.add_concept(kw, "")
+                        kg.add_edge(paper_node, concept_node, "introduces")
+                        concepts_added.append(kw)
+                        if resolve:
+                            self.resolve_concept(concept_node, kw, kg)
 
-                # Throttle arxiv API
-                time.sleep(0.3)
+                    time.sleep(0.3)
 
-        kg.save()
+        self.fed._invalidate_search_cache()
         return {
             "status": "ok",
             "message": f"Imported {len(papers_added)} papers, {len(concepts_added)} concepts into '{target_hive}'",

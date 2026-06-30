@@ -3,7 +3,8 @@ import logging
 import os
 import shutil
 import time
-from typing import Any
+from contextlib import contextmanager
+from typing import Any, Iterator
 
 import networkx as nx
 
@@ -24,6 +25,8 @@ class KnowledgeGraph:
         self.max_backups = max_backups
         os.makedirs(os.path.dirname(storage_path), exist_ok=True)
         self.graph: nx.MultiDiGraph = nx.MultiDiGraph()
+        self._batch_depth = 0
+        self._dirty = False
         self.load()
 
     def add_paper(self, data: dict) -> str:
@@ -209,7 +212,21 @@ class KnowledgeGraph:
         os.makedirs(bdir, exist_ok=True)
         return bdir
 
-    def save(self) -> None:
+    @contextmanager
+    def batch(self) -> Iterator["KnowledgeGraph"]:
+        """Defer disk writes until the outermost batch block exits."""
+        self._batch_depth += 1
+        try:
+            yield self
+        finally:
+            self._batch_depth -= 1
+            if self._batch_depth == 0 and self._dirty:
+                self.save(force=True)
+
+    def save(self, force: bool = False) -> None:
+        if self._batch_depth > 0 and not force:
+            self._dirty = True
+            return
         data = nx.node_link_data(self.graph, edges="links")
         data["graph_id"] = self.graph_id
         os.makedirs(os.path.dirname(self.path), exist_ok=True)
@@ -221,6 +238,7 @@ class KnowledgeGraph:
             self._prune_backups()
         with open(self.path, "w") as f:
             json.dump(data, f, indent=2)
+        self._dirty = False
 
     def _prune_backups(self) -> None:
         bdir = self._backup_dir()
@@ -238,6 +256,29 @@ class KnowledgeGraph:
                 data = json.load(f)
             self.graph = nx.node_link_graph(data, multigraph=True, directed=True, edges="links")
             self.graph_id = data.get("graph_id", self.graph_id)
+
+    def layout_path(self) -> str:
+        return os.path.join(os.path.dirname(self.path), "layout.json")
+
+    def load_layout(self) -> dict[str, dict[str, float]]:
+        path = self.layout_path()
+        if not os.path.exists(path):
+            return {}
+        try:
+            with open(path) as f:
+                data = json.load(f)
+            return data.get("positions", {})
+        except Exception:
+            return {}
+
+    def save_layout(self, positions: dict[str, dict[str, float]]) -> None:
+        path = self.layout_path()
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump({
+                "positions": positions,
+                "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            }, f, indent=2)
 
     def list_backups(self) -> list[dict[str, Any]]:
         bdir = self._backup_dir()
