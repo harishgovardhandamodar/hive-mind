@@ -213,8 +213,12 @@ class Federation:
         hive_names = {gid: gid.replace("-", " ") for gid in self.graphs}
         mentioned = []
         for gid, display in sorted(hive_names.items(), key=lambda x: -len(x[1])):
-            if display in q or gid in q:
+            if display in q or gid.lower() in q:
                 mentioned.append(gid)
+            else:
+                base = re.split(r'[\(\[]', gid, maxsplit=1)[0].strip().lower()
+                if base and base != gid.lower() and base in q:
+                    mentioned.append(gid)
 
         # deduplicate but preserve order
         seen_mention: set[str] = set()
