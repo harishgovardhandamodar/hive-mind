@@ -122,7 +122,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .link-label { font-size: 8px; fill: var(--text-secondary); }
 
 /* Search results overlay */
-#search-results { position: absolute; top: 0; right: 0; width: 360px; max-height: 100%; overflow-y: auto; background: var(--bg-results); border-left: 1px solid var(--border); display: none; }
+#search-results { position: absolute; top: 0; right: 0; width: 380px; max-height: 100%; overflow-y: auto; background: var(--bg-results); border-left: 1px solid var(--border); display: none; z-index: 60; }
 #search-results.visible { display: block; }
 #search-results .header { padding: 12px 16px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: var(--text-title); }
 #search-results .result { padding: 8px 16px; border-bottom: 1px solid var(--border); font-size: 12px; cursor: pointer; color: var(--text); }
@@ -944,69 +944,82 @@ document.getElementById('compare-btn').addEventListener('click', async () => {
   try {
     const result = await api(`/api/compare?hives=${hives.map(encodeURIComponent).join(',')}`);
     document.getElementById('loading').style.display = 'none';
-    const panel = document.getElementById('query-panel');
-    const expl = document.getElementById('query-explanation');
-    let html = '<div style="padding:8px 12px;font-size:12px;">';
 
-    // Chain
-    html += `<div style="margin-bottom:8px;"><strong>Comparison chain:</strong> ${result.chain.map(h => `<span style="color:var(--accent);font-weight:600;">${h}</span>`).join(' → ')}</div>`;
-
-    // Overlaps
-    if (result.overlaps && result.overlaps.length) {
-      html += `<div style="margin-bottom:8px;">
-        <strong>Overlapping concepts (${result.overlap_count}):</strong>
-        <div class="compare-overlap">`;
-      result.overlaps.slice(0, 20).forEach(o => {
-        const hivesStr = o.occurrences.map(e => `<span style="color:${COLORS(e.hive_id)}">${e.hive_id}</span>`).join(', ');
-        html += `<div class="compare-overlap-item">
-          <div class="concept-name">${o.concept}</div>
-          <div class="concept-hives">in ${hivesStr}</div>
-        </div>`;
-      });
-      if (result.overlap_count > 20) html += `<div style="color:var(--text-secondary);font-style:italic;padding:4px 8px;">...and ${result.overlap_count - 20} more</div>`;
-      html += '</div></div>';
-    } else {
-      html += '<div style="margin-bottom:8px;color:var(--text-secondary);font-style:italic;">No overlapping concepts found between these hives.</div>';
-    }
-
-    // Relations
-    if (result.explanation) {
-      html += `<div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;">${result.explanation}</div>`;
-    }
-
-    html += '</div>';
-    expl.innerHTML = html;
-    panel.classList.add('visible');
-
-    // Render the combined graph
+    // Render the combined graph FIRST (so it's not covered by any panel)
     if (result.nodes && result.nodes.length) {
       document.getElementById('view-title').textContent = `Compare: ${hives.join(' vs ')}`;
       document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
       renderD3Graph(result.nodes, result.edges, true);
-
-      // Add overlap toggle into the query-panel header
-      const panelHeader = panel.querySelector('.header');
-      if (result.overlap_nodes && result.overlap_nodes.length) {
-        const toggleBtn = document.createElement('button');
-        toggleBtn.textContent = 'Show overlaps only';
-        toggleBtn.style.cssText = 'background:var(--accent-yellow);border:none;border-radius:4px;padding:2px 10px;color:#fff;font-size:10px;cursor:pointer;margin-left:12px;';
-        let showingOverlapsOnly = false;
-        toggleBtn.addEventListener('click', () => {
-          showingOverlapsOnly = !showingOverlapsOnly;
-          if (showingOverlapsOnly) {
-            renderD3Graph(result.overlap_nodes, result.overlap_edges, true);
-            toggleBtn.textContent = 'Show all nodes';
-            document.getElementById('view-subtitle').textContent = `${result.overlap_nodes.length} overlap nodes, ${result.overlap_edges.length} edges`;
-          } else {
-            renderD3Graph(result.nodes, result.edges, true);
-            toggleBtn.textContent = 'Show overlaps only';
-            document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
-          }
-        });
-        panelHeader.appendChild(toggleBtn);
-      }
       showToast(`Compare: ${result.nodes.length} nodes, ${result.overlap_count} overlapping concepts`, 'ok');
     }
+
+    // Show compare info in the right-side search panel (doesn't block graph)
+    const panel = document.getElementById('search-results');
+    panel.innerHTML = '';
+
+    const header = document.createElement('div');
+    header.className = 'header';
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--border);font-weight:600;font-size:13px;color:var(--text-title);';
+    header.innerHTML = `Compare: ${hives.join(' vs ')}
+      <span style="display:flex;gap:4px;">
+        ${result.overlap_nodes && result.overlap_nodes.length ? `<button id="overlap-toggle-btn" style="background:var(--accent-yellow);border:none;border-radius:4px;padding:2px 8px;color:#fff;font-size:10px;cursor:pointer;">Show overlaps only</button>` : ''}
+        <span id="compare-close" style="cursor:pointer;color:var(--text-secondary);font-size:16px;padding:0 4px;">&times;</span>
+      </span>`;
+    panel.appendChild(header);
+
+    const body = document.createElement('div');
+    body.style.cssText = 'padding:8px 12px;font-size:12px;';
+
+    // Chain
+    body.innerHTML += `<div style="margin-bottom:8px;font-size:11px;"><strong>Chain:</strong> ${result.chain.map(h => `<span style="color:var(--accent);font-weight:600;">${h}</span>`).join(' → ')}</div>`;
+
+    // Overlaps
+    if (result.overlaps && result.overlaps.length) {
+      body.innerHTML += `<div style="margin-bottom:8px;">
+        <strong>Overlapping concepts (${result.overlap_count}):</strong>
+        <div class="compare-overlap">`;
+      result.overlaps.slice(0, 30).forEach(o => {
+        const hivesStr = o.occurrences.map(e => `<span style="color:${COLORS(e.hive_id)}">${e.hive_id}</span>`).join(', ');
+        body.innerHTML += `<div class="compare-overlap-item">
+          <div class="concept-name">${o.concept}</div>
+          <div class="concept-hives">in ${hivesStr}</div>
+        </div>`;
+      });
+      body.innerHTML += '</div></div>';
+    } else {
+      body.innerHTML += '<div style="margin-bottom:8px;color:var(--text-secondary);font-style:italic;">No overlapping concepts found.</div>';
+    }
+
+    // Relations
+    if (result.explanation) {
+      body.innerHTML += `<div style="border-top:1px solid var(--border);padding-top:8px;margin-top:8px;line-height:1.6;">${result.explanation}</div>`;
+    }
+
+    panel.appendChild(body);
+    panel.classList.add('visible');
+
+    // Overlap toggle
+    document.getElementById('overlap-toggle-btn')?.addEventListener('click', () => {
+      const btn = document.getElementById('overlap-toggle-btn');
+      const showingOverlapsOnly = btn.textContent === 'Show all nodes';
+      if (showingOverlapsOnly) {
+        renderD3Graph(result.nodes, result.edges, true);
+        btn.textContent = 'Show overlaps only';
+        document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
+      } else {
+        renderD3Graph(result.overlap_nodes, result.overlap_edges, true);
+        btn.textContent = 'Show all nodes';
+        document.getElementById('view-subtitle').textContent = `${result.overlap_nodes.length} overlap nodes, ${result.overlap_edges.length} edges`;
+      }
+    });
+
+    // Close
+    document.getElementById('compare-close')?.addEventListener('click', () => {
+      panel.classList.remove('visible');
+    });
+
+    // Also close existing query panel
+    document.getElementById('query-panel').classList.remove('visible');
   } catch (err) {
     document.getElementById('loading').style.display = 'none';
     showToast('Compare failed: ' + err.message, 'err');
