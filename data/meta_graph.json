@@ -5,217 +5,217 @@
   "nodes": [
     {
       "label": "quantum-computing",
-      "path": "/home/fox/codebase/hive-mind/hives/quantum-computing/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum-computing/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-computing"
     },
     {
       "label": "photonic-computing",
-      "path": "/home/fox/codebase/hive-mind/hives/photonic-computing/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/photonic-computing/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "photonic-computing"
     },
     {
       "label": "ai-acceleration",
-      "path": "/home/fox/codebase/hive-mind/hives/ai-acceleration/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/ai-acceleration/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "ai-acceleration"
     },
     {
       "label": "graph-networks",
-      "path": "/home/fox/codebase/hive-mind/hives/graph-networks/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/graph-networks/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "graph-networks"
     },
     {
       "label": "gnns",
-      "path": "/home/fox/codebase/hive-mind/hives/gnns/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/gnns/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "gnns"
     },
     {
       "label": "transformers",
-      "path": "/home/fox/codebase/hive-mind/hives/transformers/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/transformers/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "transformers"
     },
     {
       "label": "llms",
-      "path": "/home/fox/codebase/hive-mind/hives/llms/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/llms/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "llms"
     },
     {
       "label": "ai-agents",
-      "path": "/home/fox/codebase/hive-mind/hives/ai-agents/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/ai-agents/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "ai-agents"
     },
     {
       "label": "cryptocurrencies",
-      "path": "/home/fox/codebase/hive-mind/hives/cryptocurrencies/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/cryptocurrencies/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "cryptocurrencies"
     },
     {
       "label": "proof-of-work",
-      "path": "/home/fox/codebase/hive-mind/hives/proof-of-work/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/proof-of-work/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "proof-of-work"
     },
     {
       "label": "proof-of-stake",
-      "path": "/home/fox/codebase/hive-mind/hives/proof-of-stake/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/proof-of-stake/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "proof-of-stake"
     },
     {
       "label": "quantum",
-      "path": "/home/fox/codebase/hive-mind/hives/quantum/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum"
     },
     {
       "label": "starcloud",
-      "path": "/app/hives/starcloud/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/starcloud/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "starcloud"
     },
     {
       "label": "Co-Packaged Optics (CPO)",
-      "path": "/app/hives/Co-Packaged Optics (CPO)/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/Co-Packaged Optics (CPO)/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "Co-Packaged Optics (CPO)"
     },
     {
       "label": "quantum-imported",
-      "path": "/app/hives/quantum-imported/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum-imported/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-imported"
     },
     {
       "label": "quantum-cli-import",
-      "path": "/app/hives/quantum-cli-import/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum-cli-import/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-cli-import"
     },
     {
       "label": "starcloud_1",
-      "path": "/app/hives/starcloud_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/starcloud_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "starcloud_1"
     },
     {
       "label": "proof-of-work_1",
-      "path": "/app/hives/proof-of-work_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/proof-of-work_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "proof-of-work_1"
     },
     {
       "label": "llms_1",
-      "path": "/app/hives/llms_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/llms_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "llms_1"
     },
     {
       "label": "photonic-computing_1",
-      "path": "/app/hives/photonic-computing_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/photonic-computing_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "photonic-computing_1"
     },
     {
       "label": "quantum-imported_1",
-      "path": "/app/hives/quantum-imported_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum-imported_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-imported_1"
     },
     {
       "label": "quantum_1",
-      "path": "/app/hives/quantum_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum_1"
     },
     {
       "label": "gnns_1",
-      "path": "/app/hives/gnns_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/gnns_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "gnns_1"
     },
     {
       "label": "ai-agents_1",
-      "path": "/app/hives/ai-agents_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/ai-agents_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "ai-agents_1"
     },
     {
       "label": "proof-of-stake_1",
-      "path": "/app/hives/proof-of-stake_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/proof-of-stake_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "proof-of-stake_1"
     },
     {
       "label": "ai-acceleration_1",
-      "path": "/app/hives/ai-acceleration_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/ai-acceleration_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "ai-acceleration_1"
     },
     {
       "label": "graph-networks_1",
-      "path": "/app/hives/graph-networks_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/graph-networks_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "graph-networks_1"
     },
     {
       "label": "quantum-cli-import_1",
-      "path": "/app/hives/quantum-cli-import_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum-cli-import_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-cli-import_1"
     },
     {
       "label": "cryptocurrencies_1",
-      "path": "/app/hives/cryptocurrencies_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/cryptocurrencies_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "cryptocurrencies_1"
     },
     {
       "label": "transformers_1",
-      "path": "/app/hives/transformers_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/transformers_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "transformers_1"
     },
     {
       "label": "quantum-computing_1",
-      "path": "/app/hives/quantum-computing_1/data/graph/knowledge_graph.json",
+      "path": "/home/fox/hive-data/hives/quantum-computing_1/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
       "visible": true,
       "id": "quantum-computing_1"
