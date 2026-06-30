@@ -209,5 +209,30 @@ class HiveMind:
             return []
         return vs.similar_to_text(text, top_k=top_k, metric=metric)
 
+    # ------------------------------------------------------------------
+    # Collections
+    # ------------------------------------------------------------------
+
+    def compare_hives(self, hive_ids: list[str]) -> dict[str, Any]:
+        return self.federation.compare_hives(hive_ids)
+
+    def create_collection(self, name: str, description: str = "") -> dict[str, Any]:
+        return self.federation.create_collection(name, description)
+
+    def list_collections(self) -> list[dict[str, Any]]:
+        return self.federation.list_collections()
+
+    def get_collection(self, cid: str) -> dict[str, Any]:
+        return self.federation.get_collection(cid)
+
+    def delete_collection(self, cid: str) -> None:
+        return self.federation.delete_collection(cid)
+
+    def add_hive_to_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        return self.federation.add_hive_to_collection(cid, hive_id)
+
+    def remove_hive_from_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        return self.federation.remove_hive_from_collection(cid, hive_id)
+
     def stats(self) -> dict[str, Any]:
         return self.federation.stats()

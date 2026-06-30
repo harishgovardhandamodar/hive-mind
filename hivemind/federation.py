@@ -2,6 +2,7 @@ import json
 import math
 import os
 import re
+import time
 from collections import Counter
 from typing import Any
 
@@ -19,7 +20,9 @@ class Federation:
         self.max_backups = max_backups
         self.graphs: dict[str, KnowledgeGraph] = {}
         self.meta_graph: nx.MultiDiGraph = nx.MultiDiGraph()
+        self.collections: dict[str, dict[str, Any]] = {}
         self._load_meta()
+        self._load_collections()
 
     # ------------------------------------------------------------------
     # Graph lifecycle
@@ -210,8 +213,12 @@ class Federation:
         hive_names = {gid: gid.replace("-", " ") for gid in self.graphs}
         mentioned = []
         for gid, display in sorted(hive_names.items(), key=lambda x: -len(x[1])):
-            if display in q or gid in q:
+            if display in q or gid.lower() in q:
                 mentioned.append(gid)
+            else:
+                base = re.split(r'[\(\[]', gid, maxsplit=1)[0].strip().lower()
+                if base and base != gid.lower() and base in q:
+                    mentioned.append(gid)
 
         # deduplicate but preserve order
         seen_mention: set[str] = set()
@@ -441,6 +448,110 @@ class Federation:
         with open(self.meta_graph_path, "w") as f:
             json.dump(data, f, indent=2)
 
+    # ------------------------------------------------------------------
+    # Collection management
+    # ------------------------------------------------------------------
+
+    @property
+    def _collections_path(self) -> str:
+        return os.path.join(os.path.dirname(self.meta_graph_path), "collections.json")
+
+    def _load_collections(self) -> None:
+        path = self._collections_path
+        if os.path.exists(path):
+            with open(path) as f:
+                data = json.load(f)
+            self.collections = data.get("collections", {})
+
+    def _save_collections(self) -> None:
+        path = self._collections_path
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump({"collections": self.collections}, f, indent=2)
+
+    def create_collection(self, name: str, description: str = "") -> dict[str, Any]:
+        cid = name.lower().replace(" ", "-")
+        if cid in self.collections:
+            raise ValueError(f"Collection '{cid}' already exists")
+        ts = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+        collection = {
+            "id": cid,
+            "name": name,
+            "description": description,
+            "hive_ids": [],
+            "created_at": ts,
+            "updated_at": ts,
+        }
+        self.collections[cid] = collection
+        self._save_collections()
+        return dict(collection)
+
+    def list_collections(self) -> list[dict[str, Any]]:
+        result = []
+        for cid, c in self.collections.items():
+            result.append({
+                "id": cid,
+                "name": c.get("name", cid),
+                "description": c.get("description", ""),
+                "hive_count": len(c.get("hive_ids", [])),
+                "created_at": c.get("created_at", ""),
+                "updated_at": c.get("updated_at", ""),
+            })
+        result.sort(key=lambda x: x["name"].lower())
+        return result
+
+    def get_collection(self, cid: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        hives = []
+        for hid in c.get("hive_ids", []):
+            kg = self.graphs.get(hid)
+            if kg:
+                s = kg.stats()
+                hives.append({
+                    "id": hid,
+                    "papers": s["papers"],
+                    "concepts": s["concepts"],
+                    "relations": s["relations"],
+                })
+        return {
+            "id": c["id"],
+            "name": c.get("name", cid),
+            "description": c.get("description", ""),
+            "hives": hives,
+            "created_at": c.get("created_at", ""),
+            "updated_at": c.get("updated_at", ""),
+        }
+
+    def delete_collection(self, cid: str) -> None:
+        if cid not in self.collections:
+            raise ValueError(f"Collection '{cid}' not found")
+        del self.collections[cid]
+        self._save_collections()
+
+    def add_hive_to_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        if hive_id not in self.graphs:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        if hive_id not in c["hive_ids"]:
+            c["hive_ids"].append(hive_id)
+            c["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+            self._save_collections()
+        return self.get_collection(cid)
+
+    def remove_hive_from_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        if hive_id in c["hive_ids"]:
+            c["hive_ids"].remove(hive_id)
+            c["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+            self._save_collections()
+        return self.get_collection(cid)
+
     def meta_graph_data(self, include_hidden: bool = False) -> dict[str, Any]:
         visible_nodes = set()
         for n, d in self.meta_graph.nodes(data=True):
@@ -469,6 +580,132 @@ class Federation:
                     "relation": d.get("relation", "references"),
                 })
         return {"nodes": nodes, "edges": edges}
+
+    # ------------------------------------------------------------------
+    # Hive comparison
+    # ------------------------------------------------------------------
+
+    def compare_hives(self, hive_ids: list[str]) -> dict[str, Any]:
+        for hid in hive_ids:
+            if hid not in self.graphs:
+                raise ValueError(f"Hive '{hid}' not found")
+
+        # Build query text from hive names for relation chaining
+        display_names = [hid.replace("-", " ").lower() for hid in hive_ids]
+        query_text = " and ".join(display_names) + " how are these related"
+        relation_result = self.query_relation(query_text)
+
+        # Find overlapping concepts by matching normalized labels
+        concept_map: dict[str, list[dict[str, Any]]] = {}
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for node, data in kg.graph.nodes(data=True):
+                if data.get("type") == "concept":
+                    label = data.get("label", node).lower().strip()
+                    concept_map.setdefault(label, []).append({
+                        "hive_id": hid,
+                        "node_id": node,
+                        "label": data.get("label", node),
+                        "definition": (data.get("definition", "") or "")[:200],
+                    })
+
+        overlaps = sorted(
+            [{"concept": label, "occurrences": entries}
+             for label, entries in concept_map.items() if len(entries) >= 2],
+            key=lambda x: -len(x["occurrences"]),
+        )
+
+        # Build merge mapping: per-hive uid of shared concept -> single merged id
+        merge_map: dict[str, str] = {}
+        merged_node_data: dict[str, dict[str, Any]] = {}
+        for o in overlaps:
+            label = o["concept"]
+            merged_id = f"_shared:{label}"
+            occurrences = o["occurrences"]
+            merged_node_data[merged_id] = {
+                "id": merged_id,
+                "label": occurrences[0]["label"],
+                "type": "concept",
+                "graphId": "shared",
+                "hiveIds": [e["hive_id"] for e in occurrences],
+                "shared": True,
+            }
+            for entry in occurrences:
+                merge_map[f"{entry['hive_id']}:{entry['node_id']}"] = merged_id
+
+        # Collect combined graph data with merged shared nodes
+        combined_nodes: list[dict[str, Any]] = []
+        combined_edges: list[dict[str, Any]] = []
+        added_merged: set[str] = set()
+        all_node_ids: set[str] = set()
+
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for n, d in kg.graph.nodes(data=True):
+                uid = f"{hid}:{n}"
+                if uid in merge_map:
+                    merged_id = merge_map[uid]
+                    if merged_id not in added_merged:
+                        added_merged.add(merged_id)
+                        combined_nodes.append(merged_node_data[merged_id])
+                        all_node_ids.add(merged_id)
+                else:
+                    combined_nodes.append({
+                        "id": uid,
+                        "label": d.get("label", n)[:60],
+                        "type": d.get("type", "unknown"),
+                        "graphId": hid,
+                        "originalId": n,
+                        "shared": False,
+                    })
+                    all_node_ids.add(uid)
+
+        seen_edges: set[tuple[str, str]] = set()
+        for hid in hive_ids:
+            kg = self.graphs[hid]
+            for u, v, d in kg.graph.edges(data=True):
+                suid = f"{hid}:{u}"
+                tuid = f"{d.get('target_graph', hid)}:{v}"
+                src = merge_map.get(suid, suid)
+                tgt = merge_map.get(tuid, tuid)
+                key = (src, tgt)
+                if key not in seen_edges and src in all_node_ids and tgt in all_node_ids:
+                    seen_edges.add(key)
+                    combined_edges.append({
+                        "source": src,
+                        "target": tgt,
+                        "relation": d.get("relation", "related_to"),
+                        "cross_graph": d.get("cross_graph", False),
+                    })
+
+        # Build overlap-only sub-graph from merged nodes
+        overlap_nodes = [n for n in combined_nodes if n["shared"]]
+        overlap_node_ids = {n["id"] for n in overlap_nodes}
+        overlap_edges = [e for e in combined_edges
+                         if e["source"] in overlap_node_ids and e["target"] in overlap_node_ids]
+
+        # Build explanation
+        chain_display = " → ".join(f"**{h}**" for h in relation_result.get("chain", hive_ids))
+        explanation = f"### {chain_display}\n"
+        if overlaps:
+            explanation += f"\n**Overlapping concepts:** {len(overlaps)} found\n"
+            for o in overlaps[:10]:
+                hives_str = ", ".join(e["hive_id"] for e in o["occurrences"])
+                explanation += f"- _{o['concept']}_ (in {hives_str})\n"
+        if relation_result.get("explanation"):
+            explanation += "\n" + relation_result["explanation"]
+
+        return {
+            "hives": list(hive_ids),
+            "chain": relation_result.get("chain", hive_ids),
+            "overlaps": overlaps[:30],
+            "overlap_count": len(overlaps),
+            "nodes": combined_nodes,
+            "edges": combined_edges,
+            "overlap_nodes": overlap_nodes,
+            "overlap_edges": overlap_edges,
+            "explanation": explanation,
+        }
 
     def set_hive_visibility(self, gid: str, visible: bool) -> None:
         if self.meta_graph.has_node(gid):
