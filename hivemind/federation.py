@@ -2,6 +2,7 @@ import json
 import math
 import os
 import re
+import time
 from collections import Counter
 from typing import Any
 
@@ -19,7 +20,9 @@ class Federation:
         self.max_backups = max_backups
         self.graphs: dict[str, KnowledgeGraph] = {}
         self.meta_graph: nx.MultiDiGraph = nx.MultiDiGraph()
+        self.collections: dict[str, dict[str, Any]] = {}
         self._load_meta()
+        self._load_collections()
 
     # ------------------------------------------------------------------
     # Graph lifecycle
@@ -440,6 +443,110 @@ class Federation:
         data = nx.node_link_data(self.meta_graph, edges="links")
         with open(self.meta_graph_path, "w") as f:
             json.dump(data, f, indent=2)
+
+    # ------------------------------------------------------------------
+    # Collection management
+    # ------------------------------------------------------------------
+
+    @property
+    def _collections_path(self) -> str:
+        return os.path.join(os.path.dirname(self.meta_graph_path), "collections.json")
+
+    def _load_collections(self) -> None:
+        path = self._collections_path
+        if os.path.exists(path):
+            with open(path) as f:
+                data = json.load(f)
+            self.collections = data.get("collections", {})
+
+    def _save_collections(self) -> None:
+        path = self._collections_path
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w") as f:
+            json.dump({"collections": self.collections}, f, indent=2)
+
+    def create_collection(self, name: str, description: str = "") -> dict[str, Any]:
+        cid = name.lower().replace(" ", "-")
+        if cid in self.collections:
+            raise ValueError(f"Collection '{cid}' already exists")
+        ts = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+        collection = {
+            "id": cid,
+            "name": name,
+            "description": description,
+            "hive_ids": [],
+            "created_at": ts,
+            "updated_at": ts,
+        }
+        self.collections[cid] = collection
+        self._save_collections()
+        return dict(collection)
+
+    def list_collections(self) -> list[dict[str, Any]]:
+        result = []
+        for cid, c in self.collections.items():
+            result.append({
+                "id": cid,
+                "name": c.get("name", cid),
+                "description": c.get("description", ""),
+                "hive_count": len(c.get("hive_ids", [])),
+                "created_at": c.get("created_at", ""),
+                "updated_at": c.get("updated_at", ""),
+            })
+        result.sort(key=lambda x: x["name"].lower())
+        return result
+
+    def get_collection(self, cid: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        hives = []
+        for hid in c.get("hive_ids", []):
+            kg = self.graphs.get(hid)
+            if kg:
+                s = kg.stats()
+                hives.append({
+                    "id": hid,
+                    "papers": s["papers"],
+                    "concepts": s["concepts"],
+                    "relations": s["relations"],
+                })
+        return {
+            "id": c["id"],
+            "name": c.get("name", cid),
+            "description": c.get("description", ""),
+            "hives": hives,
+            "created_at": c.get("created_at", ""),
+            "updated_at": c.get("updated_at", ""),
+        }
+
+    def delete_collection(self, cid: str) -> None:
+        if cid not in self.collections:
+            raise ValueError(f"Collection '{cid}' not found")
+        del self.collections[cid]
+        self._save_collections()
+
+    def add_hive_to_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        if hive_id not in self.graphs:
+            raise ValueError(f"Hive '{hive_id}' not found")
+        if hive_id not in c["hive_ids"]:
+            c["hive_ids"].append(hive_id)
+            c["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+            self._save_collections()
+        return self.get_collection(cid)
+
+    def remove_hive_from_collection(self, cid: str, hive_id: str) -> dict[str, Any]:
+        c = self.collections.get(cid)
+        if not c:
+            raise ValueError(f"Collection '{cid}' not found")
+        if hive_id in c["hive_ids"]:
+            c["hive_ids"].remove(hive_id)
+            c["updated_at"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+            self._save_collections()
+        return self.get_collection(cid)
 
     def meta_graph_data(self, include_hidden: bool = False) -> dict[str, Any]:
         visible_nodes = set()

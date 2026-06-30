@@ -144,6 +144,79 @@ class Handler(BaseHTTPRequestHandler):
                                             "papers": len(result.get("papers_added", [])),
                                             "concepts": len(result.get("concepts_added", []))})
             self._json(200, result)
+        elif path == "/api/hives":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            name = body.get("name", "").strip()
+            if not name:
+                return self._json(400, {"error": "provide 'name'"})
+            try:
+                hive_path = _hm.create_hive(name)
+                broadcast_event("hive-update", {"hive": name, "action": "create"})
+                self._json(200, {"status": "ok", "hive": name, "path": hive_path})
+            except (ValueError, OSError) as e:
+                self._json(409, {"error": str(e)})
+        elif path == "/api/collections":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            name = body.get("name", "").strip()
+            if not name:
+                return self._json(400, {"error": "provide 'name'"})
+            description = body.get("description", "")
+            try:
+                c = _hm.create_collection(name, description)
+                broadcast_event("collection-update", {"action": "create", "collection": c["id"]})
+                self._json(200, c)
+            except ValueError as e:
+                self._json(409, {"error": str(e)})
+        elif path.startswith("/api/collection/") and path.endswith("/hives"):
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            parts = path.split("/")
+            cid = parts[-2]
+            action = body.get("action", "add")
+            hive_id = body.get("hive_id", "")
+            if not hive_id:
+                return self._json(400, {"error": "provide 'hive_id'"})
+            try:
+                if action == "remove":
+                    c = _hm.remove_hive_from_collection(cid, hive_id)
+                else:
+                    c = _hm.add_hive_to_collection(cid, hive_id)
+                broadcast_event("collection-update", {"action": action, "collection": cid, "hive": hive_id})
+                self._json(200, c)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+        elif path.startswith("/api/collection/"):
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            cid = path.split("/")[-1]
+            action = body.get("action", "delete")
+            if action == "delete":
+                try:
+                    _hm.delete_collection(cid)
+                    broadcast_event("collection-update", {"action": "delete", "collection": cid})
+                    self._json(200, {"status": "ok", "collection": cid})
+                except ValueError as e:
+                    self._json(404, {"error": str(e)})
+            else:
+                self._json(400, {"error": "unknown action"})
         elif path.startswith("/api/hive/") and path.endswith("/visibility"):
             try:
                 body = json.loads(self._read_body())
@@ -151,7 +224,7 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(400, {"error": "invalid JSON"})
             if not _hm:
                 return self._json(503, {"error": "server not ready"})
-            hive_id = path.split("/")[-2]
+            hive_id = unquote(path.split("/")[-2])
             visible = body.get("visible", True)
             _hm.set_hive_visibility(hive_id, visible)
             broadcast_event("hive-update", {"hive": hive_id, "action": "visibility",
@@ -173,7 +246,7 @@ class Handler(BaseHTTPRequestHandler):
         elif path == "/api/meta-graph":
             self._json(200, _hm.meta_graph() if _hm else {"nodes": [], "edges": []})
         elif path.startswith("/api/hive/"):
-            hive_id = path.split("/")[-1]
+            hive_id = unquote(path.split("/")[-1])
             kg = _hm.get_hive_graph(hive_id) if _hm else None
             if not kg:
                 self._json(404, {"error": f"Hive '{hive_id}' not found"})
@@ -234,6 +307,24 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(400, {"error": "provide ?text=..."})
             keywords = extract_keywords(text)
             self._json(200, {"keywords": keywords[:30]})
+        elif path == "/api/collections":
+            self._json(200, _hm.list_collections() if _hm else [])
+        elif path == "/api/collection":
+            params = parse_qs(parsed.query)
+            cid = params.get("id", [None])[0]
+            if not cid:
+                self._json(400, {"error": "provide ?id=..."})
+                return
+            try:
+                self._json(200, _hm.get_collection(cid))
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+        elif path.startswith("/api/collection/"):
+            cid = path.split("/")[-1]
+            try:
+                self._json(200, _hm.get_collection(cid))
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
         elif path == "/api/search":
             query = parsed.query
             q = unquote(query.split("=", 1)[1]) if "=" in query else ""

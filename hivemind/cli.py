@@ -140,6 +140,23 @@ def main() -> None:
     p_auth_grant.add_argument("--role", "-r", default="read", choices=["read", "write", "admin"],
                               help="Access role (default: read)")
 
+    p_coll = sub.add_parser("collections", help="Manage hive collections")
+    p_coll_sub = p_coll.add_subparsers(dest="coll_command")
+    p_coll_create = p_coll_sub.add_parser("create", help="Create a new collection")
+    p_coll_create.add_argument("name", help="Collection name")
+    p_coll_create.add_argument("--description", "-d", default="", help="Description")
+    p_coll_list = p_coll_sub.add_parser("list", help="List all collections")
+    p_coll_get = p_coll_sub.add_parser("get", help="Show collection details")
+    p_coll_get.add_argument("id", help="Collection ID")
+    p_coll_delete = p_coll_sub.add_parser("delete", help="Delete a collection")
+    p_coll_delete.add_argument("id", help="Collection ID")
+    p_coll_add = p_coll_sub.add_parser("add", help="Add a hive to a collection")
+    p_coll_add.add_argument("id", help="Collection ID")
+    p_coll_add.add_argument("hive_id", help="Hive ID")
+    p_coll_remove = p_coll_sub.add_parser("remove", help="Remove a hive from a collection")
+    p_coll_remove.add_argument("id", help="Collection ID")
+    p_coll_remove.add_argument("hive_id", help="Hive ID")
+
     sub.add_parser("stats", help="Show federation statistics")
 
     args = parser.parse_args()
@@ -406,6 +423,56 @@ def main() -> None:
                 sys.exit(1)
         else:
             print("Usage: hivemind auth <create-key|list|revoke|grant> ...")
+
+    elif args.command == "collections":
+        if args.coll_command == "create":
+            c = hm.create_collection(args.name, args.description)
+            print(f"Created collection '{c['name']}' (id: {c['id']})")
+        elif args.coll_command == "list":
+            cols = hm.list_collections()
+            if not cols:
+                print("No collections.")
+                return
+            print(f"{'ID':<24} {'Name':<24} {'Hives':>6} {'Created'}")
+            print("-" * 70)
+            for c in cols:
+                print(f"{c['id']:<24} {c['name']:<24} {c['hive_count']:>6} {c['created_at']}")
+        elif args.coll_command == "get":
+            try:
+                c = hm.get_collection(args.id)
+                print(f"Collection: {c['name']} ({c['id']})")
+                print(f"  Description: {c['description'] or '(none)'}")
+                print(f"  Created: {c['created_at']}")
+                print(f"  Updated: {c['updated_at']}")
+                print(f"  Hives ({len(c['hives'])}):")
+                for h in c['hives']:
+                    print(f"    - {h['id']} ({h['papers']} papers, {h['concepts']} concepts)")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.coll_command == "delete":
+            try:
+                hm.delete_collection(args.id)
+                print(f"Deleted collection '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.coll_command == "add":
+            try:
+                hm.add_hive_to_collection(args.id, args.hive_id)
+                print(f"Added hive '{args.hive_id}' to collection '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        elif args.coll_command == "remove":
+            try:
+                hm.remove_hive_from_collection(args.id, args.hive_id)
+                print(f"Removed hive '{args.hive_id}' from collection '{args.id}'")
+            except ValueError as e:
+                print(e)
+                sys.exit(1)
+        else:
+            print("Usage: hivemind collections <create|list|get|delete|add|remove> ...")
 
     elif args.command == "stats":
         s = hm.stats()
