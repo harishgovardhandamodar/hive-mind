@@ -615,53 +615,71 @@ class Federation:
             key=lambda x: -len(x["occurrences"]),
         )
 
-        # Build set of all overlapping concept node IDs (originalId across hives)
-        shared_labels: set[str] = set()
-        shared_node_ids: set[str] = set()
+        # Build merge mapping: per-hive uid of shared concept -> single merged id
+        merge_map: dict[str, str] = {}
+        merged_node_data: dict[str, dict[str, Any]] = {}
         for o in overlaps:
-            shared_labels.add(o["concept"])
-            for entry in o["occurrences"]:
-                shared_node_ids.add(f"{entry['hive_id']}:{entry['node_id']}")
+            label = o["concept"]
+            merged_id = f"_shared:{label}"
+            occurrences = o["occurrences"]
+            merged_node_data[merged_id] = {
+                "id": merged_id,
+                "label": occurrences[0]["label"],
+                "type": "concept",
+                "graphId": "shared",
+                "hiveIds": [e["hive_id"] for e in occurrences],
+                "shared": True,
+            }
+            for entry in occurrences:
+                merge_map[f"{entry['hive_id']}:{entry['node_id']}"] = merged_id
 
-        # Collect combined graph data
+        # Collect combined graph data with merged shared nodes
         combined_nodes: list[dict[str, Any]] = []
         combined_edges: list[dict[str, Any]] = []
-        overlap_nodes: list[dict[str, Any]] = []
-        seen_nodes: set[str] = set()
-        seen_edges: set[tuple[str, str]] = set()
+        added_merged: set[str] = set()
+        all_node_ids: set[str] = set()
 
         for hid in hive_ids:
             kg = self.graphs[hid]
             for n, d in kg.graph.nodes(data=True):
                 uid = f"{hid}:{n}"
-                if uid not in seen_nodes:
-                    seen_nodes.add(uid)
-                    is_shared = uid in shared_node_ids
-                    node_data = {
+                if uid in merge_map:
+                    merged_id = merge_map[uid]
+                    if merged_id not in added_merged:
+                        added_merged.add(merged_id)
+                        combined_nodes.append(merged_node_data[merged_id])
+                        all_node_ids.add(merged_id)
+                else:
+                    combined_nodes.append({
                         "id": uid,
                         "label": d.get("label", n)[:60],
                         "type": d.get("type", "unknown"),
                         "graphId": hid,
                         "originalId": n,
-                        "shared": is_shared,
-                    }
-                    combined_nodes.append(node_data)
-                    if is_shared:
-                        overlap_nodes.append(node_data)
+                        "shared": False,
+                    })
+                    all_node_ids.add(uid)
+
+        seen_edges: set[tuple[str, str]] = set()
+        for hid in hive_ids:
+            kg = self.graphs[hid]
             for u, v, d in kg.graph.edges(data=True):
                 suid = f"{hid}:{u}"
                 tuid = f"{d.get('target_graph', hid)}:{v}"
-                key = (suid, tuid)
-                if key not in seen_edges:
+                src = merge_map.get(suid, suid)
+                tgt = merge_map.get(tuid, tuid)
+                key = (src, tgt)
+                if key not in seen_edges and src in all_node_ids and tgt in all_node_ids:
                     seen_edges.add(key)
                     combined_edges.append({
-                        "source": suid,
-                        "target": tuid,
+                        "source": src,
+                        "target": tgt,
                         "relation": d.get("relation", "related_to"),
                         "cross_graph": d.get("cross_graph", False),
                     })
 
-        # Build overlap-only edge set (edges between overlap nodes)
+        # Build overlap-only sub-graph from merged nodes
+        overlap_nodes = [n for n in combined_nodes if n["shared"]]
         overlap_node_ids = {n["id"] for n in overlap_nodes}
         overlap_edges = [e for e in combined_edges
                          if e["source"] in overlap_node_ids and e["target"] in overlap_node_ids]

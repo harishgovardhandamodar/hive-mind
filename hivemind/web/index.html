@@ -591,6 +591,14 @@ function renderD3Graph(nodes, edges, unified = false) {
 
   if (!nodes.length) return;
 
+  // SVG glow filter for shared nodes
+  const defs = svg.append('defs');
+  const filter = defs.append('filter').attr('id', 'glow');
+  filter.append('feGaussianBlur').attr('stdDeviation', '3').attr('result', 'blur');
+  const merge = filter.append('feMerge');
+  merge.append('feMergeNode').attr('in', 'blur');
+  merge.append('feMergeNode').attr('in', 'SourceGraphic');
+
   const g = svg.append('g');
   const zoom = d3.zoom().scaleExtent([0.1, 8]).on('zoom', (e) => g.attr('transform', e.transform));
   svg.call(zoom);
@@ -622,14 +630,14 @@ function renderD3Graph(nodes, edges, unified = false) {
       .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
     );
 
-  const radiusMap = { paper: 8, concept: 10, graph_ref: 14 };
+  const baseRadius = { paper: 7, concept: 9, graph_ref: 12 };
   const computedStyle = getComputedStyle(document.documentElement);
   function cssVar(name) { return computedStyle.getPropertyValue(name).trim(); }
 
   node.append('circle')
     .attr('r', d => {
-      if (d.shared) return (radiusMap[d.type] || 8) + 2;
-      return radiusMap[d.type] || 8;
+      if (d.shared) return (baseRadius[d.type] || 7) + 5;
+      return baseRadius[d.type] || 7;
     })
     .attr('fill', d => {
       if (d.graphId && unified) return COLORS(d.graphId);
@@ -639,7 +647,9 @@ function renderD3Graph(nodes, edges, unified = false) {
       return '#8b949e';
     })
     .attr('stroke', d => d.shared ? '#ffd700' : cssVar('--node-stroke'))
-    .attr('stroke-width', d => d.shared ? 4 : 1.5)
+    .attr('stroke-width', d => d.shared ? 3 : 1.5)
+    .attr('filter', d => d.shared ? 'url(#glow)' : null)
+    .attr('style', d => d.shared ? 'transition: r .15s;' : null)
     .on('click', (e, d) => {
       e.stopPropagation();
       if (d.type === 'graph_ref') {
@@ -649,7 +659,7 @@ function renderD3Graph(nodes, edges, unified = false) {
     })
     .on('mouseover', (e, d) => {
       let html = `<strong>${d.label}</strong><br>type: ${d.type}`;
-      if (d.graphId) html += `<br>hive: ${d.graphId}`;
+      if (d.graphId) html += `<br>hive: ${d.hiveIds ? d.hiveIds.join(', ') : d.graphId}`;
       if (d.shared) html += `<br><span style="color:#ffd700;">★ Shared across hives</span>`;
       if (d.type === 'paper') {
         if (d.authors) html += `<br><em>${d.authors}</em>`;
@@ -665,7 +675,7 @@ function renderD3Graph(nodes, edges, unified = false) {
 
   node.append('text')
     .attr('text-anchor', 'middle')
-    .attr('dy', d => -(radiusMap[d.type] || 8) - 4)
+    .attr('dy', d => -(d.shared ? (baseRadius[d.type] || 7) + 7 : (baseRadius[d.type] || 7) + 4))
     .attr('class', 'label')
     .text(d => d.label.length > 20 ? d.label.slice(0, 18) + '…' : d.label);
 
@@ -905,12 +915,21 @@ document.getElementById('visualize-btn').addEventListener('click', async () => {
     const allNodes = [];
     const allEdges = [];
     const nodeMap = new Map();
+    const labelCount = new Map();
+    // First pass: count labels across hives to detect overlaps
+    hiveData.forEach((hd) => {
+      hd.nodes.forEach(n => {
+        const key = (n.label || n.id).toLowerCase().trim();
+        labelCount.set(key, (labelCount.get(key) || 0) + 1);
+      });
+    });
     hiveData.forEach((hd) => {
       const prefix = hd.id;
       hd.nodes.forEach(n => {
         const uid = `${prefix}:${n.id}`;
         if (!nodeMap.has(uid)) {
-          nodeMap.set(uid, { ...n, uid, label: n.label, graphId: prefix });
+          const shared = labelCount.get((n.label || n.id).toLowerCase().trim()) > 1;
+          nodeMap.set(uid, { ...n, uid, label: n.label, graphId: prefix, shared });
           allNodes.push(nodeMap.get(uid));
         }
       });
@@ -924,7 +943,8 @@ document.getElementById('visualize-btn').addEventListener('click', async () => {
     });
     document.getElementById('loading').style.display = 'none';
     document.getElementById('view-title').textContent = `Combined: ${hives.join(', ')}`;
-    document.getElementById('view-subtitle').textContent = `${allNodes.length} nodes, ${allEdges.length} edges across ${hives.length} hives`;
+    const overlapCount = allNodes.filter(n => n.shared).length;
+    document.getElementById('view-subtitle').textContent = `${allNodes.length} nodes, ${allEdges.length} edges, ${overlapCount} shared nodes`;
     renderD3Graph(allNodes, allEdges, true);
     // Close any open query panel
     document.getElementById('query-panel').classList.remove('visible');
