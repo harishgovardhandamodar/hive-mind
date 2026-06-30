@@ -615,9 +615,18 @@ class Federation:
             key=lambda x: -len(x["occurrences"]),
         )
 
+        # Build set of all overlapping concept node IDs (originalId across hives)
+        shared_labels: set[str] = set()
+        shared_node_ids: set[str] = set()
+        for o in overlaps:
+            shared_labels.add(o["concept"])
+            for entry in o["occurrences"]:
+                shared_node_ids.add(f"{entry['hive_id']}:{entry['node_id']}")
+
         # Collect combined graph data
         combined_nodes: list[dict[str, Any]] = []
         combined_edges: list[dict[str, Any]] = []
+        overlap_nodes: list[dict[str, Any]] = []
         seen_nodes: set[str] = set()
         seen_edges: set[tuple[str, str]] = set()
 
@@ -627,13 +636,18 @@ class Federation:
                 uid = f"{hid}:{n}"
                 if uid not in seen_nodes:
                     seen_nodes.add(uid)
-                    combined_nodes.append({
+                    is_shared = uid in shared_node_ids
+                    node_data = {
                         "id": uid,
                         "label": d.get("label", n)[:60],
                         "type": d.get("type", "unknown"),
                         "graphId": hid,
                         "originalId": n,
-                    })
+                        "shared": is_shared,
+                    }
+                    combined_nodes.append(node_data)
+                    if is_shared:
+                        overlap_nodes.append(node_data)
             for u, v, d in kg.graph.edges(data=True):
                 suid = f"{hid}:{u}"
                 tuid = f"{d.get('target_graph', hid)}:{v}"
@@ -646,6 +660,11 @@ class Federation:
                         "relation": d.get("relation", "related_to"),
                         "cross_graph": d.get("cross_graph", False),
                     })
+
+        # Build overlap-only edge set (edges between overlap nodes)
+        overlap_node_ids = {n["id"] for n in overlap_nodes}
+        overlap_edges = [e for e in combined_edges
+                         if e["source"] in overlap_node_ids and e["target"] in overlap_node_ids]
 
         # Build explanation
         chain_display = " → ".join(f"**{h}**" for h in relation_result.get("chain", hive_ids))
@@ -665,6 +684,8 @@ class Federation:
             "overlap_count": len(overlaps),
             "nodes": combined_nodes,
             "edges": combined_edges,
+            "overlap_nodes": overlap_nodes,
+            "overlap_edges": overlap_edges,
             "explanation": explanation,
         }
 

@@ -325,6 +325,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       </select>
       <button class="theme-btn" id="theme-toggle" title="Toggle theme">&#9788;</button>
       <button id="ingest-btn" style="background:var(--accent-yellow);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">+ Concept</button>
+      <button id="visualize-btn" style="background:var(--paper-color);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Visualize</button>
       <button id="compare-btn" style="background:var(--accent);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Compare</button>
       <div id="search-box">
         <input id="query-input" placeholder="Ask a question..." title="e.g. How is Photonic computing related to AI acceleration?" />
@@ -626,7 +627,10 @@ function renderD3Graph(nodes, edges, unified = false) {
   function cssVar(name) { return computedStyle.getPropertyValue(name).trim(); }
 
   node.append('circle')
-    .attr('r', d => radiusMap[d.type] || 8)
+    .attr('r', d => {
+      if (d.shared) return (radiusMap[d.type] || 8) + 2;
+      return radiusMap[d.type] || 8;
+    })
     .attr('fill', d => {
       if (d.graphId && unified) return COLORS(d.graphId);
       if (d.type === 'paper') return cssVar('--paper-color') || '#1f6feb';
@@ -634,6 +638,8 @@ function renderD3Graph(nodes, edges, unified = false) {
       if (d.type === 'graph_ref') return cssVar('--graphref-color') || '#da3633';
       return '#8b949e';
     })
+    .attr('stroke', d => d.shared ? '#ffd700' : cssVar('--node-stroke'))
+    .attr('stroke-width', d => d.shared ? 4 : 1.5)
     .on('click', (e, d) => {
       e.stopPropagation();
       if (d.type === 'graph_ref') {
@@ -644,7 +650,7 @@ function renderD3Graph(nodes, edges, unified = false) {
     .on('mouseover', (e, d) => {
       let html = `<strong>${d.label}</strong><br>type: ${d.type}`;
       if (d.graphId) html += `<br>hive: ${d.graphId}`;
-      if (d.target_graph_id) html += `<br>→ ${d.target_graph_id}`;
+      if (d.shared) html += `<br><span style="color:#ffd700;">★ Shared across hives</span>`;
       if (d.type === 'paper') {
         if (d.authors) html += `<br><em>${d.authors}</em>`;
         if (d.abstract) html += `<br><span style="font-size:10px;color:var(--text-secondary)">${d.abstract.slice(0, 200)}…</span>`;
@@ -709,7 +715,9 @@ function loadHives() {
       cb.addEventListener('change', () => {
         if (cb.checked) state.selectedHives.add(h.id);
         else state.selectedHives.delete(h.id);
-        document.getElementById('compare-btn').style.display = state.selectedHives.size >= 2 ? '' : 'none';
+        const n = state.selectedHives.size;
+        document.getElementById('visualize-btn').style.display = n >= 1 ? '' : 'none';
+        document.getElementById('compare-btn').style.display = n >= 2 ? '' : 'none';
       });
       list.appendChild(card);
     });
@@ -718,6 +726,7 @@ function loadHives() {
     for (const hid of state.selectedHives) {
       if (!activeIds.has(hid)) state.selectedHives.delete(hid);
     }
+    document.getElementById('visualize-btn').style.display = state.selectedHives.size >= 1 ? '' : 'none';
     document.getElementById('compare-btn').style.display = state.selectedHives.size >= 2 ? '' : 'none';
     const visibleCount = hives.filter(h => h.visible !== false).length;
     document.getElementById('status-bar').textContent =
@@ -885,6 +894,47 @@ function loadHiveGraph(hiveId) {
   });
 }
 
+// ---- Visualize selected hives together ----
+document.getElementById('visualize-btn').addEventListener('click', async () => {
+  const hives = Array.from(state.selectedHives);
+  if (!hives.length) return;
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('loading').textContent = 'Loading combined graph...';
+  try {
+    const hiveData = await Promise.all(hives.map(h => api(`/api/hive/${encodeURIComponent(h)}`)));
+    const allNodes = [];
+    const allEdges = [];
+    const nodeMap = new Map();
+    hiveData.forEach((hd) => {
+      const prefix = hd.id;
+      hd.nodes.forEach(n => {
+        const uid = `${prefix}:${n.id}`;
+        if (!nodeMap.has(uid)) {
+          nodeMap.set(uid, { ...n, uid, label: n.label, graphId: prefix });
+          allNodes.push(nodeMap.get(uid));
+        }
+      });
+      hd.edges.forEach(e => {
+        const suid = `${prefix}:${e.source}`;
+        const tuid = `${e.target_graph || prefix}:${e.target}`;
+        if (nodeMap.has(suid) && nodeMap.has(tuid)) {
+          allEdges.push({ ...e, source: suid, target: tuid });
+        }
+      });
+    });
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('view-title').textContent = `Combined: ${hives.join(', ')}`;
+    document.getElementById('view-subtitle').textContent = `${allNodes.length} nodes, ${allEdges.length} edges across ${hives.length} hives`;
+    renderD3Graph(allNodes, allEdges, true);
+    // Close any open query panel
+    document.getElementById('query-panel').classList.remove('visible');
+    showToast(`Showing ${allNodes.length} nodes across ${hives.length} hives`, 'ok');
+  } catch (err) {
+    document.getElementById('loading').style.display = 'none';
+    showToast('Failed to load: ' + err.message, 'err');
+  }
+});
+
 // ---- Compare ----
 document.getElementById('compare-btn').addEventListener('click', async () => {
   const hives = Array.from(state.selectedHives);
@@ -933,6 +983,28 @@ document.getElementById('compare-btn').addEventListener('click', async () => {
       document.getElementById('view-title').textContent = `Compare: ${hives.join(' vs ')}`;
       document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
       renderD3Graph(result.nodes, result.edges, true);
+
+      // Add overlap toggle into the query-panel header
+      const panelHeader = panel.querySelector('.header');
+      if (result.overlap_nodes && result.overlap_nodes.length) {
+        const toggleBtn = document.createElement('button');
+        toggleBtn.textContent = 'Show overlaps only';
+        toggleBtn.style.cssText = 'background:var(--accent-yellow);border:none;border-radius:4px;padding:2px 10px;color:#fff;font-size:10px;cursor:pointer;margin-left:12px;';
+        let showingOverlapsOnly = false;
+        toggleBtn.addEventListener('click', () => {
+          showingOverlapsOnly = !showingOverlapsOnly;
+          if (showingOverlapsOnly) {
+            renderD3Graph(result.overlap_nodes, result.overlap_edges, true);
+            toggleBtn.textContent = 'Show all nodes';
+            document.getElementById('view-subtitle').textContent = `${result.overlap_nodes.length} overlap nodes, ${result.overlap_edges.length} edges`;
+          } else {
+            renderD3Graph(result.nodes, result.edges, true);
+            toggleBtn.textContent = 'Show overlaps only';
+            document.getElementById('view-subtitle').textContent = `${result.nodes.length} nodes, ${result.edges.length} edges, ${result.overlap_count} overlaps`;
+          }
+        });
+        panelHeader.appendChild(toggleBtn);
+      }
       showToast(`Compare: ${result.nodes.length} nodes, ${result.overlap_count} overlapping concepts`, 'ok');
     }
   } catch (err) {
