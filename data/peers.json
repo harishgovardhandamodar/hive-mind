@@ -1,0 +1,14 @@
+{
+  "instance_id": "2b7170c5-5e44-4e34-92f4-dd7aee5b946d",
+  "instance_name": "",
+  "public_url": "http://0.0.0.0:9090",
+  "instance_secret": "d350fbe5623ee1a125f6b0d86fbc2bd2b98378e1a65213d0670e214bd3a68ae0",
+  "peers": {
+    "58b0d9fa": {
+      "id": "58b0d9fa",
+      "name": "My Remote Instance",
+      "url": "http://192.168.1.50:9090",
+      "added_at": "2026-06-30T13:00:09Z"
+    }
+  }
+}

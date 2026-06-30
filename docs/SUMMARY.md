@@ -16,6 +16,7 @@
 * [Search](guide/search.md)
 * [Exporting](guide/exporting.md)
 * [Backups & Rollback](guide/backups.md)
+* [Peer-to-Peer Hive Sharing](guide/peer-pairing.md)
 
 ## CLI Reference
 

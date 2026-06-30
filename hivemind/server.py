@@ -1,6 +1,8 @@
 import json
 import logging
 import os
+import re
+import ssl
 import sys
 import time
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
@@ -154,10 +156,12 @@ class Handler(BaseHTTPRequestHandler):
             name = body.get("name", "").strip()
             if not name:
                 return self._json(400, {"error": "provide 'name'"})
+            owner = body.get("owner", "").strip()
             try:
-                hive_path = _hm.create_hive(name)
+                hive_path = _hm.create_hive(name, owner=owner)
                 broadcast_event("hive-update", {"hive": name, "action": "create"})
-                self._json(200, {"status": "ok", "hive": name, "path": hive_path})
+                self._json(200, {"status": "ok", "hive": name, "path": hive_path,
+                                 "owner": owner})
             except (ValueError, OSError) as e:
                 self._json(409, {"error": str(e)})
         elif path == "/api/collections":
@@ -230,6 +234,141 @@ class Handler(BaseHTTPRequestHandler):
             broadcast_event("hive-update", {"hive": hive_id, "action": "visibility",
                                             "visible": visible})
             self._json(200, {"status": "ok", "hive": hive_id, "visible": visible})
+        elif path == "/api/hives/import":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            data = body.get("data")
+            if not data:
+                return self._json(400, {"error": "provide 'data' with exported hive"})
+            target_name = body.get("target_name")
+            merge_similar = body.get("merge_similar", True)
+            try:
+                report = _hm.import_hive_data(data, target_name, merge_similar)
+                broadcast_event("hive-update", {"hive": report["hive_id"], "action": "import"})
+                self._json(200, report)
+            except ValueError as e:
+                self._json(400, {"error": str(e)})
+        elif path == "/api/peers":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            url = body.get("url", "").strip()
+            if not url:
+                return self._json(400, {"error": "provide 'url'"})
+            name = body.get("name", "")
+            try:
+                peer = _hm.add_peer(url, name)
+                self._json(200, peer)
+            except Exception as e:
+                self._json(400, {"error": str(e)})
+        elif path == "/api/peering/name":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            name = body.get("name", "").strip()
+            _hm.set_instance_name(name)
+            self._json(200, {"status": "ok", "instance_name": name})
+        elif path == "/api/peering/invite":
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            ttl = 600
+            try:
+                body = json.loads(self._read_body())
+                ttl = int(body.get("ttl", 600))
+            except (json.JSONDecodeError, ValueError):
+                pass
+            invite = _hm.create_invite(ttl)
+            self._json(200, invite)
+        elif path == "/api/peers/pair":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            url = body.get("url", "").strip()
+            if not url:
+                return self._json(400, {"error": "provide 'url'"})
+            token = body.get("token")
+            try:
+                result = _hm.pair_with_peer(url, token)
+                self._json(200, result)
+            except ValueError as e:
+                self._json(400, {"error": str(e)})
+            except Exception as e:
+                self._json(500, {"error": str(e)})
+        elif path == "/api/peering/pair":
+            """Called by a remote instance to register us as its peer (bidirectional)."""
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            peer_url = body.get("peer_url", "").strip()
+            peer_name = body.get("peer_name", peer_url)
+            instance_id = body.get("instance_id", "")
+            peer_fingerprint = body.get("fingerprint", "")
+            token = body.get("token")
+            if not peer_url:
+                return self._json(400, {"error": "provide 'peer_url'"})
+            try:
+                peer = _hm.accept_pair(peer_url, peer_name, instance_id,
+                                       peer_fingerprint, token)
+                self._json(200, {"status": "ok", "peer": peer})
+            except ValueError as e:
+                self._json(400, {"error": str(e)})
+            except Exception as e:
+                self._json(400, {"error": str(e)})
+        elif path.startswith("/api/peers/") and path.endswith("/sync"):
+            pid = path.split("/")[-2]
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            try:
+                reports = _hm.pull_peer_hives(pid)
+                self._json(200, {"peer_id": pid, "results": reports})
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+            except Exception as e:
+                self._json(500, {"error": str(e)})
+        elif re.match(r"^/api/peers/[^/]+/pull/.+$", path):
+            parts = path.split("/")
+            pid = parts[-3]
+            hive_id = unquote(parts[-1])
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            try:
+                reports = _hm.pull_peer_hives(pid, hive_id)
+                self._json(200, {"peer_id": pid, "hive_id": hive_id, "results": reports})
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+            except Exception as e:
+                self._json(500, {"error": str(e)})
+        else:
+            self._json(404, {"error": "not found"})
+
+    def do_DELETE(self):
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/")
+        if path.startswith("/api/peers/"):
+            pid = path.split("/")[-1]
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            try:
+                _hm.remove_peer(pid)
+                self._json(200, {"status": "ok", "peer": pid})
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
         else:
             self._json(404, {"error": "not found"})
 
@@ -245,6 +384,15 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, _hm.list_hives() if _hm else [])
         elif path == "/api/meta-graph":
             self._json(200, _hm.meta_graph() if _hm else {"nodes": [], "edges": []})
+        elif re.match(r"^/api/hive/.+/export-data$", path):
+            hive_id = unquote(path.split("/")[-2])
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            try:
+                result = _hm.export_hive_data(hive_id)
+                self._json(200, result)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
         elif path.startswith("/api/hive/"):
             hive_id = unquote(path.split("/")[-1])
             kg = _hm.get_hive_graph(hive_id) if _hm else None
@@ -404,6 +552,33 @@ class Handler(BaseHTTPRequestHandler):
                     self._json(200, result)
             except ValueError as e:
                 self._json(404, {"error": str(e)})
+        elif path == "/api/peering/info":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            info = _hm.instance_info()
+            info["host"] = self.headers.get("Host", "unknown")
+            self._json(200, info)
+        elif path == "/api/peering/hives":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            hives = [{"id": h["id"], "papers": h["papers"],
+                      "concepts": h["concepts"], "relations": h["relations"]}
+                     for h in _hm.list_hives()]
+            self._json(200, hives)
+        elif re.match(r"^/api/peering/hive/.+$", path):
+            hive_id = unquote(path.split("/")[-1])
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            try:
+                result = _hm.export_hive_data(hive_id)
+                result["_forwarded_from"] = f"{self.headers.get('Host', 'unknown')}"
+                self._json(200, result)
+            except ValueError as e:
+                self._json(404, {"error": str(e)})
+        elif path == "/api/peers":
+            if not _hm:
+                return self._json(503, {"error": "not ready"})
+            self._json(200, _hm.list_peers())
         elif path == "/api/auth/keys":
             if not _hm:
                 return self._json(503, {"error": "not ready"})
@@ -495,13 +670,29 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def serve(host: str = "127.0.0.1", port: int = 9090,
-          config: dict | None = None) -> None:
+          config: dict | None = None,
+          certfile: str | None = None,
+          keyfile: str | None = None) -> None:
     global _hm
     config = config or load_config()
     _hm = HiveMind(config)
 
+    # Determine scheme and public URL
+    use_tls = bool(certfile and keyfile)
+    scheme = "https" if use_tls else "http"
+    public_url = os.environ.get("HIVEMIND_PUBLIC_URL", f"{scheme}://{host}:{port}")
+    _hm.set_public_url(public_url)
+
     server = ThreadingHTTPServer((host, port), Handler)
-    logger.info("HiveMind Dashboard → http://%s:%s", host, port)
+
+    if use_tls:
+        ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+        ctx.load_cert_chain(certfile, keyfile)
+        server.socket = ctx.wrap_socket(server.socket, server_side=True)
+        logger.info("TLS enabled (cert=%s)", certfile)
+
+    logger.info("HiveMind Dashboard → %s://%s:%s", scheme, host, port)
+    logger.info("Public URL → %s", public_url)
     logger.info("Press Ctrl+C to stop")
     try:
         server.serve_forever()
