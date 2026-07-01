@@ -9,6 +9,12 @@
       "name": "My Remote Instance",
       "url": "http://192.168.1.50:9090",
       "added_at": "2026-06-30T13:00:09Z"
+    },
+    "946fea5b": {
+      "id": "946fea5b",
+      "name": "Ninja",
+      "url": "http://100.85.37.6:9090",
+      "added_at": "2026-06-30T17:09:09Z"
     }
   }
 }
