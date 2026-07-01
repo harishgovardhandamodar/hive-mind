@@ -91,7 +91,7 @@
       "label": "starcloud",
       "path": "/home/fox/hive-data/hives/starcloud/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "visible": true,
+      "visible": false,
       "id": "starcloud"
     },
     {
@@ -227,6 +227,30 @@
       "visible": true,
       "owner": "Harish",
       "id": "high-energy-physics"
+    },
+    {
+      "label": "tabular-foundation-models",
+      "path": "/home/fox/hive-data/hives/tabular-foundation-models/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "Ninja",
+      "id": "tabular-foundation-models"
+    },
+    {
+      "label": "Quantum Key Distribution",
+      "path": "/home/fox/hive-data/hives/Quantum Key Distribution/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "Ninja",
+      "id": "Quantum Key Distribution"
+    },
+    {
+      "label": "quantum-federated-learning",
+      "path": "/home/fox/hive-data/hives/quantum-federated-learning/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "Ninja",
+      "id": "quantum-federated-learning"
     }
   ],
   "links": [
