@@ -63,7 +63,7 @@
       "label": "cryptocurrencies",
       "path": "/home/fox/codebase/hive-mind/hives/cryptocurrencies/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "visible": false,
+      "visible": true,
       "id": "cryptocurrencies"
     },
     {
@@ -77,7 +77,7 @@
       "label": "proof-of-stake",
       "path": "/home/fox/codebase/hive-mind/hives/proof-of-stake/data/graph/knowledge_graph.json",
       "type": "knowledge_graph",
-      "visible": false,
+      "visible": true,
       "id": "proof-of-stake"
     },
     {
@@ -91,9 +91,37 @@
   "links": [
     {
       "relation": "references",
+      "label": "photonic-computing",
+      "source": "quantum-computing",
+      "target": "photonic-computing",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "transformers",
+      "source": "quantum-computing",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "ai-acceleration",
+      "source": "quantum-computing",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "label": "quantum-computing",
       "source": "photonic-computing",
       "target": "quantum-computing",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "ai-acceleration",
+      "source": "photonic-computing",
+      "target": "ai-acceleration",
       "key": 0
     },
     {
@@ -119,6 +147,13 @@
     },
     {
       "relation": "references",
+      "label": "transformers",
+      "source": "ai-acceleration",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "label": "cryptocurrencies",
       "source": "graph-networks",
       "target": "cryptocurrencies",
@@ -129,6 +164,27 @@
       "label": "ai-agents",
       "source": "graph-networks",
       "target": "ai-agents",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "gnns",
+      "source": "graph-networks",
+      "target": "gnns",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "transformers",
+      "source": "graph-networks",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "llms",
+      "source": "graph-networks",
+      "target": "llms",
       "key": 0
     },
     {
@@ -182,6 +238,27 @@
     },
     {
       "relation": "references",
+      "label": "transformers",
+      "source": "llms",
+      "target": "transformers",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "ai-acceleration",
+      "source": "llms",
+      "target": "ai-acceleration",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "proof-of-work",
+      "source": "cryptocurrencies",
+      "target": "proof-of-work",
+      "key": 0
+    },
+    {
+      "relation": "references",
       "label": "proof-of-stake",
       "source": "proof-of-work",
       "target": "proof-of-stake",
@@ -199,6 +276,13 @@
       "label": "cryptocurrencies",
       "source": "proof-of-stake",
       "target": "cryptocurrencies",
+      "key": 0
+    },
+    {
+      "relation": "references",
+      "label": "proof-of-work",
+      "source": "proof-of-stake",
+      "target": "proof-of-work",
       "key": 0
     }
   ]

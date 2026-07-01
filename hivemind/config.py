@@ -4,6 +4,18 @@ import yaml
 DEFAULT_CONFIG = {
     "hives_dir": "hives",
     "meta_graph_path": "data/meta_graph.json",
+    "vector_store": {
+        # sentence-transformers model config for VectorStore instantiation
+        "model_name": "all-MiniLM-L6-v2",
+        # similarity metric to use: cosine, euclidean, manhattan, dot
+        "similarity_metric": "cosine",
+        # max LRU cache entries per VectorStore instance
+        "cache_size": 128,
+        # default vector similarity threshold for search
+        "threshold_vector": 0.5,
+        # default fuzzy match threshold as fallback
+        "threshold_fuzzy": 0.3,
+    },
     "server": {
         "host": "127.0.0.1",
         "port": 9090,
@@ -11,7 +23,7 @@ DEFAULT_CONFIG = {
 }
 
 
-def load(config_path: str | None = None) -> dict:
+def load(config_path=None):
     config = DEFAULT_CONFIG.copy()
 
     search_paths = [
