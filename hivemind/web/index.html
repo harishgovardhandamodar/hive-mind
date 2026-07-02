@@ -36,6 +36,7 @@
   --concept-color: #238636;
   --graphref-color: #da3633;
   --edge-color: #636e7b;
+  --edge-width: 1.5;
 }
 
 html.light {
@@ -115,11 +116,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 /* Graph styles */
 .node circle { stroke: var(--node-stroke); stroke-width: 1.5px; cursor: pointer; transition: r .15s; }
 .node circle:hover { stroke: var(--node-stroke-hover); }
+.node rect { stroke: var(--node-stroke); stroke-width: 1.5px; cursor: pointer; }
+.node rect:hover { stroke: var(--node-stroke-hover); }
 .node text { font-size: 11px; fill: var(--text-title); pointer-events: none; }
 .node text.label { font-size: 11px; }
 .node text.type-label { font-size: 8px; fill: var(--text-secondary); }
 
-.link { stroke: var(--edge-color); stroke-opacity: 0.65; stroke-width: 1.5; }
+.link { stroke: var(--edge-color); stroke-opacity: 0.65; stroke-width: calc(var(--edge-width, 1.5) * 1px); }
 .link.cross { stroke: var(--accent-yellow); stroke-dasharray: 4 3; }
 .link.ref { stroke: var(--accent); stroke-width: 2; }
 
@@ -275,6 +278,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #refine-content .apply-btn { padding: 2px 10px; border: none; border-radius: 4px; background: var(--accent-green); color: #fff; font-size: 11px; cursor: pointer; margin-right: 6px; }
 #refine-content .dismiss-btn { padding: 2px 10px; border: 1px solid var(--border); border-radius: 4px; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; }
 #refine-close:hover { background: var(--bg-card-hover); color: var(--text); }
+#settings-panel .header { padding: 10px 16px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: var(--text-title); }
+#settings-content .setting-row { display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px; }
+#settings-content .setting-row label { min-width:80px;color:var(--text-secondary); }
+#settings-content .setting-row input[type="range"] { flex:1;max-width:160px; }
+#settings-content .setting-row input[type="color"] { width:32px;height:24px;border:1px solid var(--border);border-radius:4px;padding:1px;background:none;cursor:pointer; }
+#settings-content .setting-row span { min-width:24px;text-align:right;font-variant-numeric:tabular-nums; }
+#settings-close:hover { background: var(--bg-card-hover); color: var(--text); }
+.edge-labels-hidden .link-label-group { display: none; }
 
 /* Toast */
 #toast {
@@ -375,6 +386,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       <button id="enrich-btn" style="background:#8b5cf6;border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;" title="Generate definitions via Ollama">Enrich</button>
       <button id="refine-btn" style="background:#e06c75;border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;" title="Analyze and refine graph with Ollama">Refine</button>
       <button id="ollama-config-btn" style="background:transparent;border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text-secondary);font-size:11px;cursor:pointer;" title="Ollama settings">Ollama</button>
+      <button id="settings-btn" style="background:transparent;border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text-secondary);font-size:14px;cursor:pointer;" title="Graph settings">&#9881;</button>
       <input type="file" id="import-file-input" accept=".json" style="display:none;">
       <button id="sidebar-toggle" title="Toggle sidebar">☰</button>
       <div id="unified-search-box">
@@ -479,6 +491,36 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
         <div class="header">Graph Refinement Suggestions</div>
         <div id="refine-close" title="Close" style="position:absolute;top:8px;right:12px;cursor:pointer;color:var(--text-secondary);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;">&times;</div>
         <div id="refine-content" style="padding:12px 16px;font-size:13px;color:var(--text);"></div>
+      </div>
+      <div id="settings-panel" style="position:absolute;top:0;left:0;right:0;background:var(--bg-results);border-bottom:1px solid var(--border);display:none;z-index:50;overflow-y:auto;max-height:60%;">
+        <div class="header">Graph Settings</div>
+        <div id="settings-close" title="Close" style="position:absolute;top:8px;right:12px;cursor:pointer;color:var(--text-secondary);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;">&times;</div>
+        <div id="settings-content" style="padding:12px 16px;font-size:13px;color:var(--text);">
+          <div style="margin-bottom:12px;">
+            <div style="font-weight:600;margin-bottom:6px;">Node Sizes</div>
+            <div class="setting-row"><label>Paper</label><input type="range" id="size-paper" min="4" max="30" step="1" value="14"><span id="size-paper-val">14</span></div>
+            <div class="setting-row"><label>Concept</label><input type="range" id="size-concept" min="4" max="30" step="1" value="9"><span id="size-concept-val">9</span></div>
+            <div class="setting-row"><label>Graph Ref</label><input type="range" id="size-graphref" min="4" max="30" step="1" value="12"><span id="size-graphref-val">12</span></div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="font-weight:600;margin-bottom:6px;">Edge Width</div>
+            <div class="setting-row"><label>Width</label><input type="range" id="edge-width" min="0.5" max="6" step="0.5" value="1.5"><span id="edge-width-val">1.5</span></div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="font-weight:600;margin-bottom:6px;">Edge Labels</div>
+            <div class="setting-row"><label>Show labels</label><input type="checkbox" id="edge-labels-toggle" checked></div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="font-weight:600;margin-bottom:6px;">Node Colors</div>
+            <div class="setting-row"><label>Paper</label><input type="color" id="color-paper" value="#1f6feb"></div>
+            <div class="setting-row"><label>Concept</label><input type="color" id="color-concept" value="#238636"></div>
+            <div class="setting-row"><label>Graph Ref</label><input type="color" id="color-graphref" value="#da3633"></div>
+            <div class="setting-row"><label>Edge</label><input type="color" id="color-edge" value="#636e7b"></div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button id="settings-reset-btn" style="padding:5px 14px;border:1px solid var(--border);border-radius:6px;background:var(--btn-bg);color:var(--text);font-size:11px;cursor:pointer;">Reset Defaults</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -618,12 +660,24 @@ function renderMetaGraph() {
     .attr('stroke-opacity', 0.6);
 
   const linkLabel = g.append('g')
-    .selectAll('text')
+    .selectAll('g')
     .data(state.metaGraph.edges)
-    .join('text')
-    .attr('class', 'link-label')
-    .text(d => d.relation)
-    .attr('dy', -4);
+    .join('g')
+    .attr('class', 'link-label-group')
+    .each(function(d) {
+      const el = d3.select(this);
+      el.append('rect')
+        .attr('rx', 3).attr('ry', 3)
+        .attr('fill', 'var(--bg-card)')
+        .attr('stroke', 'var(--border)')
+        .attr('stroke-width', 0.5)
+        .attr('opacity', 0.85);
+      el.append('text')
+        .attr('class', 'link-label')
+        .attr('dy', -4)
+        .attr('text-anchor', 'middle')
+        .text(d.relation);
+    });
 
   const node = g.append('g')
     .selectAll('g')
@@ -656,8 +710,26 @@ function renderMetaGraph() {
   simulation.on('tick', () => {
     link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
         .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
-    linkLabel.attr('x', d => (d.source.x + d.target.x) / 2)
-             .attr('y', d => (d.source.y + d.target.y) / 2);
+    linkLabel
+      .attr('transform', d => {
+        const mx = (d.source.x + d.target.x) / 2;
+        const my = (d.source.y + d.target.y) / 2;
+        return `translate(${mx},${my})`;
+      })
+      .each(function(d) {
+        const el = d3.select(this);
+        const textEl = el.select('text');
+        const rectEl = el.select('rect');
+        if (textEl.node()) {
+          const bbox = textEl.node().getBBox();
+          const pad = 3;
+          rectEl
+            .attr('x', bbox.x - pad)
+            .attr('y', bbox.y - pad)
+            .attr('width', bbox.width + pad * 2)
+            .attr('height', bbox.height + pad * 2);
+        }
+      });
     node.attr('transform', d => `translate(${d.x},${d.y})`);
   });
 }
@@ -789,18 +861,23 @@ function renderD3Graph(nodes, edges, unified = false, hiveId = null) {
       })
     );
 
-  const baseRadius = { paper: 7, concept: 9, graph_ref: 12 };
+  const baseRadius = {
+    paper: parseInt(sizePaper?.value) || 14,
+    concept: parseInt(sizeConcept?.value) || 9,
+    graph_ref: parseInt(sizeGraphref?.value) || 12,
+  };
   const computedStyle = getComputedStyle(document.documentElement);
   function cssVar(name) { return computedStyle.getPropertyValue(name).trim(); }
 
   node.append('circle')
     .attr('r', d => {
+      if (d.type === 'paper') return 0;
       if (d.shared) return (baseRadius[d.type] || 7) + 5;
       return baseRadius[d.type] || 7;
     })
     .attr('fill', d => {
       if (d.graphId && unified) return COLORS(d.graphId);
-      if (d.type === 'paper') return cssVar('--paper-color') || '#1f6feb';
+      if (d.type === 'paper') return 'transparent';
       if (d.type === 'concept') return cssVar('--concept-color') || '#238636';
       if (d.type === 'graph_ref') return cssVar('--graphref-color') || '#da3633';
       return '#8b949e';
@@ -828,6 +905,49 @@ function renderD3Graph(nodes, edges, unified = false, hiveId = null) {
       if (d.type === 'concept' && d.definition) {
         html += `<br><em>${d.definition.slice(0, 150)}</em>`;
       }
+      showTooltip(e, html);
+    })
+    .on('mouseout', hideTooltip);
+
+  // Paper nodes as rounded squares
+  node.append('rect')
+    .attr('rx', 4)
+    .attr('ry', 4)
+    .attr('width', d => {
+      const r = d.shared ? (baseRadius.paper || 14) + 5 : (baseRadius.paper || 14);
+      return r * 2;
+    })
+    .attr('height', d => {
+      const r = d.shared ? (baseRadius.paper || 14) + 5 : (baseRadius.paper || 14);
+      return r * 2;
+    })
+    .attr('x', d => {
+      const r = d.shared ? (baseRadius.paper || 14) + 5 : (baseRadius.paper || 14);
+      return -r;
+    })
+    .attr('y', d => {
+      const r = d.shared ? (baseRadius.paper || 14) + 5 : (baseRadius.paper || 14);
+      return -r;
+    })
+    .attr('fill', d => {
+      if (d.graphId && unified) return COLORS(d.graphId);
+      return cssVar('--paper-color') || '#1f6feb';
+    })
+    .attr('stroke', d => d.shared ? '#ffd700' : cssVar('--node-stroke'))
+    .attr('stroke-width', d => d.shared ? 3 : 1.5)
+    .attr('filter', d => d.shared ? 'url(#glow)' : null)
+    .style('display', d => d.type === 'paper' ? null : 'none')
+    .style('cursor', 'pointer')
+    .on('click', (e, d) => {
+      e.stopPropagation();
+    })
+    .on('mouseover', (e, d) => {
+      let html = `<strong>${d.label}</strong><br>type: ${d.type}`;
+      if (d.graphId) html += `<br>hive: ${d.hiveIds ? d.hiveIds.join(', ') : d.graphId}`;
+      if (d.shared) html += `<br><span style="color:#ffd700;">★ Shared across hives</span>`;
+      if (d.authors) html += `<br><em>${d.authors}</em>`;
+      if (d.abstract) html += `<br><span style="font-size:10px;color:var(--text-secondary)">${d.abstract.slice(0, 200)}…</span>`;
+      if (d.arxiv_id) html += `<br><a href="https://arxiv.org/abs/${d.arxiv_id}" target="_blank" style="color:var(--accent);font-size:11px;">arxiv:${d.arxiv_id}</a>`;
       showTooltip(e, html);
     })
     .on('mouseout', hideTooltip);
@@ -2226,6 +2346,165 @@ if (ollamaSaveBtn) {
     }
   });
 }
+
+// ---- Graph Settings ----
+const settingsBtn = document.getElementById('settings-btn');
+const settingsPanel = document.getElementById('settings-panel');
+const settingsClose = document.getElementById('settings-close');
+const settingsResetBtn = document.getElementById('settings-reset-btn');
+const sizePaper = document.getElementById('size-paper');
+const sizeConcept = document.getElementById('size-concept');
+const sizeGraphref = document.getElementById('size-graphref');
+const edgeWidth = document.getElementById('edge-width');
+const edgeLabelsToggle = document.getElementById('edge-labels-toggle');
+const colorPaper = document.getElementById('color-paper');
+const colorConcept = document.getElementById('color-concept');
+const colorGraphref = document.getElementById('color-graphref');
+const colorEdge = document.getElementById('color-edge');
+
+const SETTINGS_DEFAULTS = {
+  'size-paper': 14, 'size-concept': 9, 'size-graphref': 12,
+  'edge-width': 1.5,
+  'edge-labels': true,
+  'color-paper': '#1f6feb', 'color-concept': '#238636', 'color-graphref': '#da3633', 'color-edge': '#636e7b',
+};
+
+function initSettings() {
+  // Load from localStorage
+  Object.keys(SETTINGS_DEFAULTS).forEach(key => {
+    const saved = localStorage.getItem('hm_' + key);
+    if (saved !== null) {
+      const el = document.getElementById(key);
+      if (el) {
+        if (el.type === 'checkbox') el.checked = saved === 'true';
+        else el.value = saved;
+      }
+    }
+  });
+  applySettings();
+
+  // Wire range sliders to show values
+  document.querySelectorAll('#settings-content input[type="range"]').forEach(el => {
+    const val = document.getElementById(el.id + '-val');
+    if (val) val.textContent = el.value;
+    el.addEventListener('input', () => {
+      const val = document.getElementById(el.id + '-val');
+      if (val) val.textContent = el.value;
+    });
+  });
+}
+
+function applySettings() {
+  // Colors via CSS custom properties on root
+  document.documentElement.style.setProperty('--paper-color', colorPaper.value);
+  document.documentElement.style.setProperty('--concept-color', colorConcept.value);
+  document.documentElement.style.setProperty('--graphref-color', colorGraphref.value);
+  document.documentElement.style.setProperty('--edge-color', colorEdge.value);
+  // Edge width via CSS
+  document.documentElement.style.setProperty('--edge-width', edgeWidth.value);
+  // Edge label toggle
+  document.getElementById('graph-container').classList.toggle('edge-labels-hidden', !edgeLabelsToggle.checked);
+  // Update node sizes in-place on existing D3 graph
+  const svg = document.querySelector('#graph-container svg');
+  if (svg) {
+    const paperR = parseInt(sizePaper.value) || 14;
+    const conceptR = parseInt(sizeConcept.value) || 9;
+    const graphrefR = parseInt(sizeGraphref.value) || 12;
+    // Update paper rects
+    svg.querySelectorAll('.node rect').forEach(el => {
+      const d = d3.select(el).datum();
+      if (!d) return;
+      const r = d.type === 'paper' ? paperR : (d.type === 'graph_ref' ? graphrefR : conceptR);
+      const sr = d.shared ? r + 5 : r;
+      el.setAttribute('width', sr * 2);
+      el.setAttribute('height', sr * 2);
+      el.setAttribute('x', -sr);
+      el.setAttribute('y', -sr);
+    });
+    // Update concept/graph_ref circles
+    svg.querySelectorAll('.node circle').forEach(el => {
+      const d = d3.select(el).datum();
+      if (!d) return;
+      if (d.type === 'paper') { el.setAttribute('r', 0); return; }
+      const r = d.type === 'graph_ref' ? graphrefR : conceptR;
+      el.setAttribute('r', d.shared ? r + 5 : r);
+    });
+    // Update label positions
+    svg.querySelectorAll('.node text.label').forEach(el => {
+      const d = d3.select(el).datum();
+      if (!d) return;
+      const r = d.type === 'paper' ? paperR : (d.type === 'graph_ref' ? graphrefR : conceptR);
+      el.setAttribute('dy', -(d.shared ? r + 7 : r + 4));
+    });
+  }
+}
+
+function saveSetting(key) {
+  const el = document.getElementById(key);
+  if (!el) return;
+  const val = el.type === 'checkbox' ? el.checked : el.value;
+  localStorage.setItem('hm_' + key, String(val));
+}
+
+function showSettings() {
+  settingsPanel.style.display = '';
+  docTabs.style.display = 'none';
+}
+
+function hideSettings() {
+  settingsPanel.style.display = 'none';
+  docTabs.style.display = '';
+}
+
+if (settingsBtn) settingsBtn.addEventListener('click', showSettings);
+if (settingsClose) settingsClose.addEventListener('click', hideSettings);
+
+// Wire settings controls
+document.querySelectorAll('#settings-content input').forEach(el => {
+  if (el.type === 'range') {
+    // Live update value display, but only re-render on change (mouse up)
+    el.addEventListener('input', () => {
+      saveSetting(el.id);
+      // Colors and edge width update live
+      if (el.id === 'edge-width') {
+        document.documentElement.style.setProperty('--edge-width', el.value);
+        document.querySelectorAll('.link').forEach(l => l.style.strokeWidth = el.value);
+      }
+    });
+    el.addEventListener('change', () => {
+      applySettings();
+      saveSetting(el.id);
+    });
+  } else {
+    el.addEventListener('input', () => {
+      applySettings();
+      saveSetting(el.id);
+    });
+    el.addEventListener('change', () => {
+      applySettings();
+      saveSetting(el.id);
+    });
+  }
+});
+
+if (settingsResetBtn) {
+  settingsResetBtn.addEventListener('click', () => {
+    Object.entries(SETTINGS_DEFAULTS).forEach(([key, val]) => {
+      const el = document.getElementById(key);
+      if (el) {
+        if (el.type === 'checkbox') el.checked = val;
+        else el.value = String(val);
+        const valEl = document.getElementById(key + '-val');
+        if (valEl) valEl.textContent = String(val);
+      }
+      localStorage.removeItem('hm_' + key);
+    });
+    applySettings();
+  });
+}
+
+initSettings();
+
 window.addEventListener('resize', () => {
   if (state.view === 'meta') renderMetaGraph();
   else if (state.view === 'unified') render();
