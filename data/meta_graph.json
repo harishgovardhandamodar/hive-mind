@@ -331,6 +331,14 @@
       "visible": true,
       "owner": "harish",
       "id": "AI Acceleration"
+    },
+    {
+      "label": "knowledge graph",
+      "path": "/home/fox/hive-data/hives/knowledge graph/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "knowledge graph"
     }
   ],
   "links": [
