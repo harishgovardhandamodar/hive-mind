@@ -267,6 +267,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 #enrich-status .ok { color: var(--accent-green); }
 #enrich-status .done { color: var(--accent); font-weight: 600; }
 #enrich-close:hover { background: var(--bg-card-hover); color: var(--text); }
+#refine-panel .header { padding: 10px 16px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: var(--text-title); }
+#refine-content { padding: 12px 16px; font-size: 13px; line-height: 1.6; color: var(--text); }
+#refine-content .suggestion { margin-bottom: 12px; padding: 8px 10px; background: var(--bg-card); border-radius: 6px; border: 1px solid var(--border); }
+#refine-content .suggestion .type { font-weight: 600; color: var(--accent); }
+#refine-content .suggestion .desc { margin: 4px 0; }
+#refine-content .apply-btn { padding: 2px 10px; border: none; border-radius: 4px; background: var(--accent-green); color: #fff; font-size: 11px; cursor: pointer; margin-right: 6px; }
+#refine-content .dismiss-btn { padding: 2px 10px; border: 1px solid var(--border); border-radius: 4px; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; }
+#refine-close:hover { background: var(--bg-card-hover); color: var(--text); }
 
 /* Toast */
 #toast {
@@ -365,6 +373,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       <button id="import-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">Import Hive</button>
       <button id="link-concepts-btn" style="background:var(--accent-purple, #bc8cff);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;" title="Find similar concepts across hives">Link Concepts</button>
       <button id="enrich-btn" style="background:#8b5cf6;border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;" title="Generate definitions via Ollama">Enrich</button>
+      <button id="refine-btn" style="background:#e06c75;border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;" title="Analyze and refine graph with Ollama">Refine</button>
       <button id="ollama-config-btn" style="background:transparent;border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text-secondary);font-size:11px;cursor:pointer;" title="Ollama settings">Ollama</button>
       <input type="file" id="import-file-input" accept=".json" style="display:none;">
       <button id="sidebar-toggle" title="Toggle sidebar">☰</button>
@@ -465,6 +474,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
           </div>
           <div id="ollama-config-status" style="margin-top:8px;font-size:11px;color:var(--text-secondary);"></div>
         </div>
+      </div>
+      <div id="refine-panel" style="position:absolute;top:0;left:0;right:0;background:var(--bg-results);border-bottom:1px solid var(--border);display:none;z-index:50;overflow-y:auto;max-height:60%;">
+        <div class="header">Graph Refinement Suggestions</div>
+        <div id="refine-close" title="Close" style="position:absolute;top:8px;right:12px;cursor:pointer;color:var(--text-secondary);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;">&times;</div>
+        <div id="refine-content" style="padding:12px 16px;font-size:13px;color:var(--text);"></div>
       </div>
     </div>
   </div>
@@ -738,6 +752,27 @@ function renderD3Graph(nodes, edges, unified = false, hiveId = null) {
     })
     .attr('stroke-opacity', 0.3);
 
+  const linkLabel = g.append('g')
+    .selectAll('g')
+    .data(edges)
+    .join('g')
+    .attr('class', 'link-label-group')
+    .each(function(d) {
+      const el = d3.select(this);
+      el.append('rect')
+        .attr('rx', 3)
+        .attr('ry', 3)
+        .attr('fill', 'var(--bg-card)')
+        .attr('stroke', 'var(--border)')
+        .attr('stroke-width', 0.5)
+        .attr('opacity', 0.85);
+      el.append('text')
+        .attr('class', 'link-label')
+        .attr('dy', -4)
+        .attr('text-anchor', 'middle')
+        .text(d.relation || '');
+    });
+
   const node = g.append('g')
     .selectAll('g')
     .data(nodes)
@@ -806,6 +841,26 @@ function renderD3Graph(nodes, edges, unified = false, hiveId = null) {
   simulation.on('tick', () => {
     link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
         .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    linkLabel
+      .attr('transform', d => {
+        const mx = (d.source.x + d.target.x) / 2;
+        const my = (d.source.y + d.target.y) / 2;
+        return `translate(${mx},${my})`;
+      })
+      .each(function(d) {
+        const el = d3.select(this);
+        const textEl = el.select('text');
+        const rectEl = el.select('rect');
+        if (textEl.node()) {
+          const bbox = textEl.node().getBBox();
+          const pad = 3;
+          rectEl
+            .attr('x', bbox.x - pad)
+            .attr('y', bbox.y - pad)
+            .attr('width', bbox.width + pad * 2)
+            .attr('height', bbox.height + pad * 2);
+        }
+      });
     node.attr('transform', d => `translate(${d.x},${d.y})`);
   });
 }
@@ -1912,8 +1967,159 @@ const origLoadHiveGraph = loadHiveGraph;
 loadHiveGraph = function(id) {
   state.selectedHive = id;
   enrichBtn.style.display = id ? '' : 'none';
+  refineBtn.style.display = id ? '' : 'none';
   return origLoadHiveGraph(id);
 };
+
+// ---- Graph Refinement ----
+const refinePanel = document.getElementById('refine-panel');
+const refineClose = document.getElementById('refine-close');
+const refineContent = document.getElementById('refine-content');
+const refineBtn = document.getElementById('refine-btn');
+
+function showRefinePanel(html) {
+  refineContent.innerHTML = html;
+  refinePanel.style.display = '';
+  docTabs.style.display = 'none';
+}
+
+function hideRefinePanel() {
+  refinePanel.style.display = 'none';
+  docTabs.style.display = '';
+}
+
+if (refineClose) {
+  refineClose.addEventListener('click', hideRefinePanel);
+}
+
+if (refineBtn) {
+  refineBtn.addEventListener('click', async () => {
+    const hive = state.selectedHive;
+    if (!hive) return;
+    showRefinePanel('<em>Analyzing knowledge graph structure...</em>');
+    try {
+      const r = await fetch('/api/refine-graph', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({hive}),
+      });
+      const data = await r.json();
+      if (data.status === 'ok' && data.suggestions) {
+        const s = data.suggestions;
+        let html = '<div style="margin-bottom:8px;font-size:11px;color:var(--text-secondary);">AI-generated suggestions — review before applying</div>';
+        // Missing relations
+        if (s.missing_relations && s.missing_relations.length) {
+          html += '<div style="font-weight:600;margin:8px 0 4px;">Missing Relations</div>';
+          s.missing_relations.forEach((item, i) => {
+            html += `<div class="suggestion">
+              <div class="desc"><span class="type">${item.source}</span> —[<strong>${item.relation}</strong>]→ <span class="type">${item.target}</span></div>
+              <button class="apply-btn" data-type="relation" data-source="${item.source.replace(/"/g, '&quot;')}" data-target="${item.target.replace(/"/g, '&quot;')}" data-relation="${item.relation.replace(/"/g, '&quot;')}" data-hive="${hive}">Apply</button>
+              <button class="dismiss-btn">Dismiss</button>
+            </div>`;
+          });
+        }
+        // Missing concepts
+        if (s.missing_concepts && s.missing_concepts.length) {
+          html += '<div style="font-weight:600;margin:8px 0 4px;">Missing Concepts</div>';
+          s.missing_concepts.forEach((item, i) => {
+            html += `<div class="suggestion">
+              <div class="desc"><span class="type">${item.name}</span> — ${item.justification || ''}</div>
+              <button class="apply-btn" data-type="concept" data-name="${item.name.replace(/"/g, '&quot;')}" data-hive="${hive}">Add Concept</button>
+              <button class="dismiss-btn">Dismiss</button>
+            </div>`;
+          });
+        }
+        // Relation corrections
+        if (s.relation_corrections && s.relation_corrections.length) {
+          html += '<div style="font-weight:600;margin:8px 0 4px;">Relation Corrections</div>';
+          s.relation_corrections.forEach((item, i) => {
+            html += `<div class="suggestion">
+              <div class="desc"><span class="type">${item.source}</span> —[<strong>${item.current}</strong>]→ <span class="type">${item.target}</span> → should be —[<strong>${item.suggested}</strong>]→</div>
+              <button class="apply-btn" data-type="correction" data-source="${item.source.replace(/"/g, '&quot;')}" data-target="${item.target.replace(/"/g, '&quot;')}" data-current="${(item.current || '').replace(/"/g, '&quot;')}" data-suggested="${item.suggested.replace(/"/g, '&quot;')}" data-hive="${hive}">Apply</button>
+              <button class="dismiss-btn">Dismiss</button>
+            </div>`;
+          });
+        }
+        if (!s.missing_relations && !s.missing_concepts && !s.relation_corrections) {
+          html += '<div style="color:var(--text-secondary);">No suggestions — graph looks good!</div>';
+        }
+        showRefinePanel(html);
+
+        // Wire apply buttons
+        refineContent.querySelectorAll('.apply-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const b = e.currentTarget;
+            const type = b.dataset.type;
+            b.textContent = 'Applying...';
+            b.disabled = true;
+            try {
+              if (type === 'relation') {
+                await fetch('/api/add-concept-edge', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    graph: b.dataset.hive,
+                    source: b.dataset.source,
+                    target: b.dataset.target,
+                    relation: b.dataset.relation,
+                  }),
+                });
+              } else if (type === 'concept') {
+                // For concept additions, we add via the search endpoint
+                await fetch('/api/import-concept', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    graph: b.dataset.hive,
+                    name: b.dataset.name,
+                  }),
+                });
+              } else if (type === 'correction') {
+                // Remove old edge and add corrected one
+                await fetch('/api/remove-edge', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    graph: b.dataset.hive,
+                    source: b.dataset.source,
+                    target: b.dataset.target,
+                    relation: b.dataset.current,
+                  }),
+                });
+                await fetch('/api/add-concept-edge', {
+                  method: 'POST',
+                  headers: {'Content-Type': 'application/json'},
+                  body: JSON.stringify({
+                    graph: b.dataset.hive,
+                    source: b.dataset.source,
+                    target: b.dataset.target,
+                    relation: b.dataset.suggested,
+                  }),
+                });
+              }
+              b.textContent = 'Applied ✓';
+              b.style.background = 'var(--accent-green)';
+              b.closest('.suggestion').querySelector('.dismiss-btn').remove();
+              setTimeout(() => loadHiveGraph(b.dataset.hive), 500);
+            } catch (err) {
+              b.textContent = 'Failed';
+              b.style.background = 'var(--accent-red)';
+            }
+          });
+        });
+        refineContent.querySelectorAll('.dismiss-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.currentTarget.closest('.suggestion').remove();
+          });
+        });
+      } else {
+        showRefinePanel(`<span style="color:var(--toast-err);">Error: ${data.error || 'no suggestions returned'}</span>`);
+      }
+    } catch (err) {
+      showRefinePanel(`<span style="color:var(--toast-err);">Request failed: ${err.message}</span>`);
+    }
+  });
+}
 
 // ---- Ollama config panel ----
 const ollamaConfigBtn = document.getElementById('ollama-config-btn');

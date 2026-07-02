@@ -513,6 +513,171 @@ class Handler(BaseHTTPRequestHandler):
                     "error": f"HTTP {e.response.status_code} from {url}. Check that Ollama is running and the model exists."})
             except Exception as e:
                 self._json(200, {"status": "error", "error": str(e)})
+        elif path == "/api/refine-graph":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            hive = body.get("hive", "")
+            if not hive:
+                return self._json(400, {"error": "provide 'hive'"})
+            kg = _hm.get_hive_graph(hive)
+            if not kg:
+                return self._json(404, {"error": f"Hive '{hive}' not found"})
+
+            # Build a compact representation of the current graph
+            concepts = []
+            for n, d in kg.graph.nodes(data=True):
+                if d.get("type") == "concept":
+                    label = d.get("label", n)
+                    defn = d.get("definition", "")
+                    concepts.append({"name": label, "definition": defn[:200] if defn else ""})
+            edges_list = []
+            for u, v, d in kg.graph.edges(data=True):
+                u_label = kg.graph.nodes.get(u, {}).get("label", u)
+                v_label = kg.graph.nodes.get(v, {}).get("label", v)
+                edges_list.append({
+                    "source": u_label,
+                    "target": v_label,
+                    "relation": d.get("relation", "related_to"),
+                })
+
+            prompt = (
+                "You are a knowledge graph curator. Analyze this knowledge graph and suggest refinements.\n\n"
+                f"Hive: {hive}\n"
+                f"Concepts ({len(concepts)}):\n"
+            )
+            for c in concepts:
+                prompt += f"- {c['name']}" + (f": {c['definition']}" if c['definition'] else "") + "\n"
+            prompt += f"\nRelations ({len(edges_list)}):\n"
+            for e in edges_list:
+                prompt += f"  {e['source']} --[{e['relation']}]--> {e['target']}\n"
+            prompt += (
+                "\nSuggest improvements in these categories:\n"
+                '1. "missing_relations": Existing concepts that should be connected but lack an edge (provide source, target, and relation type)\n'
+                '2. "missing_concepts": Important concepts not in the graph that relate to existing content (provide name and justification)\n'
+                '3. "relation_corrections": Existing edges whose relation type seems wrong (provide source, target, current relation, and suggested relation)\n'
+                "\nReturn ONLY a JSON object with keys 'missing_relations', 'missing_concepts', 'relation_corrections'. "
+                'Each value is an array of objects with appropriate fields.\n'
+                'Missing relations: [{"source": "...", "target": "...", "relation": "..."}]\n'
+                'Missing concepts: [{"name": "...", "justification": "..."}]\n'
+                'Relation corrections: [{"source": "...", "target": "...", "current": "...", "suggested": "..."}]\n'
+            )
+
+            url = os.getenv("OLLAMA_URL", "http://localhost:11434")
+            model = os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx")
+            timeout = int(os.getenv("OLLAMA_TIMEOUT", "60"))
+            try:
+                r = requests.post(f"{url.rstrip('/')}/api/generate",
+                    json={"model": model, "prompt": prompt, "stream": False},
+                    timeout=timeout)
+                r.raise_for_status()
+                data = r.json()
+                raw = (data.get("response") or "").strip()
+                raw = raw.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+                suggestions = json.loads(raw)
+            except Exception as e:
+                logger.warning("Graph refinement failed: %s", e)
+                return self._json(200, {"status": "error", "error": str(e)})
+
+            self._json(200, {"status": "ok", "suggestions": suggestions})
+        elif path == "/api/add-concept-edge":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            graph_id = body.get("graph")
+            src_label = body.get("source")
+            tgt_label = body.get("target")
+            relation = body.get("relation", "related_to")
+            if not all([graph_id, src_label, tgt_label]):
+                return self._json(400, {"error": "provide 'graph', 'source', 'target'"})
+            if not self._check_auth(graph_id, "write"):
+                return self._json(403, {"error": "forbidden: no write access"})
+            kg = _hm.get_hive_graph(graph_id)
+            if not kg:
+                return self._json(404, {"error": f"Graph '{graph_id}' not found"})
+            # Resolve concept labels to node IDs
+            src_id = None
+            tgt_id = None
+            for n, d in kg.graph.nodes(data=True):
+                label = d.get("label", "")
+                if label == src_label:
+                    src_id = n
+                if label == tgt_label:
+                    tgt_id = n
+            if not src_id:
+                return self._json(404, {"error": f"Source concept '{src_label}' not found"})
+            if not tgt_id:
+                return self._json(404, {"error": f"Target concept '{tgt_label}' not found"})
+            kg.add_edge(src_id, tgt_id, relation)
+            kg.save()
+            broadcast_event("hive-update", {"hive": graph_id, "action": "add-edge",
+                                            "source": src_label, "target": tgt_label,
+                                            "relation": relation})
+            self._json(200, {"status": "ok", "source": src_label, "target": tgt_label, "relation": relation})
+        elif path == "/api/import-concept":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            graph_id = body.get("graph")
+            name = body.get("name")
+            if not all([graph_id, name]):
+                return self._json(400, {"error": "provide 'graph' and 'name'"})
+            if not self._check_auth(graph_id, "write"):
+                return self._json(403, {"error": "forbidden: no write access"})
+            kg = _hm.get_hive_graph(graph_id)
+            if not kg:
+                return self._json(404, {"error": f"Graph '{graph_id}' not found"})
+            node_id = kg.add_concept(name)
+            kg.save()
+            broadcast_event("hive-update", {"hive": graph_id, "action": "import-concept", "name": name})
+            self._json(200, {"status": "ok", "node_id": node_id})
+        elif path == "/api/remove-edge":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            graph_id = body.get("graph")
+            src_label = body.get("source")
+            tgt_label = body.get("target")
+            relation = body.get("relation", "")
+            if not all([graph_id, src_label, tgt_label]):
+                return self._json(400, {"error": "provide 'graph', 'source', 'target'"})
+            if not self._check_auth(graph_id, "write"):
+                return self._json(403, {"error": "forbidden: no write access"})
+            kg = _hm.get_hive_graph(graph_id)
+            if not kg:
+                return self._json(404, {"error": f"Graph '{graph_id}' not found"})
+            src_id = tgt_id = None
+            for n, d in kg.graph.nodes(data=True):
+                label = d.get("label", "")
+                if label == src_label:
+                    src_id = n
+                if label == tgt_label:
+                    tgt_id = n
+            if not src_id or not tgt_id:
+                return self._json(404, {"error": "Node not found"})
+            if kg.graph.has_edge(src_id, tgt_id):
+                edges_to_remove = []
+                for k in kg.graph[src_id][tgt_id]:
+                    ed = kg.graph[src_id][tgt_id][k]
+                    if not relation or ed.get("relation") == relation:
+                        edges_to_remove.append((src_id, tgt_id, k))
+                for e in edges_to_remove:
+                    kg.graph.remove_edge(e[0], e[1], key=e[2])
+                kg.save()
+                broadcast_event("hive-update", {"hive": graph_id, "action": "remove-edge"})
+            self._json(200, {"status": "ok"})
         else:
             self._json(404, {"error": "not found"})
 

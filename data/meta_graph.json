@@ -315,6 +315,22 @@
       "visible": true,
       "owner": "harish",
       "id": "Knowledge graphs"
+    },
+    {
+      "label": "Photonic Computing",
+      "path": "/home/fox/hive-data/hives/Photonic Computing/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "Photonic Computing"
+    },
+    {
+      "label": "AI Acceleration",
+      "path": "/home/fox/hive-data/hives/AI Acceleration/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "AI Acceleration"
     }
   ],
   "links": [
