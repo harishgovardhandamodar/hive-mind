@@ -10,6 +10,8 @@ from threading import Lock
 from typing import Any
 from urllib.parse import urlparse, unquote, parse_qs
 
+import requests
+
 logger = logging.getLogger(__name__)
 
 from .config import load as load_config
@@ -424,6 +426,93 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(404, {"error": str(e)})
             except Exception as e:
                 self._json(500, {"error": str(e)})
+        elif path == "/api/ollama-config":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                body = {}
+            if "url" in body:
+                os.environ["OLLAMA_URL"] = body["url"]
+            if "model" in body:
+                os.environ["OLLAMA_MODEL"] = body["model"]
+            if "timeout" in body:
+                os.environ["OLLAMA_TIMEOUT"] = str(body["timeout"])
+            if "enabled" in body:
+                os.environ["USE_OLLAMA_DEFINITIONS"] = "true" if body["enabled"] else "false"
+            self._json(200, {"status": "ok"})
+        elif path == "/api/ollama-test":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                body = {}
+            url = body.get("url", os.getenv("OLLAMA_URL", "http://localhost:11434"))
+            model = body.get("model", os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx"))
+            target = f"{url.rstrip('/')}/api/tags"
+            logger.info("Ollama test: GET %s", target)
+            from urllib.parse import urlparse as _urlparse
+            parsed = _urlparse(url)
+            host = parsed.hostname or "localhost"
+            port = parsed.port or 11434
+            import socket as _socket
+            sock_check = None
+            try:
+                s = _socket.create_connection((host, port), timeout=3)
+                s.close()
+                sock_check = "reachable"
+            except Exception as sock_err:
+                sock_check = f"unreachable ({sock_err})"
+            try:
+                r = requests.get(target, timeout=5)
+                logger.info("Ollama test response: %s %s", r.status_code, r.reason)
+                r.raise_for_status()
+                data = r.json()
+                models = [m["name"] for m in data.get("models", [])]
+                model_base = model.split(":")[0]
+                available = any(m == model or m.startswith(f"{model_base}:") for m in models)
+                self._json(200, {"status": "ok", "models": models, "model_available": available})
+            except requests.exceptions.ConnectionError as e:
+                logger.warning("Ollama connection error: %s", e)
+                msg = f"Cannot reach Ollama at {url}. Socket: {sock_check}."
+                if "Name or service not known" in str(e):
+                    msg += " Hostname cannot be resolved. If running in Docker on Linux, use your host's IP address (e.g., http://192.168.1.100:11434) instead of 'host.docker.internal'."
+                elif "Connection refused" in str(e):
+                    msg += " Connection refused. Make sure Ollama is running and listening on that port (ollama serve)."
+                else:
+                    msg += f" ({e})"
+                self._json(200, {"status": "error", "error": msg})
+            except requests.exceptions.Timeout:
+                self._json(200, {"status": "error",
+                    "error": f"Ollama at {url} timed out after 5s. Socket: {sock_check}."})
+            except requests.exceptions.HTTPError as e:
+                logger.warning("Ollama HTTP error: %s", e)
+                self._json(200, {"status": "error",
+                    "error": f"HTTP {e.response.status_code} from {url}."})
+            except Exception as e:
+                logger.warning("Ollama test error (%s): %s", type(e).__name__, e)
+                self._json(200, {"status": "error", "error": f"{type(e).__name__}: {e} (socket: {sock_check})"})
+        elif path == "/api/ollama-sample":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                body = {}
+            url = body.get("url", os.getenv("OLLAMA_URL", "http://localhost:11434"))
+            model = body.get("model", os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx"))
+            try:
+                r = requests.post(f"{url.rstrip('/')}/api/generate",
+                    json={"model": model, "prompt": "Provide a concise definition (2-3 sentences) for \"Graph Neural Network\".", "stream": False},
+                    timeout=int(os.getenv("OLLAMA_TIMEOUT", "30")))
+                r.raise_for_status()
+                data = r.json()
+                text = (data.get("response") or "").strip()
+                self._json(200, {"status": "ok", "response": text[:500]})
+            except requests.exceptions.ConnectionError:
+                self._json(200, {"status": "error",
+                    "error": "Cannot reach Ollama at " + url + ". If running in Docker, use 'host.docker.internal' instead of 'localhost'."})
+            except requests.exceptions.HTTPError as e:
+                self._json(200, {"status": "error",
+                    "error": f"HTTP {e.response.status_code} from {url}. Check that Ollama is running and the model exists."})
+            except Exception as e:
+                self._json(200, {"status": "error", "error": str(e)})
         else:
             self._json(404, {"error": "not found"})
 
@@ -627,6 +716,13 @@ class Handler(BaseHTTPRequestHandler):
                     self._json(200, result)
             except ValueError as e:
                 self._json(404, {"error": str(e)})
+        elif path == "/api/ollama-config":
+            self._json(200, {
+                "url": os.getenv("OLLAMA_URL", "http://localhost:11434"),
+                "model": os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx"),
+                "timeout": int(os.getenv("OLLAMA_TIMEOUT", "30")),
+                "enabled": os.getenv("USE_OLLAMA_DEFINITIONS", "false").lower() == "true",
+            })
         elif path == "/api/peering/info":
             if not _hm:
                 return self._json(503, {"error": "not ready"})

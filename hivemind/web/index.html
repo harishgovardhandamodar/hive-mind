@@ -365,6 +365,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       <button id="import-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">Import Hive</button>
       <button id="link-concepts-btn" style="background:var(--accent-purple, #bc8cff);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;" title="Find similar concepts across hives">Link Concepts</button>
       <button id="enrich-btn" style="background:#8b5cf6;border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;" title="Generate definitions via Ollama">Enrich</button>
+      <button id="ollama-config-btn" style="background:transparent;border:1px solid var(--border);border-radius:6px;padding:4px 10px;color:var(--text-secondary);font-size:11px;cursor:pointer;" title="Ollama settings">Ollama</button>
       <input type="file" id="import-file-input" accept=".json" style="display:none;">
       <button id="sidebar-toggle" title="Toggle sidebar">☰</button>
       <div id="unified-search-box">
@@ -436,6 +437,34 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
         <div class="header">Enrich Concept Definitions</div>
         <div id="enrich-close" title="Close" style="position:absolute;top:8px;right:12px;cursor:pointer;color:var(--text-secondary);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;">&times;</div>
         <div id="enrich-status" style="padding:12px 16px;font-size:13px;line-height:1.6;color:var(--text);"></div>
+      </div>
+      <div id="ollama-config-panel" style="position:absolute;top:0;left:0;right:0;background:var(--bg-results);border-bottom:1px solid var(--border);display:none;z-index:50;overflow-y:auto;">
+        <div class="header">Ollama Configuration</div>
+        <div id="ollama-config-close" title="Close" style="position:absolute;top:8px;right:12px;cursor:pointer;color:var(--text-secondary);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;">&times;</div>
+        <div id="ollama-config-body" style="padding:12px 16px;font-size:13px;color:var(--text);">
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+            <label style="min-width:100px;">Enabled</label>
+            <input type="checkbox" id="ollama-enabled" style="accent-color:var(--accent);">
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+            <label style="min-width:100px;">Server URL</label>
+            <input type="text" id="ollama-url" value="http://localhost:11434" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg-input);color:var(--text);font-size:12px;">
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+            <label style="min-width:100px;">Model</label>
+            <input type="text" id="ollama-model" value="gemma4:31b-mlx" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg-input);color:var(--text);font-size:12px;">
+          </div>
+          <div style="margin-bottom:10px;display:flex;align-items:center;gap:8px;">
+            <label style="min-width:100px;">Timeout (s)</label>
+            <input type="number" id="ollama-timeout" value="30" min="5" max="120" style="width:80px;padding:4px 8px;border:1px solid var(--border);border-radius:4px;background:var(--bg-input);color:var(--text);font-size:12px;">
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px;">
+            <button id="ollama-test-btn" style="padding:5px 14px;border:1px solid var(--border);border-radius:6px;background:var(--btn-bg);color:var(--text);font-size:11px;cursor:pointer;">Test Connection</button>
+            <button id="ollama-sample-btn" style="padding:5px 14px;border:1px solid var(--border);border-radius:6px;background:var(--btn-bg);color:var(--text);font-size:11px;cursor:pointer;">Sample Prompt</button>
+            <button id="ollama-save-btn" style="padding:5px 14px;border:none;border-radius:6px;background:var(--accent);color:#fff;font-size:11px;cursor:pointer;">Save</button>
+          </div>
+          <div id="ollama-config-status" style="margin-top:8px;font-size:11px;color:var(--text-secondary);"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1886,7 +1915,111 @@ loadHiveGraph = function(id) {
   return origLoadHiveGraph(id);
 };
 
-// Resize
+// ---- Ollama config panel ----
+const ollamaConfigBtn = document.getElementById('ollama-config-btn');
+const ollamaConfigPanel = document.getElementById('ollama-config-panel');
+const ollamaConfigClose = document.getElementById('ollama-config-close');
+const ollamaConfigStatus = document.getElementById('ollama-config-status');
+const ollamaTestBtn = document.getElementById('ollama-test-btn');
+const ollamaSampleBtn = document.getElementById('ollama-sample-btn');
+const ollamaSaveBtn = document.getElementById('ollama-save-btn');
+const ollamaEnabled = document.getElementById('ollama-enabled');
+const ollamaUrl = document.getElementById('ollama-url');
+const ollamaModel = document.getElementById('ollama-model');
+const ollamaTimeout = document.getElementById('ollama-timeout');
+
+function loadOllamaConfig() {
+  fetch('/api/ollama-config').then(r => r.json()).then(cfg => {
+    ollamaEnabled.checked = cfg.enabled;
+    ollamaUrl.value = cfg.url;
+    ollamaModel.value = cfg.model;
+    ollamaTimeout.value = cfg.timeout;
+  }).catch(() => {});
+}
+
+function showOllamaConfig() {
+  loadOllamaConfig();
+  ollamaConfigPanel.style.display = 'block';
+}
+
+function hideOllamaConfig() {
+  ollamaConfigPanel.style.display = 'none';
+}
+
+if (ollamaConfigClose) ollamaConfigClose.addEventListener('click', hideOllamaConfig);
+if (ollamaConfigBtn) ollamaConfigBtn.addEventListener('click', showOllamaConfig);
+
+if (ollamaTestBtn) {
+  ollamaTestBtn.addEventListener('click', async () => {
+    ollamaConfigStatus.innerHTML = '<em>Testing connection...</em>';
+    try {
+      const r = await fetch('/api/ollama-test', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({url: ollamaUrl.value, model: ollamaModel.value}),
+      });
+      const data = await r.json();
+      if (data.status === 'ok') {
+        const modelOk = data.model_available
+          ? `<span style="color:var(--accent-green);">model available</span>`
+          : `<span style="color:var(--accent-yellow);">model not found (${data.models.length} models available)</span>`;
+        ollamaConfigStatus.innerHTML = `<span style="color:var(--accent-green);">Connected</span> · ${modelOk}`;
+      } else {
+        ollamaConfigStatus.innerHTML = `<span style="color:var(--paper-color);">Connection failed: ${data.error}</span>`;
+      }
+    } catch (err) {
+      ollamaConfigStatus.innerHTML = `<span style="color:var(--paper-color);">Error: ${err.message}</span>`;
+    }
+  });
+}
+
+if (ollamaSampleBtn) {
+  ollamaSampleBtn.addEventListener('click', async () => {
+    ollamaConfigStatus.innerHTML = '<em>Running sample prompt...</em>';
+    try {
+      const r = await fetch('/api/ollama-sample', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({url: ollamaUrl.value, model: ollamaModel.value}),
+      });
+      const data = await r.json();
+      if (data.status === 'ok') {
+        let text = data.response || '';
+        if (text.length > 200) text = text.slice(0, 200) + '...';
+        ollamaConfigStatus.innerHTML = `<strong>Response:</strong> ${text}`;
+      } else {
+        ollamaConfigStatus.innerHTML = `<span style="color:var(--paper-color);">Sample failed: ${data.error}</span>`;
+      }
+    } catch (err) {
+      ollamaConfigStatus.innerHTML = `<span style="color:var(--paper-color);">Error: ${err.message}</span>`;
+    }
+  });
+}
+
+if (ollamaSaveBtn) {
+  ollamaSaveBtn.addEventListener('click', async () => {
+    try {
+      const r = await fetch('/api/ollama-config', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          enabled: ollamaEnabled.checked,
+          url: ollamaUrl.value,
+          model: ollamaModel.value,
+          timeout: parseInt(ollamaTimeout.value) || 30,
+        }),
+      });
+      if (r.ok) {
+        showToast('Ollama config saved', 'ok');
+        hideOllamaConfig();
+      } else {
+        showToast('Failed to save config', 'err');
+      }
+    } catch (err) {
+      showToast('Error saving config: ' + err.message, 'err');
+    }
+  });
+}
 window.addEventListener('resize', () => {
   if (state.view === 'meta') renderMetaGraph();
   else if (state.view === 'unified') render();

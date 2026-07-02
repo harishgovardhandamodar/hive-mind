@@ -291,6 +291,30 @@
       "visible": true,
       "owner": "harish",
       "id": "graph neural networks"
+    },
+    {
+      "label": "Knowledge-Graph",
+      "path": "/home/fox/hive-data/hives/Knowledge-Graph/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "Knowledge-Graph"
+    },
+    {
+      "label": "Knowledge Graph",
+      "path": "/home/fox/hive-data/hives/Knowledge Graph/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "Knowledge Graph"
+    },
+    {
+      "label": "Knowledge graphs",
+      "path": "/home/fox/hive-data/hives/Knowledge graphs/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "Knowledge graphs"
     }
   ],
   "links": [

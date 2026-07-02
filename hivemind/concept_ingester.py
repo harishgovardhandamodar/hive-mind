@@ -1,4 +1,5 @@
 import difflib
+import json
 import logging
 import os
 import re
@@ -14,9 +15,17 @@ from .embeddings import VectorStore
 
 logger = logging.getLogger(__name__)
 
-OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx")
-OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "30"))
+def _ollama_url() -> str:
+    return os.getenv("OLLAMA_URL", "http://localhost:11434")
+
+
+def _ollama_model() -> str:
+    return os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx")
+
+
+def _ollama_timeout() -> int:
+    return int(os.getenv("OLLAMA_TIMEOUT", "30"))
+
 
 def _ollama_enabled() -> bool:
     return os.getenv("USE_OLLAMA_DEFINITIONS", "false").lower() == "true"
@@ -30,9 +39,9 @@ def _get_definition_from_ollama(concept: str) -> str:
     )
     try:
         resp = requests.post(
-            f"{OLLAMA_URL}/api/generate",
-            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
-            timeout=OLLAMA_TIMEOUT,
+            f"{_ollama_url()}/api/generate",
+            json={"model": _ollama_model(), "prompt": prompt, "stream": False},
+            timeout=_ollama_timeout(),
         )
         resp.raise_for_status()
         result = resp.json()
@@ -44,10 +53,16 @@ def _get_definition_from_ollama(concept: str) -> str:
     return ""
 
 
+def _fallback_keywords(text: str, max_concepts: int = 10) -> list[dict[str, str]]:
+    return [{"concept": kw, "definition": ""}
+            for kw in extract_keywords(text, max_phrases=max_concepts)[:max_concepts]]
+
+
 def _extract_concepts_from_ollama(text: str, max_concepts: int = 10) -> list[dict[str, str]]:
-    """Send abstract text to Ollama, parse returned concept-definition pairs."""
+    """Send abstract text to Ollama, parse returned concept-definition pairs.
+    Falls back to heuristic keyword extraction (without definitions) if Ollama is unavailable."""
     if not _ollama_enabled():
-        return []
+        return _fallback_keywords(text, max_concepts)
     prompt = (
         "You are a research assistant analyzing an academic paper abstract. "
         "Extract the key technical concepts mentioned. "
@@ -59,9 +74,9 @@ def _extract_concepts_from_ollama(text: str, max_concepts: int = 10) -> list[dic
     )
     try:
         resp = requests.post(
-            f"{OLLAMA_URL}/api/generate",
-            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
-            timeout=OLLAMA_TIMEOUT,
+            f"{_ollama_url()}/api/generate",
+            json={"model": _ollama_model(), "prompt": prompt, "stream": False},
+            timeout=_ollama_timeout(),
         )
         resp.raise_for_status()
         result = resp.json()
@@ -70,17 +85,19 @@ def _extract_concepts_from_ollama(text: str, max_concepts: int = 10) -> list[dic
         data = json.loads(raw)
         if not isinstance(data, list):
             logger.warning("Ollama concepts: expected list, got %s", type(data).__name__)
-            return []
+            return _fallback_keywords(text, max_concepts)
         out = []
         for item in data[:max_concepts]:
             concept = (item.get("concept") or "").strip()
             definition = (item.get("definition") or "").strip()
             if concept and len(concept) >= 3 and definition and 20 <= len(definition) <= 500:
                 out.append({"concept": concept, "definition": definition})
-        return out
+        if out:
+            return out
+        logger.warning("Ollama returned no valid concepts, falling back to keyword extraction")
     except Exception as e:
         logger.warning("Ollama concept extraction failed: %s", e)
-        return []
+    return _fallback_keywords(text, max_concepts)
 
 STOPWORDS = {
     "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
@@ -575,15 +592,14 @@ class ConceptIngester:
                 paper_node = kg.add_paper(paper_data)
                 papers_added.append(arxiv_id)
 
-                combined = f"{title} {abstract}"
-                keywords = extract_keywords(combined, max_phrases=max_concepts)
-                for kw in keywords[:max_concepts]:
-                    defn = _get_definition_from_ollama(kw) if _ollama_enabled() else ""
-                    concept_node = kg.add_concept(kw, defn)
+                combined = f"{title}\n{abstract}"
+                concepts = _extract_concepts_from_ollama(combined, max_concepts)
+                for c in concepts:
+                    concept_node = kg.add_concept(c["concept"], c["definition"])
                     kg.add_edge(paper_node, concept_node, "introduces")
-                    concepts_added.append(kw)
+                    concepts_added.append(c["concept"])
                     if resolve:
-                        self.resolve_concept(concept_node, kw, kg)
+                        self.resolve_concept(concept_node, c["concept"], kg)
 
                 time.sleep(0.3)
 
@@ -655,15 +671,14 @@ class ConceptIngester:
                     paper_node = kg.add_paper(paper_data)
                     papers_added.append(arxiv_id)
 
-                    combined = f"{title} {abstract}"
-                    keywords = extract_keywords(combined, max_phrases=max_concepts)
-                    for kw in keywords[:max_concepts]:
-                        defn = _get_definition_from_ollama(kw) if _ollama_enabled() else ""
-                        concept_node = kg.add_concept(kw, defn)
+                    combined = f"{title}\n{abstract}"
+                    concepts = _extract_concepts_from_ollama(combined, max_concepts)
+                    for c in concepts:
+                        concept_node = kg.add_concept(c["concept"], c["definition"])
                         kg.add_edge(paper_node, concept_node, "introduces")
-                        concepts_added.append(kw)
+                        concepts_added.append(c["concept"])
                         if resolve:
-                            self.resolve_concept(concept_node, kw, kg)
+                            self.resolve_concept(concept_node, c["concept"], kg)
 
                     time.sleep(0.3)
 
