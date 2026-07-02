@@ -10,6 +10,12 @@ DEFAULT_CONFIG = {
         "port": 9090,
     },
     "default_owner": "",
+    "ollama": {
+        "enabled": False,
+        "url": "http://localhost:11434",
+        "model": "gemma4:31b-mlx",
+        "timeout": 30,
+    },
 }
 
 
@@ -40,5 +46,12 @@ def load(config_path: str | None = None) -> dict:
 
     os.makedirs(os.path.dirname(config["meta_graph_path"]), exist_ok=True)
     os.makedirs(config["hives_dir"], exist_ok=True)
+
+    ollama_cfg = config.get("ollama", {})
+    if ollama_cfg.get("enabled"):
+        os.environ.setdefault("USE_OLLAMA_DEFINITIONS", "true")
+    os.environ.setdefault("OLLAMA_URL", ollama_cfg.get("url", "http://localhost:11434"))
+    os.environ.setdefault("OLLAMA_MODEL", ollama_cfg.get("model", "gemma4:31b-mlx"))
+    os.environ.setdefault("OLLAMA_TIMEOUT", str(ollama_cfg.get("timeout", 30)))
 
     return config

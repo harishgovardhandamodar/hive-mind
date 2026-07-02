@@ -1,4 +1,5 @@
 import difflib
+import logging
 import os
 import re
 import time
@@ -10,6 +11,76 @@ from typing import Any
 import requests
 
 from .embeddings import VectorStore
+
+logger = logging.getLogger(__name__)
+
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "gemma4:31b-mlx")
+OLLAMA_TIMEOUT = int(os.getenv("OLLAMA_TIMEOUT", "30"))
+
+def _ollama_enabled() -> bool:
+    return os.getenv("USE_OLLAMA_DEFINITIONS", "false").lower() == "true"
+
+
+def _get_definition_from_ollama(concept: str) -> str:
+    if not _ollama_enabled():
+        return ""
+    prompt = (
+        f"Provide a concise definition (2-3 sentences) for the term '{concept}'."
+    )
+    try:
+        resp = requests.post(
+            f"{OLLAMA_URL}/api/generate",
+            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
+            timeout=OLLAMA_TIMEOUT,
+        )
+        resp.raise_for_status()
+        result = resp.json()
+        text = (result.get("response") or "").strip()
+        if 20 <= len(text) <= 500:
+            return text
+    except Exception as e:
+        logger.warning("Ollama definition failed for '%s': %s", concept, e)
+    return ""
+
+
+def _extract_concepts_from_ollama(text: str, max_concepts: int = 10) -> list[dict[str, str]]:
+    """Send abstract text to Ollama, parse returned concept-definition pairs."""
+    if not _ollama_enabled():
+        return []
+    prompt = (
+        "You are a research assistant analyzing an academic paper abstract. "
+        "Extract the key technical concepts mentioned. "
+        "For each concept, provide a concise definition (2-3 sentences).\n\n"
+        f"Abstract:\n{text}\n\n"
+        "Return ONLY a JSON array of objects with keys 'concept' and 'definition'. "
+        f"Maximum {max_concepts} concepts. Example:\n"
+        '[{"concept": "Graph Neural Network", "definition": "A neural network that operates on graph structures."}]'
+    )
+    try:
+        resp = requests.post(
+            f"{OLLAMA_URL}/api/generate",
+            json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
+            timeout=OLLAMA_TIMEOUT,
+        )
+        resp.raise_for_status()
+        result = resp.json()
+        raw = (result.get("response") or "").strip()
+        raw = raw.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+        data = json.loads(raw)
+        if not isinstance(data, list):
+            logger.warning("Ollama concepts: expected list, got %s", type(data).__name__)
+            return []
+        out = []
+        for item in data[:max_concepts]:
+            concept = (item.get("concept") or "").strip()
+            definition = (item.get("definition") or "").strip()
+            if concept and len(concept) >= 3 and definition and 20 <= len(definition) <= 500:
+                out.append({"concept": concept, "definition": definition})
+        return out
+    except Exception as e:
+        logger.warning("Ollama concept extraction failed: %s", e)
+        return []
 
 STOPWORDS = {
     "a", "an", "the", "and", "or", "but", "in", "on", "at", "to", "for",
@@ -356,6 +427,9 @@ class ConceptIngester:
                 "added": None,
             }
 
+        if not definition and _ollama_enabled():
+            definition = _get_definition_from_ollama(name)
+
         if dry_run:
             return {
                 "status": "dry_run",
@@ -504,7 +578,8 @@ class ConceptIngester:
                 combined = f"{title} {abstract}"
                 keywords = extract_keywords(combined, max_phrases=max_concepts)
                 for kw in keywords[:max_concepts]:
-                    concept_node = kg.add_concept(kw, "")
+                    defn = _get_definition_from_ollama(kw) if _ollama_enabled() else ""
+                    concept_node = kg.add_concept(kw, defn)
                     kg.add_edge(paper_node, concept_node, "introduces")
                     concepts_added.append(kw)
                     if resolve:
@@ -583,7 +658,8 @@ class ConceptIngester:
                     combined = f"{title} {abstract}"
                     keywords = extract_keywords(combined, max_phrases=max_concepts)
                     for kw in keywords[:max_concepts]:
-                        concept_node = kg.add_concept(kw, "")
+                        defn = _get_definition_from_ollama(kw) if _ollama_enabled() else ""
+                        concept_node = kg.add_concept(kw, defn)
                         kg.add_edge(paper_node, concept_node, "introduces")
                         concepts_added.append(kw)
                         if resolve:
@@ -658,3 +734,39 @@ class ConceptIngester:
                         "definition": data.get("definition", ""),
                     })
         return concepts
+
+    def enrich_concept_definitions(self, hive: str | None = None,
+                                    force: bool = False) -> dict[str, Any]:
+        updated = 0
+        skipped = 0
+        errors = 0
+
+        graphs = {hive: self.fed.get_graph(hive)} if hive else self.fed.graphs
+
+        for gid, kg in graphs.items():
+            if kg is None:
+                continue
+            for node, data in dict(kg.graph.nodes(data=True)).items():
+                if data.get("type") != "concept":
+                    continue
+                name = data.get("label", "")
+                existing = data.get("definition", "")
+                if existing and not force:
+                    skipped += 1
+                    continue
+                defn = _get_definition_from_ollama(name)
+                if defn:
+                    kg.graph.nodes[node]["definition"] = defn
+                    updated += 1
+                else:
+                    errors += 1
+            kg.save()
+
+        self.fed._invalidate_search_cache()
+        return {
+            "status": "ok",
+            "hive": hive or "all",
+            "updated": updated,
+            "skipped": skipped,
+            "errors": errors,
+        }

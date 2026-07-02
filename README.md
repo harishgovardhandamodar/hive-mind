@@ -36,14 +36,14 @@ python -m hivemind serve
 ## CLI reference
 
 | Command | Description |
-|---|---|
+|---|---|---|
 | `init <name>` | Create a new hive |
 | `list` | List all hives |
 | `inspect <name>` | Show hive details |
 | `link <src> <tgt>` | Link two hives |
 | `connect <src> <cA> <tgt> <cB>` | Cross-hive concept connection |
 | `search <query>` | Unified search |
-| `ingest <keyword>` | Add a concept |
+| `ingest <keyword>` | Add a concept (`--ollama` to auto-generate definitions) |
 | `arxiv-import <ids...>` | Import papers by arXiv ID |
 | `export <name>` | Export as JSON-LD or Obsidian |
 | `export-data <id>` | Export hive as portable JSON |
@@ -91,9 +91,10 @@ python -m hivemind serve
 ### POST
 
 | Path | Body | Description |
-|---|---|---|
-| `/api/ingest` | `{keyword, hive, ...}` | Add concept |
+|---|---|---|---|
+| `/api/ingest` | `{keyword, hive, ollama?, ...}` | Add concept |
 | `/api/arxiv-import` | `{ids: [...], hive}` | Import papers |
+| `/api/enrich-definitions` | `{hive?, force?}` | Batch-generate concept definitions via Ollama |
 | `/api/auth/create-key` | `{name}` | Create API key |
 | `/api/peers/pair` | `{url, token?}` | Pair with remote instance |
 | `/api/peering/invite` | `{}` | Generate pairing invite token |
@@ -115,8 +116,8 @@ CLI → HiveMind → Federation → KnowledgeGraph
 - **Federation** — Manages multiple hives, cross-hive edges, and the meta-graph
 - **VectorStore** — `sentence-transformers` embeddings for semantic search (384-dim)
 - **AccessControl** — API key authentication with per-hive read/write/admin roles
-- **ConceptIngester** — Keyword extraction, arXiv import, concept-to-paper resolution
-- **Server** — Built-in HTTP server with D3.js dashboard, SSE live sync, and peer-to-peer peering endpoints
+- **ConceptIngester** — Keyword extraction, arXiv import, concept-to-paper resolution, optional Ollama definition generation
+- **Server** — Built-in HTTP server with D3.js dashboard, SSE live sync, GUI concept enrichment button, and peer-to-peer peering endpoints
 
 ---
 
@@ -131,6 +132,24 @@ server:
   host: 127.0.0.1
   port: 9090
 ```
+
+---
+
+## Ollama Definition Enrichment
+
+HiveMind can auto-generate short definitions for concept nodes using a local [Ollama](https://ollama.ai) model. Definitions appear as tooltips in the dashboard.
+
+```bash
+# Generate definitions during ingest
+python -m hivemind ingest "Graph Neural Network" --hive gnns --ollama
+
+# Batch enrich existing concepts (dashboard: select hive → Enrich button)
+curl -X POST http://127.0.0.1:9090/api/enrich-definitions \
+  -H "Content-Type: application/json" \
+  -d '{"hive": "gnns"}'
+```
+
+Set `USE_OLLAMA_DEFINITIONS=true` in your environment to enable globally.
 
 ---
 

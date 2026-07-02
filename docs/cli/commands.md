@@ -44,6 +44,21 @@ python -m hivemind <command> [options]
 | `serve` | Start web dashboard (use `--cert`/`--key` for TLS) |
 | `stats` | Federation statistics |
 
+## Ingest options
+
+| Flag | Description |
+|---|---|
+| `--hive`, `-H <name>` | Target hive (auto-suggested if omitted) |
+| `--definition`, `-d <text>` | Definition text for the concept |
+| `--text`, `-t <text>` | Extract keywords from text and ingest |
+| `--ollama` | Auto-generate definitions via local Ollama model |
+| `--connect`, `-c <names>` | Connect to existing concepts |
+| `--force`, `-f` | Add even if similar concept exists |
+| `--no-resolve` | Skip linking concept to matching papers |
+| `--dry-run`, `-n` | Preview without writing |
+| `--suggest` | Only suggest hives, don't add |
+| `--batch`, `-b <file>` | Path to JSON file with batch items |
+
 ## Global flags
 
 - `--help` or `-h` — Show help for any command

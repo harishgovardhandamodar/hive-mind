@@ -63,6 +63,14 @@ class KnowledgeGraph:
                 existing["definition"] = definition
         return node_id
 
+    def update_concept_definition(self, name: str, definition: str) -> bool:
+        name = " ".join(name.split())
+        node_id = f"concept:{name}"
+        if self.graph.has_node(node_id):
+            self.graph.nodes[node_id]["definition"] = definition
+            return True
+        return False
+
     def add_graph_ref(self, target_graph_id: str, label: str = "",
                       relation: str = "references") -> str:
         node_id = f"graph_ref:{target_graph_id}"

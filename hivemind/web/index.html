@@ -262,6 +262,12 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 }
 #ingest-close:hover { background: var(--bg-card-hover); color: var(--text); }
 
+#enrich-panel .header { padding: 10px 16px; border-bottom: 1px solid var(--border); font-weight: 600; font-size: 13px; color: var(--text-title); }
+#enrich-status { padding: 12px 16px; font-size: 13px; line-height: 1.6; color: var(--text); }
+#enrich-status .ok { color: var(--accent-green); }
+#enrich-status .done { color: var(--accent); font-weight: 600; }
+#enrich-close:hover { background: var(--bg-card-hover); color: var(--text); }
+
 /* Toast */
 #toast {
   position: fixed; bottom: 24px; right: 24px; z-index: 999;
@@ -358,6 +364,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
       <button id="compare-btn" style="background:var(--accent);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;">Compare</button>
       <button id="import-btn" style="background:var(--accent-green);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;">Import Hive</button>
       <button id="link-concepts-btn" style="background:var(--accent-purple, #bc8cff);border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;" title="Find similar concepts across hives">Link Concepts</button>
+      <button id="enrich-btn" style="background:#8b5cf6;border:none;border-radius:6px;padding:4px 12px;color:#fff;font-size:11px;cursor:pointer;display:none;" title="Generate definitions via Ollama">Enrich</button>
       <input type="file" id="import-file-input" accept=".json" style="display:none;">
       <button id="sidebar-toggle" title="Toggle sidebar">☰</button>
       <div id="unified-search-box">
@@ -424,6 +431,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
           </div>
           <div id="ingest-extracted"></div>
         </div>
+      </div>
+      <div id="enrich-panel" style="position:absolute;top:0;left:0;right:0;background:var(--bg-results);border-bottom:1px solid var(--border);display:none;z-index:50;overflow-y:auto;">
+        <div class="header">Enrich Concept Definitions</div>
+        <div id="enrich-close" title="Close" style="position:absolute;top:8px;right:12px;cursor:pointer;color:var(--text-secondary);font-size:18px;line-height:1;padding:2px 6px;border-radius:4px;">&times;</div>
+        <div id="enrich-status" style="padding:12px 16px;font-size:13px;line-height:1.6;color:var(--text);"></div>
       </div>
     </div>
   </div>
@@ -1816,6 +1828,63 @@ Promise.all([
     });
   }
 })();
+
+// ---- Enrich definitions ----
+const enrichBtn = document.getElementById('enrich-btn');
+const enrichPanel = document.getElementById('enrich-panel');
+const enrichStatus = document.getElementById('enrich-status');
+const enrichClose = document.getElementById('enrich-close');
+
+function showEnrichPanel(html) {
+  enrichStatus.innerHTML = html;
+  enrichPanel.style.display = 'block';
+}
+
+function hideEnrichPanel() {
+  enrichPanel.style.display = 'none';
+}
+
+if (enrichClose) {
+  enrichClose.addEventListener('click', hideEnrichPanel);
+}
+
+if (enrichBtn) {
+  enrichBtn.addEventListener('click', async () => {
+    const hive = state.selectedHive;
+    if (!confirm(hive ? `Generate definitions for all concepts in "${hive}"?` : 'Generate definitions for all concepts across all hives?')) return;
+    showEnrichPanel('<em>Generating definitions via Ollama...</em>');
+    try {
+      const r = await fetch('/api/enrich-definitions', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({hive, force: false}),
+      });
+      const data = await r.json();
+      if (data.status === 'ok') {
+        showEnrichPanel(
+          `<div class="done">Done!</div>` +
+          `<span class="ok">${data.updated}</span> definitions updated · ` +
+          `<span>${data.skipped}</span> skipped (already had definitions) · ` +
+          `<span>${data.errors}</span> errors`
+        );
+        if (hive) loadHiveGraph(hive);
+        else refreshGraphs();
+      } else {
+        showEnrichPanel(`<span class="toast-err">Error: ${data.error || 'unknown'}</span>`);
+      }
+    } catch (err) {
+      showEnrichPanel(`<span class="toast-err">Request failed: ${err.message}</span>`);
+    }
+  });
+}
+
+// Show enrich button when a hive is selected
+const origLoadHiveGraph = loadHiveGraph;
+loadHiveGraph = function(id) {
+  state.selectedHive = id;
+  enrichBtn.style.display = id ? '' : 'none';
+  return origLoadHiveGraph(id);
+};
 
 // Resize
 window.addEventListener('resize', () => {

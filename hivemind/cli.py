@@ -105,6 +105,8 @@ def main() -> None:
                           help="Preview what would be added without writing")
     p_ingest.add_argument("--suggest", action="store_true",
                           help="Only suggest, don't add")
+    p_ingest.add_argument("--ollama", action="store_true",
+                          help="Generate definition via local Ollama model")
     p_ingest.add_argument("--batch", "-b", help="Path to JSON file with batch items")
 
     p_suggest = sub.add_parser("suggest", help="Suggest hives for a keyword")
@@ -312,6 +314,8 @@ def main() -> None:
                 print(f"    {e['source']} --{e['relation']}--> {e['target']}")
 
     elif args.command == "ingest":
+        if args.ollama:
+            os.environ["USE_OLLAMA_DEFINITIONS"] = "true"
         ingester = ConceptIngester(hm)
         if args.suggest and args.keyword:
             suggestions = ingester.suggest_hive(args.keyword)

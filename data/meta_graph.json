@@ -251,6 +251,46 @@
       "visible": true,
       "owner": "Ninja",
       "id": "quantum-federated-learning"
+    },
+    {
+      "label": "quantum-key-distribution",
+      "path": "/home/fox/hive-data/hives/quantum-key-distribution/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "quantum-key-distribution"
+    },
+    {
+      "label": "Quantum-key-distribution",
+      "path": "/home/fox/hive-data/hives/Quantum-key-distribution/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "Quantum-key-distribution"
+    },
+    {
+      "label": "federated-learning",
+      "path": "/home/fox/hive-data/hives/federated-learning/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "federated-learning"
+    },
+    {
+      "label": "federatred learning",
+      "path": "/home/fox/hive-data/hives/federatred learning/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "federatred learning"
+    },
+    {
+      "label": "graph neural networks",
+      "path": "/home/fox/hive-data/hives/graph neural networks/data/graph/knowledge_graph.json",
+      "type": "knowledge_graph",
+      "visible": true,
+      "owner": "harish",
+      "id": "graph neural networks"
     }
   ],
   "links": [

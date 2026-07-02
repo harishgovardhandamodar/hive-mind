@@ -9,4 +9,16 @@ server:
   port: 9090
 
 # Default owner for new hives (optional, can be overridden per-hive)
-default_owner: ""
+default_owner: "harish"
+
+# Ollama integration for automatic concept definition generation
+# These can also be set via environment variables:
+#   USE_OLLAMA_DEFINITIONS=true   (or pass --ollama to the CLI)
+#   OLLAMA_URL=http://localhost:11434
+#   OLLAMA_MODEL=gemma4:31b-mlx
+#   OLLAMA_TIMEOUT=30
+ollama:
+  enabled: true
+  url: http://localhost:11434
+  model: gemma4:31b-mlx
+  timeout: 30

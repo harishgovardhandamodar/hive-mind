@@ -54,6 +54,11 @@ class Handler(BaseHTTPRequestHandler):
         auth = self.headers.get("Authorization", "")
         if auth.startswith("Bearer "):
             return auth[7:]
+        cookies = self.headers.get("Cookie", "")
+        for part in cookies.split(";"):
+            part = part.strip()
+            if part.startswith("hm_auth="):
+                return part[len("hm_auth="):]
         return None
 
     def _check_auth(self, hive: str, role: str = "write") -> bool:
@@ -82,6 +87,8 @@ class Handler(BaseHTTPRequestHandler):
             hive = body.get("hive")
             if hive and not self._check_auth(hive, "write"):
                 return self._json(403, {"error": "forbidden: no write access to this hive"})
+            if body.get("ollama"):
+                os.environ["USE_OLLAMA_DEFINITIONS"] = "true"
             ingester = ConceptIngester(_hm)
             keyword = body.get("keyword", "")
             definition = body.get("definition", "")
@@ -112,6 +119,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(400, {"error": "invalid JSON"})
             if not _hm:
                 return self._json(503, {"error": "server not ready"})
+            if body.get("ollama"):
+                os.environ["USE_OLLAMA_DEFINITIONS"] = "true"
             ingester = ConceptIngester(_hm)
             ids = body.get("ids", [])
             hive = body.get("hive")
@@ -133,6 +142,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(400, {"error": "invalid JSON"})
             if not _hm:
                 return self._json(503, {"error": "server not ready"})
+            if body.get("ollama"):
+                os.environ["USE_OLLAMA_DEFINITIONS"] = "true"
             ingester = ConceptIngester(_hm)
             query = body.get("query", "")
             hive = body.get("hive")
@@ -145,6 +156,23 @@ class Handler(BaseHTTPRequestHandler):
             broadcast_event("hive-update", {"hive": result.get("hive", hive), "action": "arxiv-search",
                                             "papers": len(result.get("papers_added", [])),
                                             "concepts": len(result.get("concepts_added", []))})
+            self._json(200, result)
+        elif path == "/api/enrich-definitions":
+            try:
+                body = json.loads(self._read_body())
+            except (json.JSONDecodeError, ValueError):
+                return self._json(400, {"error": "invalid JSON"})
+            if not _hm:
+                return self._json(503, {"error": "server not ready"})
+            hive = body.get("hive")
+            if hive and not self._check_auth(hive, "write"):
+                return self._json(403, {"error": "forbidden: no write access to this hive"})
+            os.environ["USE_OLLAMA_DEFINITIONS"] = "true"
+            ingester = ConceptIngester(_hm)
+            result = ingester.enrich_concept_definitions(hive, body.get("force", False))
+            if result.get("updated", 0) > 0:
+                broadcast_event("hive-update", {"hive": hive or "all", "action": "enrich",
+                                                "updated": result["updated"]})
             self._json(200, result)
         elif path == "/api/hives":
             try:
@@ -689,6 +717,14 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header("Content-Type", ct)
             self.send_header("Cache-Control", "no-cache")
+            if _hm and _hm.auth.list_keys() and ct == "text/html":
+                keys = _hm.auth.list_keys()
+                if keys:
+                    kid = keys[0]["id"]
+                    key = _hm.auth._permissions.get(kid, {}).get("key", "")
+                    if key:
+                        self.send_header("Set-Cookie",
+                            f"hm_auth={key}; Path=/; SameSite=Lax; HttpOnly")
             self.end_headers()
             self.wfile.write(content.encode("utf-8"))
         except FileNotFoundError:

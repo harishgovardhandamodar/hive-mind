@@ -82,7 +82,39 @@ Add a concept to a hive.
   "dry_run": false,
   "no_resolve": false,
   "text": "Optional: extract keywords from this text instead",
-  "connect_to": ["Existing Concept"]
+  "connect_to": ["Existing Concept"],
+  "ollama": false
+}
+```
+
+When `"ollama": true`, a definition is auto-generated via the local Ollama model
+if none is provided.
+
+### `/api/enrich-definitions`
+
+Batch-generate definitions for existing concept nodes using Ollama.
+
+**Body:**
+
+```json
+{
+  "hive": "gnns",
+  "force": false
+}
+```
+
+Omitting `hive` processes all hives. Set `"force": true` to regenerate definitions
+even for concepts that already have one.
+
+**Response:**
+
+```json
+{
+  "status": "ok",
+  "hive": "gnns",
+  "updated": 5,
+  "skipped": 2,
+  "errors": 0
 }
 ```
 
